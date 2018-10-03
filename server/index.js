@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const serveIndex = require('serve-index');
 const routes = require('./routes');
 const db = require('./db');
 // const mongoose = require('mongoose');
@@ -8,10 +9,12 @@ const db = require('./db');
 const app = express();
 
 db.init();
+app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(routes);
+
 // mongoose.connect('mongodb://admin:password@db:27017/test')
 //   .then(
 //     () => console.log("Connect to database successful"),
