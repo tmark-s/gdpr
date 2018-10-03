@@ -9,3 +9,14 @@ exports.find = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+exports.create = async (req, res) => {
+  try {
+    const newCategory = new Category(req.body.category);
+    await newCategory.save();
+    res.json(newCategory);
+  }
+  catch (error) {
+    res.status(500).json(error);
+  }
+}
