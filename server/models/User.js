@@ -55,3 +55,5 @@ const User = mongoose.model('user', {
     }
   }
 });
+
+module.exports = User;
