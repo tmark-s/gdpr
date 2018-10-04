@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <title>subscribe-SMS</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
@@ -29,8 +31,8 @@
     <link rel="stylesheet" href="https://www.sansiri.com/ssr-center/css/header-logo-share.css?v=3" />
     <link rel="stylesheet" href="https://www.sansiri.com/ssr-center/css/ssr-footer.css?v=3" />
     <link rel="stylesheet" href="../css/style.css?v=11" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
     <script>
         window.dataLayer = window.dataLayer || [];
         dataLayer.push({
@@ -40,9 +42,9 @@
     </script>
     <!-- Google Tag Manager -->
     <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var
-    f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-K8TTBLD');</script>-->
+                f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-K8TTBLD');</script>-->
     <!-- End Google Tag Manager -->
 </head>
 
@@ -79,17 +81,6 @@ style="display:none;visibility:hidden"></iframe>
         </div>
         <div class="menu-bottom">
             <div class="row-btn-group clearfix">
-                <!--<div class="btn-group-share">
-                    <a href="#" class="btn-share-page">Share</a>
-                    <div class="share-box">
-                        <ul class="share-list clearfix">
-                            <li class="icon-facebook"><a href="#" class="share-fb">Facebook</a></li>
-                            <li class="icon-twitter"><a href="#" class="share-tw">Twitter</a></li>
-                            <li class="icon-line"><a href="javascript:;" class="share-line" onClick="window.open('https://lineit.line.me/share/ui?url=')">Line</a> </li>
-                        </ul>
-                        <a href="#" class="btn-close-share-box">close</a>
-                    </div>
-                </div>-->
             </div>
         </div>
         <div class="menu-lang">
@@ -158,7 +149,7 @@ style="display:none;visibility:hidden"></iframe>
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <form role="form" class="form-content"  id="formSms">
+                    <form role="form" class="form-content" id="formSms">
                         <div class="center-block">
                             <label for="mobile" class="col-xs-12 col-sm-4">กรอกเบอร์โทรศัพท์:</label>
                             <div class="col-xs-12 col-sm-8">
@@ -166,54 +157,54 @@ style="display:none;visibility:hidden"></iframe>
                             </div>
                         </div>
 
-                          <div class="text-choice col-xs-12 col-sm-offset-3 col-sm-8">
+                        <div class="text-choice col-xs-12 col-sm-offset-3 col-sm-8">
                             <p class="indent">เลือกประเภทข้อมูลข่าวสารได้มากกว่า 1 ประเภท</p>
                         </div>
 
                         <div class="col-xs-12 col-sm-offset-3 col-sm-7">
-                          <label class="checkbox col-xs-12 col-md-12 col-sm-12">
-                              <span class="custom-checkbox">
-                                    <input type="checkbox" name="ck[]" value="investor" id="investor">
-                                <span class="box"><span class="tick"></span></span>
-                              </span>
-                              <span class="check-text">ข้อมูลข่าวสารการลงทุน</span>
-                          </label>
-                          <label class="checkbox col-xs-12 col-md-12 col-sm-12">
-                              <span class="custom-checkbox">
-                                      <input type="checkbox" name="ck[]" value="privilege" id="privilege">
-                                  <span class="box"><span class="tick"></span></span>
-                              </span>
-                              <span class="check-text">สิทธิพิเศษ ส่วนลดต่างๆ</span>
-                          </label>
-                          <label class="checkbox col-xs-12 col-md-12 col-sm-12">
-                              <span class="custom-checkbox">
-                                        <input type="checkbox" name="ck[]" value="event" id="event">
+                            <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" name="ck" value="investor" id="investor">
                                     <span class="box"><span class="tick"></span></span>
-                              </span>
-                              <span class="check-text">ข้อมูลองค์กร, กิจกรรม CSR</span>
-                          </label>
-                          <label class="checkbox col-xs-12 col-md-12 col-sm-12">
-                              <span class="custom-checkbox">
-                                          <input type="checkbox" name="ck[]" value="lifestyle" id="lifestyle">
-                                      <span class="box"><span class="tick"></span></span>
-                              </span>
-                              <span class="check-text">เนื้อหาไลฟ์สไตล์ และแสนสิริ บล็อก</span>
-                          </label>
-                          <label class="checkbox col-xs-12 col-md-12 col-sm-12">
-                              <span class="custom-checkbox">
-                                            <input type="checkbox" name="ck[]" value="progress" id="progress">
-                                        <span class="box"><span class="tick"></span></span>
-                              </span>
-                              <span class="check-text">ความคืบหน้าการก่อสร้างโครงการ</span>
-                          </label>
-                           <div class="checkbox col-xs-12 col-md-12 col-sm-12 text-center">
-                            <button type="submit" class="btn-primary">ตกลง</button>
-                           </div>
-                        <div class="col-xs-12 col-sm-12 text-center">
-                            <p><a href="email-3.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
-                            <p><a href="email-3.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
+                                </span>
+                                <span class="check-text">ข้อมูลข่าวสารการลงทุน</span>
+                            </label>
+                            <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" name="ck" value="privilege" id="privilege">
+                                    <span class="box"><span class="tick"></span></span>
+                                </span>
+                                <span class="check-text">สิทธิพิเศษ ส่วนลดต่างๆ</span>
+                            </label>
+                            <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" name="ck" value="event" id="event">
+                                    <span class="box"><span class="tick"></span></span>
+                                </span>
+                                <span class="check-text">ข้อมูลองค์กร, กิจกรรม CSR</span>
+                            </label>
+                            <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" name="ck" value="lifestyle" id="lifestyle">
+                                    <span class="box"><span class="tick"></span></span>
+                                </span>
+                                <span class="check-text">เนื้อหาไลฟ์สไตล์ และแสนสิริ บล็อก</span>
+                            </label>
+                            <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" name="ck" value="progress" id="progress">
+                                    <span class="box"><span class="tick"></span></span>
+                                </span>
+                                <span class="check-text">ความคืบหน้าการก่อสร้างโครงการ</span>
+                            </label>
+                            <div class="checkbox col-xs-12 col-md-12 col-sm-12 text-center">
+                                <button type="submit" onclick="onSubmit()" class="btn-primary">ตกลง</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 text-center">
+                                <p><a href="email-3.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
+                                <p><a href="email-3.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
+                            </div>
                         </div>
-                      </div>
 
                     </form>
                 </div>
@@ -230,8 +221,43 @@ style="display:none;visibility:hidden"></iframe>
     <script src="../js/jquery-1.10.2.min.js"></script>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/jquery.maskedinput.min.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="../js/main.js?v=3"></script>
     <script src="https://www.sansiri.com/ssr-center/js/project-level.js"></script>
     <script src="https://www.sansiri.com/ssr-center/js/ssr-footer.js"></script>
+    <script>
+        //for get value from url
+        let params = new URLSearchParams(document.location.search.substring(1));
+        var name = params.get("choosed");
+        console.log(name)
+        var todo = name.split(',')
+        console.log(todo)
+        var index = todo.indexOf("sms");
+        var nexTodo = todo.splice(index, 1)
+        console.log(nexTodo)
+
+
+        // for get input from user
+        function onSubmit() {
+            var mobileNo = $('#mobile').val();
+            var selectedCategories = [];
+            $('[name="ck"]').each(function () {
+                if ($(this).prop('checked') == true) {
+                    selectedCategories.push($(this).val())
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: 'http://localhost:3000/subscribe-sms/',
+                success: function (data) {
+                    alert('success call subscribe sms page');
+                    window.location.href = "http://localhost:3000/subscribe-sms/?choosed=" + selectedChannel;
+                }
+            });
+        }
+
+    </script>
 </body>
+
 </html>

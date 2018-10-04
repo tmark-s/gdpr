@@ -214,10 +214,25 @@ style="display:none;visibility:hidden"></iframe>
             var selectedChannel = [];
             $('[name="chk"]').each(function () {
                 if ($(this).prop('checked') == true) {
-                    selectedChannel.push($(this).val())
-                    alert($(this).val())
+                    selectedChannel.push($(this).val());
                 }
             });
+            //เก็บค่า ที่เลือก เพื่อไปยังหน้าถัดไป
+            if (selectedChannel.indexOf("sms") != -1) {
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        alert('success call subscribe sms page');
+                        window.location.href = "http://localhost:3000/subscribe-sms/?choosed=" + selectedChannel;
+                    }
+                });
+                // value to next page
+            }
+
+
+
+            /*
             $.ajax({
                 type: 'GET',
                 contentType: 'application/json',
@@ -227,6 +242,8 @@ style="display:none;visibility:hidden"></iframe>
                     window.location.href = "http://localhost:3000/sms-sub";
                 }
             });
+            */
+
         }
 
 
