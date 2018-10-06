@@ -9,6 +9,10 @@ const Category = mongoose.model('category', {
     type: String,
     require: true
   },
+  value: {
+    type: String,
+    require: true
+  },
   createdDate: {
     type: Date,
     default: Date.now

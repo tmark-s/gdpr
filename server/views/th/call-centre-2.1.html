@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,7 +30,8 @@
     <link rel="stylesheet" href="https://www.sansiri.com/ssr-center/css/header-logo-share.css?v=3" />
     <link rel="stylesheet" href="https://www.sansiri.com/ssr-center/css/ssr-footer.css?v=3" />
     <link rel="stylesheet" href="../css/style.css?v=11" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
 
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -65,7 +67,7 @@ style="display:none;visibility:hidden"></iframe>
         <div class="nav-primary">
             <div class="menu-inner menu-scroll">
                 <ul class="nav nav-bar c-nav">
-               <!--<li class="c-nav__item active">
+                    <!--<li class="c-nav__item active">
                <a class="c-nav__link js-scroll-trigger" href="#home">หน้าหลัก</a>
              </li>
              <li class="c-nav__item">
@@ -151,28 +153,37 @@ style="display:none;visibility:hidden"></iframe>
                 </div>
             </div>
         </div>
-    </div><!--main header-->
+    </div>
+    <!--main header-->
     <!-- Page Content -->
-    <div id="main-content">
+    <div id="main-content" methods="POST">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 text-center">
                     <form class="form-horizontal center-block form-content" role="form" id="channel">
-                        <div class="col-xs-12"><p>เลือกได้มากกว่า 1 ช่องทาง</p></div>
+                        <div class="col-xs-12">
+                            <p>เลือกได้มากกว่า 1 ช่องทาง</p>
+                        </div>
                         <div class="form-group">
-                               <div class="col-xs-12 ck text-center" ><div class="ck-button"><label><input  name="chk[]" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div></div>
-                               <div class="col-xs-12 ck text-center" ><div class="ck-button"><label><input  name="chk[]" type="checkbox" value="sms"><span>SMS</span></label></div></div>
-                               <div class="col-xs-12 ck text-center" ><div class="ck-button"><label><input  name="chk[]" type="checkbox" value="email"><span>อีเมล</span></label></div></div>
+                            <div class="col-xs-12 ck text-center">
+                                <div class="ck-button"><label><input name="chk" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div>
+                            </div>
+                            <div class="col-xs-12 ck text-center">
+                                <div class="ck-button"><label><input name="chk" type="checkbox" value="sms"><span>SMS</span></label></div>
+                            </div>
+                            <div class="col-xs-12 ck text-center">
+                                <div class="ck-button"><label><input name="chk" type="checkbox" value="email"><span>อีเมล</span></label></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12 text-center">
-                                <button type="submit" class="btn-primary">ตกลง</button>
+                                <button type="submit" onclick="onSubmit()" class="btn-primary">ตกลง</button>
                             </div>
                         </div>
                         <div class="col-xs-12 text-center">
-                        <p><a href="call-centre-2.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
-                        <p><a href="call-centre-2.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
-                      </div>
+                            <p><a href="call-centre-2.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
+                            <p><a href="call-centre-2.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -182,7 +193,9 @@ style="display:none;visibility:hidden"></iframe>
     </div>
 
     <!-- Footer -->
-    <div id="ssr-footer"><!--call ssr-center ssr-footer.js--></div>
+    <div id="ssr-footer">
+        <!--call ssr-center ssr-footer.js-->
+    </div>
     <!--Footer-->
 
     <script src="../js/jquery-1.10.2.min.js"></script>
@@ -191,5 +204,51 @@ style="display:none;visibility:hidden"></iframe>
     <script src="../js/main.js?v=3"></script>
     <script src="https://www.sansiri.com/ssr-center/js/project-level.js"></script>
     <script src="https://www.sansiri.com/ssr-center/js/ssr-footer.js"></script>
+    <script>
+        //for get value from url
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let name = params.get("user");
+        console.log(name)
+
+        function onSubmit() {
+            var selectedChannel = [];
+            $('[name="chk"]').each(function () {
+                if ($(this).prop('checked') == true) {
+                    selectedChannel.push($(this).val());
+                }
+            });
+            //เก็บค่า ที่เลือก เพื่อไปยังหน้าถัดไป
+            if (selectedChannel.indexOf("sms") != -1) {
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        alert('success call subscribe sms page');
+                        window.location.href = "http://localhost:3000/subscribe-sms/?choosed=" + selectedChannel;
+                    }
+                });
+                // value to next page
+            }
+
+
+
+            /*
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                url: 'http://localhost:3000/api/category',
+                success: function (data) {
+                    alert('success', data);
+                    window.location.href = "http://localhost:3000/sms-sub";
+                }
+            });
+            */
+
+        }
+
+
+    </script>
+
 </body>
+
 </html>

@@ -1,0 +1,86 @@
+<div id="main-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1><span class="line">{{{headText}}}</span></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <form role="form" class="form-content" id="formEmail">
+                    <div class="center-block">
+                        <label for="email" class="col-xs-12 col-sm-3">กรอกอีเมล:</label>
+                        <div class="col-xs-12 col-sm-7">
+                            <input type="email" name="email" class="form-control input-lg" id="email" value={{email}}
+                                disabled>
+                        </div>
+                    </div>
+
+                    <div class="text-choice col-xs-12 col-sm-offset-3 col-sm-8">
+                        <p class="indent">เลือกประเภทข้อมูลข่าวสารได้มากกว่า 1 ประเภท</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-offset-3 col-sm-7">
+
+                        {{#each categories}}
+                        <label class="checkbox col-xs-12 col-md-12 col-sm-12">
+                            <span class="custom-checkbox">
+                                <input type="checkbox" name="ck" value={{this.value}} id={{this.value}}>
+                                <span class="box"><span class="tick"></span></span>
+                            </span>
+                            <span class="check-text">{{this.nameTh}}</span>
+                        </label>
+                        {{/each}}
+
+                        <div class="checkbox col-xs-12 col-md-12 col-sm-12 text-center">
+                            <button type="submit" onclick="onSubmit()" class="btn-primary">ตกลง</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 text-center">
+                            <p><a href="email-3.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
+                            <p><a href="email-3.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+    <script>
+        //for get value from url
+        let params = new URLSearchParams(document.location.search.substring(1));
+        var name = params.get("choosed");
+        console.log(name)
+        var todo = name.split(',')
+        console.log(todo)
+        var index = todo.indexOf("sms");
+        var nexTodo = todo.splice(index, 1)
+        console.log(nexTodo)
+
+
+        // for get input from user
+        function onSubmit() {
+            var email = $('#email').val();
+            var selectedCategories = [];
+            $('[name="ck"]').each(function () {
+                if ($(this).prop('checked') == true) {
+                    selectedCategories.push($(this).val())
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                url: 'http://localhost:3000/updated-complete',
+                success: function (data) {
+                    window.location.href = "http://localhost:3000/updated-complete";
+                }
+            });
+
+        }
+
+    </script>
