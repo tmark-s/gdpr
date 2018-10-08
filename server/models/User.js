@@ -12,48 +12,46 @@ const User = mongoose.model('user', {
       type: String
     }
   },
-  emailSubscribe: [
+  domain: [
     {
-      categoryName: {
+      domainName: {
         type: String,
         require: true
       },
-      status: {
-        type: String,
-        require: true
+      snooze: {
+        isSnooze: {
+          type: Boolean
+        },
+        startDate: {
+          type: Date
+        },
+        endDate: {
+          type: Date
+        }
       },
-      startDate: {
-        type: Date
-      },
-      endDate: {
-        type: Date
-      }
+      channel: [
+        {
+          emailSubscribe: [
+            {
+              categoryName: {
+                type: String
+              }
+            }
+          ],
+          smsSubscribe: [
+            {
+              categoryName: {
+                type: String
+              }
+            }
+          ],
+          phoneSubscribe: {
+            type: String
+          }
+        }
+      ]
     }
-  ],
-  smsSubscribe: [
-    {
-      categoryName: {
-        type: String,
-        require: true
-      },
-      status: {
-        type: String,
-        require: true
-      },
-      startDate: {
-        type: Date
-      },
-      endDate: {
-        type: Date
-      }
-    }
-  ],
-  phoneSubscribe: {
-    status: {
-      type: String,
-      require: true
-    }
-  }
+  ]
 });
 
 module.exports = User;

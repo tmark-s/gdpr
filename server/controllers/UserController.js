@@ -18,6 +18,7 @@ exports.find = async (req, res) => {
         link: req.query.link
       }
     });
+   
     res.json(user)
   }
   catch (error) {

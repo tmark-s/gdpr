@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }));
 app.set('view engine', '.hbs')
-app.use(express.static(path.join(__dirname, 'views')));
+// app.use(express.static(path.join(__dirname, 'views')));
 //app.set('views', path.join(__dirname, '/views'));
 
 app.use(morgan('dev'));
