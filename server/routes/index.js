@@ -10,11 +10,7 @@ router.get('/', async (req, res) => {
     domainName: req.query.domain
   });
   console.log(domain);
-  const user = await User.findOne({
-    info: {
-      link: req.query.link
-    }
-  });
+  const user = await User.findOne({ 'info.link': req.query.link });
   res.render('channel', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     hasEmailSubscribe: domain.channel.emailSubscribe,
@@ -24,9 +20,5 @@ router.get('/', async (req, res) => {
     email: user.info.email
   });
 });
-
-// router.post('/subscribe-sms', async (req, res) => {
-
-// });
 
 module.exports = router;
