@@ -24,15 +24,15 @@
                     <div class="form-group">
                         {{#if hasMobileNo}}
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div>
+                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div>
                         </div>
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk" type="checkbox" value="sms"><span>SMS</span></label></div>
+                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="sms"><span>SMS</span></label></div>
                         </div>
                         {{/if}}
                         {{#if hasEmail}}
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk" type="checkbox" value="email"><span>อีเมล</span></label></div>
+                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="email"><span>อีเมล</span></label></div>
                         </div>
                         {{/if}}
                     </div>
@@ -57,14 +57,15 @@
 <script>
     //for get value from url
     let params = new URLSearchParams(document.location.search.substring(1));
-    let name = params.get("user");
-    console.log(name)
+    let user = params.get("user");
+    let domain = params.get("domain");
+    let type = params.get("type");
+
     function onSubmit() {
         var selectedChannel = [];
-        $('[name="chk"]').each(function () {
+        $('[name="chk[]"]').each(function () {
             if ($(this).prop('checked') == true) {
                 selectedChannel.push($(this).val());
-                alert($(this).val());
             }
         });
 
@@ -78,6 +79,25 @@
                 }
             });
             // value to next page
+        }
+        else if (selectedChannel.indexOf("email") != -1) {
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    alert('success call subscribe email page');
+                    window.location.href = "http://localhost:3000/subscribe-email";
+                }
+            });
+        } else if (selectedChannel.indexOf("mobile") != -1) {
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    alert('success call subscribe mobile page');
+                    window.location.href = "http://localhost:3000/updated-complete";
+                }
+            });
         }
     }
 </script>

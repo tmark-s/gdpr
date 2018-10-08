@@ -12,7 +12,7 @@ handlebars = require('handlebars')
 const app = express();
 
 db.init();
-//app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

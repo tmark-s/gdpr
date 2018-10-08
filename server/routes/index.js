@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const api = require('./api');
-const CategoryController = require('../controllers/CategoryController');
 router.use('/api', api);
-const md = require('../models/Category')
+// ลองเรียก category เดี๋ยวรอ service
+const md = require('../models/Category');
+
+const axios = require('axios');
 
 // for call center
 /*
@@ -15,16 +17,19 @@ router.get('/subscribe-email', (req, res) => res.sendfile('./views/th/call-centr
 
 */
 
-router.get('/', (req, res) => {
-    MobileNo = true;
-    Email = true;
-
+router.get('/', async (req, res) => {
+    userMobileNo = true;
+    userEmail = true;
+    // wait for service to get channel of domain to show
+    // wait for service to get user infomation to default selected 
+    // data = await axios.get('/api/category');
+    //console.log("data", data);
     res.render('channel',
         {
             headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-            hasMobileNo: MobileNo,
-            hasEmail: Email,
-            hasOne: MobileNo || Email,
+            hasMobileNo: userMobileNo,
+            hasEmail: userEmail,
+            hasOne: userMobileNo || Email,
         });
 
 });
