@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const category = require('./category');
+const domain = require('./domain');
 const user = require('./user')
 
-router.use('/category', category);
+router.use('/domain', domain);
 
 router.use('/user', user);
 
