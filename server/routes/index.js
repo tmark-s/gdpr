@@ -120,12 +120,36 @@ router.get('/subscribe-email', async (req, res) => {
   });
 });
 
-// router.put('/update-subscribe-sms', async (req, res) => {
-//   const user = await User.findOne({ 
-//     'info.link': req.body.link,
-//     'domain.domainName': req.body.domain
-//   });
-//   user.
-// });
+router.put('/update-subscribe-sms', async (req, res) => {
+  const user = await User.findOne({ 
+    'info.link': req.body.link
+  });
+  
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.smsSubscribe.smsSubscribeCategory = req.body.smsSubscribeCategory;
+      return;
+    }
+  });
+  await user.save();
+  
+  res.json(user);
+});
+
+router.put('/update-subscribe-email', async (req, res) => {
+  const user = await User.findOne({ 
+    'info.link': req.body.link
+  });
+  
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.emailSubscribe.emailSubscribeCategory = req.body.emailSubscribeCategory;
+      return;
+    }
+  });
+  await user.save();
+  
+  res.json(user);
+});
 
 module.exports = router;
