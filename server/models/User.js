@@ -18,23 +18,38 @@ const User = mongoose.model('user', {
         type: String,
         require: true
       },
-      snooze: {
-        isSnooze: {
-          type: Boolean
-        },
-        startDate: {
-          type: Date
-        },
-        endDate: {
-          type: Date
-        }
-      },
       channel: {
-        emailSubscribeCategory: {
-          type: [String]
+        emailSubscribe: {
+          snooze: {
+            isSnooze: {
+              type: Boolean
+            },
+            startDate: {
+              type: Date
+            },
+            endDate: {
+              type: Date
+            }
+          },
+          emailSubscribeCategory: {
+            type: [String]
+          }
         },
-        smsSubscribeCategory: {
-          type: [String]
+        smsSubscribe: {
+          snooze: {
+            isSnooze: {
+              type: Boolean
+            },
+            startDate: {
+              type: Date
+            },
+            endDate: {
+              type: Date
+            }
+          },
+          smsSubscribeCategory: {
+            type: [String]
+          }
         },
         phoneSubscribe: {
           type: Boolean

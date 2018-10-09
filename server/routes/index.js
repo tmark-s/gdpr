@@ -59,4 +59,23 @@ router.get('/subscribe-sms', async (req, res) => {
   });
 });
 
+router.get('/subscribe-email', async (req, res) => {
+  const user = await User.findOne({ 
+    'info.link': req.query.link,
+    'domain.domainName': req.query.domain
+  });
+
+  const domain = await Domain.findOne({
+    domainName: req.query.domain
+  });
+
+  res.render('subscribe-email', {
+    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+    mobileNo: user.info.phone,
+    allCategory: domain.channel.smsSubscribe.categoryName,
+    ownCategory: user.domain[0].channel.smsSubscribe.smsSubscribeCategory,
+    isSnooze: user.domain[0].channel.smsSubscribe.isSnooze
+  });
+});
+
 module.exports = router;
