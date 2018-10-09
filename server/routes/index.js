@@ -92,10 +92,8 @@ router.get('/subscribe-email', async (req, res) => {
 
 // router.put('/update-subscribe-sms', async (req, res) => {
 //   const user = await User.findOne({ 
-//     'info.link': req.body.link,
-//     'domain.domainName': req.body.domain
+//     'info.link': req.body.link
 //   });
-//   user.
 // });
 
 module.exports = router;
