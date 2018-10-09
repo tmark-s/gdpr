@@ -52,16 +52,16 @@
     </div>
     <!-- /.container -->
     <script>
-        //for get value from url
+        ////get value from url to find another channel
         let params = new URLSearchParams(document.location.search.substring(1));
-        var name = params.get("choosed");
-        console.log(name)
-        var todo = name.split(',')
-        console.log(todo)
-        var index = todo.indexOf("sms");
-        var nexTodo = todo.splice(index, 1)
-        console.log(nexTodo)
+        let name = params.get("choosed");
+        let todo = name.split(',')
+        let index = todo.indexOf("sms");
+        let nexTodo = todo.splice(index, 1)
 
+        ////get data from sms page
+        const smsSubData = $.post['smsSubscribe'];
+        console.log(smsSubData)
 
         // for get input from user
         function onSubmit() {
