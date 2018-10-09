@@ -32,7 +32,7 @@
                                 <input type="checkbox" name="ck" value={{this.value}} id={{this.value}}>
                                 <span class="box"><span class="tick"></span></span>
                             </span>
-                            <span class="check-text">{{this.nameTh}}</span>
+                            <span class="check-text">{{this.categoryName}}</span>
                         </label>
                         {{/each}}
 
@@ -52,18 +52,14 @@
     </div>
     <!-- /.container -->
     <script>
-        //for get value from url
+        ////get value from url to find another channel
         let params = new URLSearchParams(document.location.search.substring(1));
         var name = params.get("choosed");
-        console.log(name)
         var todo = name.split(',')
-        console.log(todo)
         var index = todo.indexOf("sms");
         var nexTodo = todo.splice(index, 1)
-        console.log(nexTodo)
 
-
-        // for get input from user
+        ////get input from user
         function onSubmit() {
             var mobileNo = $('#mobile').val();
             var selectedCategories = [];
@@ -72,12 +68,13 @@
                     selectedCategories.push($(this).val())
                 }
             });
-
+            //for select next page
             if (todo.length > 0) {
                 $.ajax({
-                    type: 'GET',
+                    type: 'POST',
+                    url: "http://localhost:3000/subscribe-email",
+                    data: { smsSubscribe: selectedCategories },
                     contentType: 'application/json',
-                    url: 'http://localhost:3000/subscribe-email',
                     success: function (data) {
                         window.location.href = "http://localhost:3000/subscribe-email";
                     }
@@ -86,7 +83,6 @@
                 $.ajax({
                     type: 'GET',
                     contentType: 'application/json',
-                    url: 'http://localhost:3000/updated-complete',
                     success: function (data) {
                         window.location.href = "http://localhost:3000/updated-complete";
                     }

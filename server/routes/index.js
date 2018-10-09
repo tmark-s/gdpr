@@ -5,40 +5,45 @@ const User = require('../models/User');
 
 router.use('/api', api);
 
+async function getUserInfo(query) {
+    return await User.findOne(query);
+
+}
+
+async function getDomainInfo(query) {
+    return await Domain.findOne(query);
+}
+
 router.get('/', async (req, res) => {
-  const domain = await Domain.findOne({
-    domainName: req.query.domain
-  });
+    const domain = await getDomainInfo({ 'domainName': req.query.domain })
+    const user = await getUserInfo({ 'info.link': req.query.link })
 
-  const user = await User.findOne({ 'info.link': req.query.link });
+    var hasPhone = false;
+    if (user.info.phone) {
+        hasPhone = true
+        console.log("hasPhone: ", hasPhone)
+    } else {
+        console.log("hasPhone: ", hasPhone)
+        hasPhone = false
+    }
 
-  let hasPhone = false;
-  if (user.info.phone != null || user.info.phone != undefined) {
-    hasPhone = true
-    console.log("hasPhone: ", hasPhone)
-  } 
-  else {
-    console.log("hasPhone: ", hasPhone)
-    hasPhone = false
-  }
+    var hasEmail = false;
+    if (user.info.email) {
+        hasEmail = true;
+    } else {
+        hasEmail = false;
+    }
 
-  let hasEmail = false;
-  if (user.info.email != null || user.info.email != undefined) {
-    hasEmail = true;
-  } 
-  else {
-    hasEmail = false;
-  }
-
-  res.render('channel', {
-    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    hasEmailSubscribe: domain.channel.emailSubscribe.canSubscribe,
-    hasSmsSubscribe: domain.channel.smsSubscribe.canSubscribe,
-    hasPhoneSubscribe: domain.channel.phoneSubscribe.canSubscribe,
-    hasPhone: hasPhone,
-    hasEmail: hasEmail,
-    hasOne: hasEmail || hasPhone
-  });
+    // data for render Selected Channel Page.
+    res.render('channel', {
+        headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+        hasEmailSubscribe: domain.channel.emailSubscribe,
+        hasSmsSubscribe: domain.channel.smsSubscribe,
+        hasPhoneSubscribe: domain.channel.phoneSubscribe,
+        hasPhone: hasPhone,
+        hasEmail: hasEmail,
+        hasOne: hasEmail || hasPhone,
+    });
 });
 
 router.get('/subscribe-sms', async (req, res) => {
