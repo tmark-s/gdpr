@@ -60,7 +60,8 @@ router.get('/subscribe-sms', async (req, res) => {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     mobileNo: user.info.phone,
     allCategory: domain.channel.smsSubscribe.categoryName,
-    ownCategory: user.domain[0].channel.smsSubscribeCategory
+    ownCategory: user.domain[0].channel.smsSubscribe.smsSubscribeCategory,
+    isSnooze: user.domain[0].channel.smsSubscribe.isSnooze
   });
 });
 
@@ -76,10 +77,10 @@ router.get('/subscribe-email', async (req, res) => {
 
   res.render('subscribe-email', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    mobileNo: user.info.phone,
-    allCategory: domain.channel.smsSubscribe.categoryName,
-    ownCategory: user.domain[0].channel.smsSubscribe.smsSubscribeCategory,
-    isSnooze: user.domain[0].channel.smsSubscribe.isSnooze
+    email: user.info.email,
+    allCategory: domain.channel.emailSubscribe.categoryName,
+    ownCategory: user.domain[0].channel.emailSubscribe.emailSubscribeCategory,
+    isSnooze: user.domain[0].channel.emailSubscribe.isSnooze
   });
 });
 
