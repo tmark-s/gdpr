@@ -82,7 +82,9 @@
             //for select next page
             if (todo.length > 0) {
                 $.ajax({
-                    type: 'GET',
+                    type: 'PUT',
+                    data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                    url: '/update-subscribe-sms',
                     contentType: 'application/json',
                     success: function (data) {
                         window.location.href = "http://localhost:3000/subscribe-email?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + todo;
@@ -90,7 +92,9 @@
                 });
             } else {
                 $.ajax({
-                    type: 'GET',
+                    type: 'PUT',
+                    data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                    url: '/update-subscribe-sms',
                     contentType: 'application/json',
                     success: function (data) {
                         window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
