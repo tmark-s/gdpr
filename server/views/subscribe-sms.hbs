@@ -29,7 +29,7 @@
                         {{#each categories}}
                         <label class="checkbox col-xs-12 col-md-12 col-sm-12">
                             <span class="custom-checkbox">
-                                <input type="checkbox" name="ck" value={{this.value}} id={{this.value}}>
+                                <input type="checkbox" name="ck[]" value={{this.value}} id={{this.value}}>
                                 <span class="box"><span class="tick"></span></span>
                             </span>
                             <span class="check-text">{{this.categoryName}}</span>
@@ -63,7 +63,7 @@
         function onSubmit() {
             var mobileNo = $('#mobile').val();
             var selectedCategories = [];
-            $('[name="ck"]').each(function () {
+            $('[name="ck[]"]').each(function () {
                 if ($(this).prop('checked') == true) {
                     selectedCategories.push($(this).val())
                 }
