@@ -78,13 +78,17 @@
                     selectedCategories.push($(this).val())
                 }
             });
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (data) {
-                    window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
-                }
-            });
+            if (selectedCategories.length > 0) {
+                $.ajax({
+                    type: 'PUT',
+                    data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                    url: '/update-subscribe-email',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                    }
+                });
+            }
 
         }
 
