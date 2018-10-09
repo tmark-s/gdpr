@@ -48,40 +48,54 @@ router.get('/', async (req, res) => {
 
 router.get('/subscribe-sms', async (req, res) => {
   const user = await User.findOne({ 
-    'info.link': req.query.link,
-    'domain.domainName': req.query.domain
+    'info.link': req.query.link
   });
 
   const domain = await Domain.findOne({
     domainName: req.query.domain
   });
   
+  const userDetail = user.domain.find((domain) => {
+    return domain.domainName = req.query.domain
+  });
+
   res.render('subscribe-sms', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     mobileNo: user.info.phone,
     allCategory: domain.channel.smsSubscribe.categoryName,
-    ownCategory: user.domain[0].channel.smsSubscribe.smsSubscribeCategory,
-    isSnooze: user.domain[0].channel.smsSubscribe.isSnooze
+    ownCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
+    isSnooze: userDetail.channel.smsSubscribe.isSnooze
   });
 });
 
 router.get('/subscribe-email', async (req, res) => {
   const user = await User.findOne({ 
-    'info.link': req.query.link,
-    'domain.domainName': req.query.domain
+    'info.link': req.query.link
   });
 
   const domain = await Domain.findOne({
     domainName: req.query.domain
   });
 
+  const userDetail = user.domain.find((domain) => {
+    return domain.domainName = req.query.domain
+  });
+
   res.render('subscribe-email', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     email: user.info.email,
     allCategory: domain.channel.emailSubscribe.categoryName,
-    ownCategory: user.domain[0].channel.emailSubscribe.emailSubscribeCategory,
-    isSnooze: user.domain[0].channel.emailSubscribe.isSnooze
+    ownCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory,
+    isSnooze: userDetail.channel.emailSubscribe.isSnooze
   });
 });
+
+// router.put('/update-subscribe-sms', async (req, res) => {
+//   const user = await User.findOne({ 
+//     'info.link': req.body.link,
+//     'domain.domainName': req.body.domain
+//   });
+//   user.
+// });
 
 module.exports = router;
