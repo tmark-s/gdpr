@@ -47,45 +47,40 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/subscribe-sms', async (req, res) => {
-    const domain = await getDomainInfo({ 'domainName': "sansiri" })
-    const user = await getUserInfo({ 'info.link': "aa" })
+  const user = await User.findOne({ 
+    'info.link': req.query.link,
+    'domain.domainName': req.query.domain
+  });
 
-    console.log("domain :", domain)
-
-    res.render('subscribe-sms', {
-        headText: "เลือกอัพเดทข้อมูลข่าวสารจากช่องทางที่ท่านต้องการ",
-        mobileNo: "089-129-4754",
-        categories: domain.category,
-        selectedCategories: [],
-    })
-}
-
-);
-
-
-router.get('/subscribe-email', (req, res) => {
-
-    md.find({}, function (err, doc) {
-        if (err) {
-            res.json(err)
-        } else {
-            //console.log("function:", doc)
-            res.render('subscribe-email', {
-                headText: "เลือกอัพเดทข้อมูลข่าวสารจากช่องทางที่ท่านต้องการ",
-                email: "igiko.ay@gmail.com",
-                categories: doc,
-            })
-        }
-    })
+  const domain = await Domain.findOne({
+    domainName: req.query.domain
+  });
+  
+  res.render('subscribe-sms', {
+    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+    mobileNo: user.info.phone,
+    allCategory: domain.channel.smsSubscribe.categoryName,
+    ownCategory: user.domain[0].channel.smsSubscribeCategory
+  });
 });
 
-router.get('/updated-complete', (req, res) => {
-    res.render('updated-complete',
-        {
-            headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน"
-        })
+router.get('/subscribe-email', async (req, res) => {
+  const user = await User.findOne({ 
+    'info.link': req.query.link,
+    'domain.domainName': req.query.domain
+  });
+
+  const domain = await Domain.findOne({
+    domainName: req.query.domain
+  });
+
+  res.render('subscribe-email', {
+    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+    mobileNo: user.info.phone,
+    allCategory: domain.channel.smsSubscribe.categoryName,
+    ownCategory: user.domain[0].channel.smsSubscribe.smsSubscribeCategory,
+    isSnooze: user.domain[0].channel.smsSubscribe.isSnooze
+  });
 });
 
-//for user
-router.post('/update-subscribe', (req, res) => res.send(req.body))
 module.exports = router;

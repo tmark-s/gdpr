@@ -17,24 +17,24 @@
                         <p>คุณไม่ได้ระบุข้อมูลเบอร์โทรศัพท์ หรือ อีเมลไว้ กรุณาติดต่อเจ้าหน้าที่</p>
                     </div>
                     {{/ifCond}}
-                    {{#ifCond hasOne '||' true}}
+                    {{#ifCond hasOne '==' true}}
                     <div class="col-xs-12">
                         <p>เลือกได้มากกว่า 1 ช่องทาง</p>
                     </div>
                     <div class="form-group">
                         {{#ifCond hasPhoneSubscribe '&&' hasPhone}}
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div>
+                            <div class="ck-button"><label><input name="chk" type="checkbox" value="mobile"><span>โทรศัพท์</span></label></div>
                         </div>
                         {{/ifCond}}
                         {{#ifCond hasSmsSubscribe '&&' hasPhone}}
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="sms"><span>SMS</span></label></div>
+                            <div class="ck-button"><label><input name="chk" type="checkbox" value="sms"><span>SMS</span></label></div>
                         </div>
                         {{/ifCond}}
                         {{#ifCond hasEmailSubscribe '&&' hasEmail}}
                         <div class="col-xs-12 ck text-center">
-                            <div class="ck-button"><label><input name="chk[]" type="checkbox" value="email"><span>อีเมล</span></label></div>
+                            <div class="ck-button"><label><input name="chk" type="checkbox" value="email"><span>อีเมล</span></label></div>
                         </div>
                         {{/ifCond}}
                     </div>
@@ -67,9 +67,10 @@
 
     function onSubmit() {
         var selectedChannel = [];
-        $('[name="chk[]"]').each(function () {
+        $('[name="chk"]').each(function () {
             if ($(this).prop('checked') == true) {
                 selectedChannel.push($(this).val());
+                alert($(this).val());
             }
         });
 
@@ -83,25 +84,6 @@
                 }
             });
             // value to next page
-        }
-        else if (selectedChannel.indexOf("email") != -1) {
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (data) {
-                    alert('success call subscribe email page');
-                    window.location.href = "http://localhost:3000/subscribe-email";
-                }
-            });
-        } else if (selectedChannel.indexOf("mobile") != -1) {
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (data) {
-                    alert('success call subscribe mobile page');
-                    window.location.href = "http://localhost:3000/updated-complete";
-                }
-            });
         }
     }
 </script>

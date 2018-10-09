@@ -6,22 +6,27 @@ const Domain = mongoose.model('domain', {
   },
   channel: {
     emailSubscribe: {
-      type: Boolean
+      canSubscribe: {
+        type: Boolean
+      },
+      categoryName: {
+        type: [String]
+      }
     },
     smsSubscribe: {
-      type: Boolean
+      canSubscribe: {
+        type: Boolean
+      },
+      categoryName: {
+        type: [String]
+      }
     },
     phoneSubscribe: {
-      type: Boolean
-    }
-  },
-  category: [
-    {
-      categoryName: {
-        type: String
+      canSubscribe: {
+        type: Boolean
       }
     }
-  ]
+  }
 });
 
 module.exports = Domain;
