@@ -29,27 +29,17 @@ const User = mongoose.model('user', {
           type: Date
         }
       },
-      channel: [
-        {
-          emailSubscribe: [
-            {
-              categoryName: {
-                type: String
-              }
-            }
-          ],
-          smsSubscribe: [
-            {
-              categoryName: {
-                type: String
-              }
-            }
-          ],
-          phoneSubscribe: {
-            type: String
-          }
+      channel: {
+        emailSubscribeCategory: {
+          type: [String]
+        },
+        smsSubscribeCategory: {
+          type: [String]
+        },
+        phoneSubscribe: {
+          type: Boolean
         }
-      ]
+      }
     }
   ]
 });
