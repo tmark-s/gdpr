@@ -103,8 +103,6 @@ router.get('/subscribe-email', async (req, res) => {
   const userCategory = userDetail.channel.emailSubscribe.emailSubscribeCategory;
   const selectedCategory = []
 
-  console.log(categories)
-
   categories.map(category => {
     if (userCategory.indexOf(category) != -1) {
       selectedCategory.push({ categoryName: category, categoryValue: category, Selected: true })

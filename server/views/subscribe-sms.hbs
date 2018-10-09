@@ -62,14 +62,12 @@
     <script>
         ////get value from url to find another channel
         let params = new URLSearchParams(document.location.search.substring(1));
-        var name = params.get("choosed");
-        var todo = name.split(',')
-        var index = todo.indexOf("sms");
-        var nexTodo = todo.splice(index, 1)
-
-
-
-
+        let name = params.get("choosed");
+        let todo = name.split(',')
+        let index = todo.indexOf("sms");
+        let nexTodo = todo.splice(index, 1)
+        let paramlink = params.get("link");
+        let paramdomain = params.get("domain");
 
         ////get input from user
         function onSubmit() {
@@ -81,15 +79,14 @@
                     alert($(this).val())
                 }
             });
+
             //for select next page
             if (todo.length > 0) {
                 $.ajax({
-                    type: 'POST',
-                    url: "http://localhost:3000/subscribe-email",
-                    data: { smsSubscribe: selectedCategories },
+                    type: 'GET',
                     contentType: 'application/json',
                     success: function (data) {
-                        window.location.href = "http://localhost:3000/subscribe-email";
+                        window.location.href = "http://localhost:3000/subscribe-email?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + todo;
                     }
                 });
             } else {
