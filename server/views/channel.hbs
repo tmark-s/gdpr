@@ -58,12 +58,12 @@
 
 <script>
     //for get value from url
-    /*
+
     let params = new URLSearchParams(document.location.search.substring(1));
-    let user = params.get("link");
-    let domain = params.get("domain");
-    let type = params.get("type");
-    */
+    let paramlink = params.get("link");
+    let paramdomain = params.get("domain");
+    let paramtype = params.get("type");
+
 
     function onSubmit() {
         var selectedChannel = [];
@@ -80,7 +80,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     alert('success call subscribe sms page');
-                    window.location.href = "http://localhost:3000/subscribe-sms/?choosed=" + selectedChannel;
+                    window.location.href = "http://localhost:3000/subscribe-sms/?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
                 }
             });
             // value to next page
