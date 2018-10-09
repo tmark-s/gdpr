@@ -66,6 +66,8 @@
         let todo = name.split(',')
         let index = todo.indexOf("sms");
         let nexTodo = todo.splice(index, 1)
+        let paramlink = params.get("link");
+        let paramdomain = params.get("domain");
 
         // for get input from user
         function onSubmit() {
@@ -79,9 +81,8 @@
             $.ajax({
                 type: 'GET',
                 contentType: 'application/json',
-                url: 'http://localhost:3000/updated-complete',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/updated-complete";
+                    window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
                 }
             });
 

@@ -76,7 +76,6 @@
             $('[name="ck[]"]').each(function () {
                 if ($(this).prop('checked') == true) {
                     selectedCategories.push($(this).val())
-                    alert($(this).val())
                 }
             });
 
@@ -94,7 +93,7 @@
                     type: 'GET',
                     contentType: 'application/json',
                     success: function (data) {
-                        window.location.href = "http://localhost:3000/updated-complete";
+                        window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
                     }
                 });
             }

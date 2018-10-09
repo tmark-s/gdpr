@@ -70,7 +70,6 @@
         $('[name="chk"]').each(function () {
             if ($(this).prop('checked') == true) {
                 selectedChannel.push($(this).val());
-                alert($(this).val());
             }
         });
 
@@ -79,11 +78,26 @@
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (data) {
-                    alert('success call subscribe sms page');
                     window.location.href = "http://localhost:3000/subscribe-sms/?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
                 }
             });
             // value to next page
+        } else if (selectedChannel.indexOf("email") != -1) {
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    window.location.href = "http://localhost:3000/subscribe-email/?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
+                }
+            });
+        } else if (selectedChannel.indexOf("mobile") != -1) {
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                }
+            });
         }
     }
 </script>

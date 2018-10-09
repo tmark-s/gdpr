@@ -120,11 +120,19 @@ router.get('/subscribe-email', async (req, res) => {
   });
 });
 
+router.get('/updated-complete', async (req, res) => {
+
+  res.render('updated-complete', {
+    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ"
+  });
+});
+
+
 router.put('/update-subscribe-sms', async (req, res) => {
-  const user = await User.findOne({ 
+  const user = await User.findOne({
     'info.link': req.body.link
   });
-  
+
   await user.domain.map(async (domain) => {
     if (domain.domainName === req.body.domain) {
       domain.channel.smsSubscribe.smsSubscribeCategory = req.body.smsSubscribeCategory;
@@ -132,15 +140,15 @@ router.put('/update-subscribe-sms', async (req, res) => {
     }
   });
   await user.save();
-  
+
   res.json(user);
 });
 
 router.put('/update-subscribe-email', async (req, res) => {
-  const user = await User.findOne({ 
+  const user = await User.findOne({
     'info.link': req.body.link
   });
-  
+
   await user.domain.map(async (domain) => {
     if (domain.domainName === req.body.domain) {
       domain.channel.emailSubscribe.emailSubscribeCategory = req.body.emailSubscribeCategory;
@@ -148,8 +156,10 @@ router.put('/update-subscribe-email', async (req, res) => {
     }
   });
   await user.save();
-  
+
   res.json(user);
+
 });
+
 
 module.exports = router;
