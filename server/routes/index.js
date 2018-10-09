@@ -64,7 +64,7 @@ router.get('/subscribe-sms', async (req, res) => {
     mobileNo: user.info.phone,
     allCategory: domain.channel.smsSubscribe.categoryName,
     ownCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
-    isSnooze: userDetail.channel.smsSubscribe.isSnooze
+    snooze: userDetail.channel.smsSubscribe.snooze
   });
 });
 
@@ -86,7 +86,7 @@ router.get('/subscribe-email', async (req, res) => {
     email: user.info.email,
     allCategory: domain.channel.emailSubscribe.categoryName,
     ownCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory,
-    isSnooze: userDetail.channel.emailSubscribe.isSnooze
+    snooze: userDetail.channel.emailSubscribe.snooze
   });
 });
 
