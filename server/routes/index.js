@@ -160,11 +160,30 @@ router.get('/updated-complete', async (req, res) => {
 
   const userDetail = await user.domain.find((domain) => {
     return domain.domainName = req.query.domain
-  }); 
-  
+  });
+
+  const smsSubscribeList = userDetail.channel.smsSubscribe.smsSubscribeCategory
+  let hasSmsSubscribe = false
+  if (smsSubscribeList.length > 0) {
+    hasSmsSubscribe = true;
+  } else {
+    hasSmsSubscribe = false;
+  }
+
+  const emailSubscribeList = userDetail.channel.smsSubscribe.smsSubscribeCategory
+  let hasEmailSubscribe = false
+  if (emailSubscribeList.length > 0) {
+    hasEmailSubscribe = true;
+  } else {
+    hasEmailSubscribe = false;
+  }
+
+
   res.render('updated-complete', {
     headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+    hasSmsSubscribeCategory: hasSmsSubscribe,
     smsSubscribeCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
+    hasEmailSubscribe: hasEmailSubscribe,
     emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory
   });
 });
