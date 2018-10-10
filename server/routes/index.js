@@ -46,6 +46,22 @@ router.get('/', async (req, res) => {
   });
 });
 
+router.put('/update-subscribe-phone', async (req, res) => {
+  const user = await User.findOne({
+    'info.link': req.body.link
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.phoneSubscribe = req.body.phoneSubscribe;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+});
+
 router.get('/subscribe-sms', async (req, res) => {
   //// get user from database
   const user = await User.findOne({
