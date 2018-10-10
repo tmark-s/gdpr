@@ -25,10 +25,10 @@ const User = mongoose.model('user', {
               type: Boolean
             },
             startDate: {
-              type: Date
+              type: String
             },
             endDate: {
-              type: Date
+              type: String
             }
           },
           emailSubscribeCategory: {
@@ -41,10 +41,10 @@ const User = mongoose.model('user', {
               type: Boolean
             },
             startDate: {
-              type: Date
+              type: String
             },
             endDate: {
-              type: Date
+              type: String
             }
           },
           smsSubscribeCategory: {
@@ -57,10 +57,10 @@ const User = mongoose.model('user', {
               type: Boolean
             },
             startDate: {
-              type: Date
+              type: String
             },
             endDate: {
-              type: Date
+              type: String
             }
           },
           isSubscribe: {
