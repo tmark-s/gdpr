@@ -81,7 +81,7 @@
             if (selectedCategories.length > 0) {
                 $.ajax({
                     type: 'PUT',
-                    data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                    data: JSON.stringify({ link: paramlink, domain: paramdomain, emailSubscribeCategory: selectedCategories }),
                     url: '/update-subscribe-email',
                     contentType: 'application/json',
                     success: function (data) {

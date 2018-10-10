@@ -85,7 +85,7 @@
                     $.ajax({
                         type: 'PUT',
                         data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
-                        url: '/update-subscribe-sms',
+                        url: '/update-subscribe-email',
                         contentType: 'application/json',
                         success: function (data) {
                             window.location.href = "http://localhost:3000/subscribe-email?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + todo;
