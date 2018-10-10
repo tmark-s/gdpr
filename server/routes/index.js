@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     hasPhoneSubscribe: domain.phoneSubscribe.canSubscribe,
     hasPhone: hasPhone,
     hasEmail: hasEmail,
-    hasOne: hasEmail || hasPhone,
+    hasOne: hasEmail || hasPhone
   });
 });
 
