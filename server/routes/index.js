@@ -57,7 +57,7 @@ router.get('/subscribe-sms', async (req, res) => {
     domainName: req.query.domain
   });
 
-  const userDetail = user.domain.find((domain) => {
+  const userDetail = await user.domain.find((domain) => {
     return domain.domainName = req.query.domain
   });
 
@@ -83,6 +83,22 @@ router.get('/subscribe-sms', async (req, res) => {
     ownCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
     snooze: userDetail.channel.smsSubscribe.snooze
   });
+});
+
+router.put('/update-subscribe-sms', async (req, res) => {
+  const user = await User.findOne({
+    'info.link': req.body.link
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.smsSubscribe.smsSubscribeCategory = req.body.smsSubscribeCategory;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
 });
 
 router.get('/subscribe-email', async (req, res) => {
@@ -120,30 +136,6 @@ router.get('/subscribe-email', async (req, res) => {
   });
 });
 
-router.get('/updated-complete', async (req, res) => {
-
-  res.render('updated-complete', {
-    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ"
-  });
-});
-
-
-router.put('/update-subscribe-sms', async (req, res) => {
-  const user = await User.findOne({
-    'info.link': req.body.link
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.smsSubscribe.smsSubscribeCategory = req.body.smsSubscribeCategory;
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
-});
-
 router.put('/update-subscribe-email', async (req, res) => {
   const user = await User.findOne({
     'info.link': req.body.link
@@ -161,5 +153,20 @@ router.put('/update-subscribe-email', async (req, res) => {
 
 });
 
+router.get('/updated-complete', async (req, res) => {
+  const user = await User.findOne({
+    'info.link': req.query.link
+  });
+
+  const userDetail = await user.domain.find((domain) => {
+    return domain.domainName = req.query.domain
+  }); 
+  
+  res.render('updated-complete', {
+    headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+    smsSubscribeCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
+    emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory
+  });
+});
 
 module.exports = router;
