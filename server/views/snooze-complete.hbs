@@ -9,7 +9,7 @@
                 <div class="call">
                     <p class="text-center">หากท่านต้องการรับอีเมลอีกครั้ง กดปุ่มด้านล่างนี้<br>
                         หรือติดต่อ <a href="tel://1685" class="link-call">Call Centre 1685</a></p>
-                    <div class="text-center"><button type="button" class="btn-primary">รับข่าวสารอีกครั้ง</button></div>
+                    <div class="text-center"><button onclick="cancelSnooze()" type="button" class="btn-primary">รับข่าวสารอีกครั้ง</button></div>
                 </div>
 
             </div>
@@ -17,3 +17,21 @@
         </div>
         <!-- /.container -->
     </div>
+
+    <script>
+        ////get value from url to find another channel
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let paramlink = params.get("link");
+        let paramdomain = params.get("domain");
+        function cancelSnooze() {
+            $.ajax({
+                type: 'PUT',
+                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                url: '/update-unsnooze',
+                contentType: 'application/json',
+                success: function (data) {
+                    window.location.href = "http://localhost:3000/?link=" + paramlink + "&domain=" + paramdomain;
+                }
+            });
+        }
+    </script>
