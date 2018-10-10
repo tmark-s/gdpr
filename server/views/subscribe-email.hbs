@@ -43,12 +43,17 @@
                             <span class="check-text">{{this.categoryName}}</span>
                         </label>
                         {{/each}}
-
+                        {{#if snooze.isSnooze}}
+                        <label style="font-size: 15px">*หมายเหตุ ระยะเวลาหยุดส่งอีเมล 90 วัน คือ: {{snooze.startDate}}
+                            -
+                            {{snooze.endDate}}</label>
+                        {{/if}}
                         <div class="checkbox col-xs-12 col-md-12 col-sm-12 text-center">
+
                             <button type="submit" onclick="onSubmit()" class="btn-primary">ตกลง</button>
                         </div>
                         <div class="col-xs-12 col-sm-12 text-center">
-                            <p><a href="email-3.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
+                            <p><a onclick="onSnooze()" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
                             <p><a href="email-3.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
                         </div>
                     </div>
@@ -90,6 +95,18 @@
                 });
             }
 
+        }
+
+        function onSnooze() {
+            $.ajax({
+                type: 'PUT',
+                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                url: '/update-snooze',
+                contentType: 'application/json',
+                success: function (data) {
+                    window.location.href = "http://localhost:3000/snooze-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                }
+            });
         }
 
     </script>
