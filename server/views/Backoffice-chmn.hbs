@@ -1,0 +1,125 @@
+<div id="main-content">
+    <div class="row">
+        <div class="col-md-3 offset-md-3"></div>
+
+        <div class="col-md-6 offset-md-3" style="float:left">
+
+
+            <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
+                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Channel">
+                </div>
+                <button type="submit" class="btn btn-ligth">ค้นหา</button>
+            </form>
+            <br />
+            <form class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Channel">
+                </div>
+
+                <button type="submit" onclick="addDomain()" class="btn btn-ligth">เพิ่ม</button>
+            </form>
+        </div>
+        <div class="col-md-3 offset-md-3"></div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-md-3"></div>
+
+        <div class="col-md-6 offset-md-3">
+            <table id="tableDomain" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ชื่อ Domain</th>
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each dataDomain}}
+                    <tr>
+                        <th scope="row"> {{index @index }}</th>
+                        <td contenteditable="false">{{this.name}}</td>
+                        <td>
+                            <a id="saveButton{{index @index }}" onclick="saveDomain(this,'{{this._id}}')" hidden>บันทึก</a>
+                            <a id="editButton{{index @index }}" onclick="editDomain(this,'{{this._id}}')">แก้ไข</a>
+                            |
+                            <a onclick="deleteDomain('{{this._id}}')">ลบ</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3 offset-md-3"></div>
+    </div>
+    <!-- /.container -->
+</div>
+
+<script>
+    function addDomain() {
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify({
+                "name": $('#tbDomainName').val(),
+                "emailSubscribe": {
+                    "canSubscribe": true,
+                    "category": []
+                },
+                "smsSubscribe": {
+                    "canSubscribe": true,
+                    "category": []
+                },
+                "phoneSubscribe": {
+                    "canSubscribe": true
+                }
+            }),
+            url: '/api/domain',
+            contentType: 'application/json',
+            success: function (data) {
+                location.reload();
+            }
+        });
+    }
+    function searchDomain() {
+
+    }
+    function saveDomain(r, id) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        $(editButton).attr("hidden", false);
+        $(saveButton).attr("hidden", true)
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+
+        alert(getCol);
+    }
+    function editDomain(r, id) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        $(editButton).attr("hidden", true);
+        $(saveButton).attr("hidden", false);
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
+    }
+    function deleteDomain(id) {
+        //รอ api delete
+        /*
+                $.ajax({
+                        type: 'PUT',
+                        data: JSON.stringify({ _id:id }),
+                        url: '/delete-domain',
+                        contentType: 'application/json',
+                        success: function (data) {
+                                location.reload();
+                        }
+                    });
+                    */
+    }
+</script>

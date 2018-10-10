@@ -49,4 +49,8 @@ handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
+handlebars.registerHelper("index", function (value, options) {
+    return parseInt(value) + 1;
+});
+
 app.listen(3000, () => console.log('App is listening on port 3000'));

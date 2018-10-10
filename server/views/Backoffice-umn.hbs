@@ -8,19 +8,8 @@
             <form class="form-inline">
                 <div class="form-group mx-sm-3 mb-2">
                     <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Channel">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Category">
                 </div>
                 <button type="submit" class="btn btn-ligth">ค้นหา</button>
-            </form>
-            <br />
-            <form class="form-inline">
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Category">
-
-
-                </div>
-
                 <button type="submit" onclick="addDomain()" class="btn btn-ligth">เพิ่ม</button>
             </form>
 
@@ -62,7 +51,9 @@
 </div>
 
 <script>
-
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+    });
     function addDomain() {
 
         $.ajax({

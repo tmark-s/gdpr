@@ -1,7 +1,27 @@
 <div id="main-content">
     <div class="text-center">
-        <button class="ck-button backoffice">Domain management</button><br />
-        <button class="ck-button backoffice">Channel management</button><br />
-        <button class="ck-button backoffice">Category management</button>
+        <button class="ck-button backoffice" onclick="onClick('dmn')">Domain management</button><br />
+        <button class="ck-button backoffice" onclick="onClick('chmn')">Channel management</button><br />
+        <button class="ck-button backoffice" onclick="onClick('cmn')">Category management</button><br />
+        <button class="ck-button backoffice" onclick="onClick('umn')">User management</button>
     </div>
 </div>
+
+<script>
+    function onClick(page) {
+        let urlPage = "";
+        switch (page) {
+            case "dmn": urlPage = "http://localhost:3000/backoffice-dmn"; break;
+            case "chmn": urlPage = "http://localhost:3000/backoffice-chmn"; break;
+            case "cmn": urlPage = "http://localhost:3000/backoffice-cmn"; break;
+            case "umn": urlPage = "http://localhost:3000/backoffice-umn"; break;
+        }
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = urlPage;
+            }
+        });
+    }
+</script>

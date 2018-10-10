@@ -18,7 +18,7 @@ async function getDomainInfo(query) {
 router.get('/', async (req, res) => {
   const domain = await getDomainInfo({ 'name': req.query.domain });
 
-  const user = await getUserInfo({ 'info.user': req.query.user});
+  const user = await getUserInfo({ 'info.user': req.query.user });
 
   const userDetail = await user.domain.find((domain) => {
     return domain.name = req.query.domain
@@ -27,9 +27,7 @@ router.get('/', async (req, res) => {
   var hasPhone = false;
   if (user.info.phone) {
     hasPhone = true
-    console.log("hasPhone: ", hasPhone)
   } else {
-    console.log("hasPhone: ", hasPhone)
     hasPhone = false
   }
 
@@ -197,6 +195,7 @@ router.get('/updated-complete', async (req, res) => {
     hasEmailSubscribe = false;
   }
 
+  console.log(smsSubscribeList)
   res.render('updated-complete', {
     headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
     hasSmsSubscribeCategory: hasSmsSubscribe,
@@ -208,9 +207,9 @@ router.get('/updated-complete', async (req, res) => {
 });
 
 router.put('/update-unsubscribe', async (req, res) => {
-   const user = await User.findOne({
-     'info.user': req.body.user
-   });
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
 
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
@@ -236,7 +235,7 @@ router.put('/update-snooze', async (req, res) => {
   const user = await User.findOne({
     'info.user': req.body.user
   });
-  
+
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
       const startDate = moment().format('DD/MM/YYYY');
@@ -286,8 +285,26 @@ router.put('/update-unsnooze', async (req, res) => {
   res.json(user);
 });
 
+//// backoffice url
 router.get('/backoffice', async (req, res) => {
-  res.render('Backoffice-home');
+  res.render('Backoffice-home', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-dmn', async (req, res) => {
+  const domainList = await Domain.find({});
+  res.render('Backoffice-dmn', { layout: 'staff_main.hbs', dataDomain: domainList });
+});
+
+router.get('/backoffice-chmn', async (req, res) => {
+  res.render('Backoffice-chmn', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-cmn', async (req, res) => {
+  res.render('Backoffice-cmn', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-umn', async (req, res) => {
+  res.render('Backoffice-umn', { layout: 'staff_main.hbs' });
 });
 
 module.exports = router;

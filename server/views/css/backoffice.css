@@ -8,3 +8,8 @@ button.backoffice {
 button.backoffice:hover {
     background-color: #ededed;
 }
+
+.onEdit {
+    background-color: aliceblue;
+    color: blue;
+}
