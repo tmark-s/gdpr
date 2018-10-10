@@ -15,13 +15,19 @@
                 <div class="box-gray">
                     <div class="box-gray-text">
                         <div class="title">ข้อมูลข่าวสารที่ท่านต้องการรับ คือ</div>
+                        {{#if hasSmsSubscribeCategory}}
                         <p class="text-blue"><strong>SMS</strong></p>
-                        <p class="text-blue"><a href="#">ข่าวสารโครงการใหม่</a></p>
-                        <p class="text-blue"><a href="#">ความคืบหน้าการก่อสร้างโครงการ </a></p>
+                        {{#each smsSubscribeCategory}}
+                        <p class="text-blue"><a href="#">{{this}}</a></p>
+                        {{/each}}
+                        {{/if}}
                         <hr>
-                        <p class="text-blue"><strong>อีเมล</strong></p>
-                        <p class="text-blue"><a href="#">ข่าวสารโครงการใหม่</a></p>
-                        <p class="text-blue"><a href="#">ความคืบหน้าการก่อสร้างโครงการ </a></p>
+                        {{#if hasEmailSubscribe}}
+                        <p class="text-blue"><strong>Email</strong></p>
+                        {{#each emailSubscribeCategory}}
+                        <p class="text-blue"><a href="#">{{this}}</a></p>
+                        {{/each}}
+                        {{/if}}
                     </div>
                 </div>
             </div>
