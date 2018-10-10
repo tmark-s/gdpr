@@ -16,8 +16,13 @@ async function getDomainInfo(query) {
 }
 
 router.get('/', async (req, res) => {
-  const domain = await getDomainInfo({ 'name': req.query.domain })
-  const user = await getUserInfo({ 'info.user': req.query.user})
+  const domain = await getDomainInfo({ 'name': req.query.domain });
+
+  const user = await getUserInfo({ 'info.user': req.query.user});
+
+  const userDetail = await user.domain.find((domain) => {
+    return domain.name = req.query.domain
+  });
 
   var hasPhone = false;
   if (user.info.phone) {
@@ -44,6 +49,7 @@ router.get('/', async (req, res) => {
     hasPhone: hasPhone,
     hasEmail: hasEmail,
     hasOne: hasEmail || hasPhone,
+    snooze: userDetail.snooze
   });
 });
 
@@ -96,7 +102,8 @@ router.get('/subscribe-sms', async (req, res) => {
   res.render('subscribe-sms', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     mobileNo: user.info.phone,
-    allCategory: selectedCategory
+    allCategory: selectedCategory,
+    snooze: userDetail.snooze
   });
 });
 
@@ -144,7 +151,8 @@ router.get('/subscribe-email', async (req, res) => {
   res.render('subscribe-email', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     email: user.info.email,
-    allCategory: selectedCategory
+    allCategory: selectedCategory,
+    snooze: userDetail.snooze
   });
 });
 
@@ -194,7 +202,8 @@ router.get('/updated-complete', async (req, res) => {
     hasSmsSubscribeCategory: hasSmsSubscribe,
     smsSubscribeCategory: userDetail.smsSubscribe,
     hasEmailSubscribe: hasEmailSubscribe,
-    emailSubscribeCategory: userDetail.emailSubscribe
+    emailSubscribeCategory: userDetail.emailSubscribe,
+    snooze: userDetail.snooze
   });
 });
 
@@ -275,6 +284,10 @@ router.put('/update-unsnooze', async (req, res) => {
   await user.save();
 
   res.json(user);
+});
+
+router.get('/backoffice', async (req, res) => {
+  res.render('Backoffice-home');
 });
 
 module.exports = router;
