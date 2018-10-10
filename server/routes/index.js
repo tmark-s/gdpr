@@ -214,6 +214,9 @@ router.put('/update-unsubscribe', async (req, res) => {
     if (domain.domainName === req.body.domain) {
       domain.channel.emailSubscribe.emailSubscribeCategory = [];
       domain.channel.smsSubscribe.smsSubscribeCategory = [];
+      domain.channel.emailSubscribe.snooze.isSnooze = false;
+      domain.channel.emailSubscribe.snooze.startDate = "";
+      domain.channel.emailSubscribe.snooze.endDate = "";
       return;
     }
   });
@@ -262,6 +265,24 @@ router.get('/snooze-complete', async (req, res) => {
     startDate: userDetail.channel.emailSubscribe.snooze.startDate,
     endDate: userDetail.channel.emailSubscribe.snooze.endDate
   });
+});
+
+router.put('/update-unsnooze', async (req, res) => {
+  const user = await User.findOne({
+    'info.link': req.body.link
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.emailSubscribe.snooze.isSnooze = false;
+      domain.channel.emailSubscribe.snooze.startDate = "";
+      domain.channel.emailSubscribe.snooze.endDate = "";
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
 });
 
 module.exports = router;
