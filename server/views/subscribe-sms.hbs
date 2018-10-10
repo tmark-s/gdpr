@@ -81,7 +81,7 @@
 
             //for select next page
             if (selectedCategories.length > 0) {
-                if (todo.length > 0) {
+                if (todo.indexOf("email") != -1) {
                     $.ajax({
                         type: 'PUT',
                         data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
@@ -91,7 +91,8 @@
                             window.location.href = "http://localhost:3000/subscribe-email?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + todo;
                         }
                     });
-                } else {
+                }
+                else {
                     $.ajax({
                         type: 'PUT',
                         data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
