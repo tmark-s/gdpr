@@ -20,7 +20,6 @@
     let params = new URLSearchParams(document.location.search.substring(1));
     let paramlink = params.get("link");
     let paramdomain = params.get("domain");
-    let paramtype = params.get("type");
 
     function getSubscribe() {
         $.ajax({
@@ -28,7 +27,6 @@
             contentType: 'application/json',
             success: function (data) {
                 window.location.href = "http://localhost:3000/?link=" + paramlink + "&domain=" + paramdomain;
-                //window.location.href = "http://localhost:3000/?link=mark&domain=sansiri&type=all";
             }
         });
 
