@@ -71,7 +71,7 @@
         let todo = name.split(',')
         let index = todo.indexOf("email");
         let nexTodo = todo.splice(index, 1)
-        let paramlink = params.get("link");
+        let paramUser = params.get("user");
         let paramdomain = params.get("domain");
 
         // for get input from user
@@ -86,11 +86,11 @@
             if (selectedCategories.length > 0) {
                 $.ajax({
                     type: 'PUT',
-                    data: JSON.stringify({ link: paramlink, domain: paramdomain, emailSubscribeCategory: selectedCategories }),
+                    data: JSON.stringify({ user: paramUser, domain: paramdomain, emailSubscribeCategory: selectedCategories }),
                     url: '/update-subscribe-email',
                     contentType: 'application/json',
                     success: function (data) {
-                        window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                        window.location.href = "http://localhost:3000/updated-complete/?user=" + paramUser + "&domain=" + paramdomain;
                     }
                 });
             }
@@ -100,11 +100,11 @@
         function onSnooze() {
             $.ajax({
                 type: 'PUT',
-                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
                 url: '/update-snooze',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/snooze-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                    window.location.href = "http://localhost:3000/snooze-complete/?user=" + paramUser + "&domain=" + paramdomain;
                 }
             });
         }
@@ -112,11 +112,11 @@
         function onUnsubscribe() {
             $.ajax({
                 type: 'PUT',
-                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
                 url: '/update-unsubscribe',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/unsubscribe-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                    window.location.href = "http://localhost:3000/unsubscribe-complete/?user=" + paramUser + "&domain=" + paramdomain;
                 }
             });
         }

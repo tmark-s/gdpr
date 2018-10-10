@@ -21,16 +21,16 @@
     <script>
         ////get value from url to find another channel
         let params = new URLSearchParams(document.location.search.substring(1));
-        let paramlink = params.get("link");
+        let paramUser = params.get("user");
         let paramdomain = params.get("domain");
         function cancelSnooze() {
             $.ajax({
                 type: 'PUT',
-                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
                 url: '/update-unsnooze',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/?link=" + paramlink + "&domain=" + paramdomain;
+                    window.location.href = "http://localhost:3000/?user=" + paramUser + "&domain=" + paramdomain;
                 }
             });
         }

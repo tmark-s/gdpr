@@ -1,30 +1,42 @@
 const mongoose = require('mongoose');
 
 const Domain = mongoose.model('domain', {
-  domainName: {
+  name: {
     type: String
   },
-  channel: {
-    emailSubscribe: {
-      canSubscribe: {
-        type: Boolean
-      },
-      categoryName: {
-        type: [String]
-      }
+  emailSubscribe: {
+    canSubscribe: {
+      type: Boolean
     },
-    smsSubscribe: {
-      canSubscribe: {
-        type: Boolean
-      },
-      categoryName: {
-        type: [String]
+    category: [
+      {
+        name: {
+          type: String
+        },
+        value: {
+          type: String
+        }
       }
+    ]
+  },
+  smsSubscribe: {
+    canSubscribe: {
+      type: Boolean
     },
-    phoneSubscribe: {
-      canSubscribe: {
-        type: Boolean
+    category: [
+      {
+        name: {
+          type: String
+        },
+        value: {
+          type: String
+        }
       }
+    ] 
+  },
+  phoneSubscribe: {
+    canSubscribe: {
+      type: Boolean
     }
   }
 });

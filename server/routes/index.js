@@ -16,8 +16,8 @@ async function getDomainInfo(query) {
 }
 
 router.get('/', async (req, res) => {
-  const domain = await getDomainInfo({ 'domainName': req.query.domain })
-  const user = await getUserInfo({ 'info.link': req.query.link })
+  const domain = await getDomainInfo({ 'name': req.query.domain })
+  const user = await getUserInfo({ 'info.user': req.query.user})
 
   var hasPhone = false;
   if (user.info.phone) {
@@ -38,9 +38,9 @@ router.get('/', async (req, res) => {
   // data for render Selected Channel Page.
   res.render('channel', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    hasEmailSubscribe: domain.channel.emailSubscribe,
-    hasSmsSubscribe: domain.channel.smsSubscribe,
-    hasPhoneSubscribe: domain.channel.phoneSubscribe,
+    hasEmailSubscribe: domain.emailSubscribe.canSubscribe,
+    hasSmsSubscribe: domain.smsSubscribe.canSubscribe,
+    hasPhoneSubscribe: domain.phoneSubscribe.canSubscribe,
     hasPhone: hasPhone,
     hasEmail: hasEmail,
     hasOne: hasEmail || hasPhone,
@@ -49,12 +49,12 @@ router.get('/', async (req, res) => {
 
 router.put('/update-subscribe-phone', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.body.link
+    'info.user': req.body.user
   });
 
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.phoneSubscribe = req.body.phoneSubscribe;
+    if (domain.name === req.body.domain) {
+      domain.phoneSubscribe = req.body.phoneSubscribe;
       return;
     }
   });
@@ -66,28 +66,28 @@ router.put('/update-subscribe-phone', async (req, res) => {
 router.get('/subscribe-sms', async (req, res) => {
   //// get user from database
   const user = await User.findOne({
-    'info.link': req.query.link
+    'info.user': req.query.user
   });
 
   //// get domain from database
   const domain = await Domain.findOne({
-    domainName: req.query.domain
+    name: req.query.domain
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.domainName = req.query.domain
+    return domain.name = req.query.domain
   });
 
-  ////  prepared data categoryList
-  const categories = domain.channel.smsSubscribe.categoryName;
-  const userCategory = userDetail.channel.smsSubscribe.smsSubscribeCategory;
+  //  prepared data categoryList
+  const categories = domain.smsSubscribe.category;
+  const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
 
   categories.map(category => {
     if (userCategory.indexOf(category) !== -1) {
-      selectedCategory.push({ categoryName: category, categoryValue: category, Selected: true })
+      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
-      selectedCategory.push({ categoryName: category, categoryValue: category, Selected: false })
+      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
     }
   });
 
@@ -96,20 +96,18 @@ router.get('/subscribe-sms', async (req, res) => {
   res.render('subscribe-sms', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     mobileNo: user.info.phone,
-    allCategory: selectedCategory,
-    ownCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
-    snooze: userDetail.channel.smsSubscribe.snooze
+    allCategory: selectedCategory
   });
 });
 
 router.put('/update-subscribe-sms', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.body.link
+    'info.user': req.body.user
   });
 
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.smsSubscribe.smsSubscribeCategory = req.body.smsSubscribeCategory;
+    if (domain.name === req.body.domain) {
+      domain.smsSubscribe = req.body.smsSubscribeCategory;
       return;
     }
   });
@@ -119,48 +117,45 @@ router.put('/update-subscribe-sms', async (req, res) => {
 });
 
 router.get('/subscribe-email', async (req, res) => {
-  debugger
   const user = await User.findOne({
-    'info.link': req.query.link
+    'info.user': req.query.user
   });
 
   const domain = await Domain.findOne({
-    domainName: req.query.domain
+    name: req.query.domain
   });
 
   const userDetail = user.domain.find((domain) => {
-    return domain.domainName = req.query.domain
+    return domain.name = req.query.domain
   });
 
-  const categories = domain.channel.emailSubscribe.categoryName;
-  const userCategory = userDetail.channel.emailSubscribe.emailSubscribeCategory;
-  const selectedCategory = []
+  const categories = domain.emailSubscribe.category;
+  const userCategory = userDetail.emailSubscribe;
+  const selectedCategory = [];
 
   await categories.map(category => {
     if (userCategory.indexOf(category) !== -1) {
-      selectedCategory.push({ categoryName: category, categoryValue: category, Selected: true })
+      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
-      selectedCategory.push({ categoryName: category, categoryValue: category, Selected: false })
+      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
     }
   });
 
   res.render('subscribe-email', {
     headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
     email: user.info.email,
-    allCategory: selectedCategory,
-    ownCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory,
-    snooze: userDetail.channel.emailSubscribe.snooze
+    allCategory: selectedCategory
   });
 });
 
 router.put('/update-subscribe-email', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.body.link
+    'info.user': req.body.user
   });
 
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.emailSubscribe.emailSubscribeCategory = req.body.emailSubscribeCategory;
+    if (domain.name === req.body.domain) {
+      domain.emailSubscribe = req.body.emailSubscribeCategory;
       return;
     }
   });
@@ -171,52 +166,51 @@ router.put('/update-subscribe-email', async (req, res) => {
 
 router.get('/updated-complete', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.query.link
+    'info.user': req.query.user
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.domainName = req.query.domain
+    return domain.name = req.query.domain
   });
 
-  const smsSubscribeList = userDetail.channel.smsSubscribe.smsSubscribeCategory
-  let hasSmsSubscribe = false
+  const smsSubscribeList = userDetail.smsSubscribe;
+  let hasSmsSubscribe = false;
   if (smsSubscribeList.length > 0) {
     hasSmsSubscribe = true;
   } else {
     hasSmsSubscribe = false;
   }
 
-  const emailSubscribeList = userDetail.channel.emailSubscribe.emailSubscribeCategory
-  let hasEmailSubscribe = false
+  const emailSubscribeList = userDetail.emailSubscribe;
+  let hasEmailSubscribe = false;
   if (emailSubscribeList.length > 0) {
     hasEmailSubscribe = true;
   } else {
     hasEmailSubscribe = false;
   }
 
-
   res.render('updated-complete', {
     headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
     hasSmsSubscribeCategory: hasSmsSubscribe,
-    smsSubscribeCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
+    smsSubscribeCategory: userDetail.smsSubscribe,
     hasEmailSubscribe: hasEmailSubscribe,
-    emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory,
-    snooze: userDetail.channel.emailSubscribe.snooze
+    emailSubscribeCategory: userDetail.emailSubscribe
   });
 });
 
 router.put('/update-unsubscribe', async (req, res) => {
    const user = await User.findOne({
-     'info.link': req.body.link
+     'info.user': req.body.user
    });
 
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.emailSubscribe.emailSubscribeCategory = [];
-      domain.channel.smsSubscribe.smsSubscribeCategory = [];
-      domain.channel.emailSubscribe.snooze.isSnooze = false;
-      domain.channel.emailSubscribe.snooze.startDate = "";
-      domain.channel.emailSubscribe.snooze.endDate = "";
+    if (domain.name === req.body.domain) {
+      domain.emailSubscribe = [];
+      domain.smsSubscribe = [];
+      domain.phoneSubscribe = false;
+      domain.snooze.isSnooze = false;
+      domain.snooze.startDate = "";
+      domain.snooze.endDate = "";
       return;
     }
   });
@@ -231,18 +225,16 @@ router.get('/unsubscribe-complete', async (req, res) => {
 
 router.put('/update-snooze', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.body.link
+    'info.user': req.body.user
   });
   
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
+    if (domain.name === req.body.domain) {
       const startDate = moment().format('DD/MM/YYYY');
       const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
-      domain.channel.emailSubscribe.snooze.isSnooze = true;
-      domain.channel.emailSubscribe.snooze.startDate = startDate;
-      domain.channel.emailSubscribe.snooze.endDate = endDate;
-      // domain.channel.smsSubscribe.snooze.isSnooze = true;
-      // domain.channel.phoneSubscribe.snooze.isSnooze = true;
+      domain.snooze.isSnooze = true;
+      domain.snooze.startDate = startDate;
+      domain.snooze.endDate = endDate;
       return;
     }
   });
@@ -253,30 +245,30 @@ router.put('/update-snooze', async (req, res) => {
 
 router.get('/snooze-complete', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.query.link
+    'info.user': req.query.user
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.domainName = req.query.domain
+    return domain.name = req.query.domain
   });
 
   res.render('snooze-complete', {
     headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
-    startDate: userDetail.channel.emailSubscribe.snooze.startDate,
-    endDate: userDetail.channel.emailSubscribe.snooze.endDate
+    startDate: userDetail.snooze.startDate,
+    endDate: userDetail.snooze.endDate
   });
 });
 
 router.put('/update-unsnooze', async (req, res) => {
   const user = await User.findOne({
-    'info.link': req.body.link
+    'info.user': req.body.user
   });
 
   await user.domain.map(async (domain) => {
-    if (domain.domainName === req.body.domain) {
-      domain.channel.emailSubscribe.snooze.isSnooze = false;
-      domain.channel.emailSubscribe.snooze.startDate = "";
-      domain.channel.emailSubscribe.snooze.endDate = "";
+    if (domain.name === req.body.domain) {
+      domain.snooze.isSnooze = false;
+      domain.snooze.startDate = "";
+      domain.snooze.endDate = "";
       return;
     }
   });

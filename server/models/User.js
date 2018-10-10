@@ -8,66 +8,36 @@ const User = mongoose.model('user', {
     phone: {
       type: String
     },
-    link: {
+    user: {
       type: String
     }
   },
   domain: [
     {
-      domainName: {
+      name: {
         type: String,
         require: true
       },
-      channel: {
-        emailSubscribe: {
-          snooze: {
-            isSnooze: {
-              type: Boolean
-            },
-            startDate: {
-              type: String
-            },
-            endDate: {
-              type: String
-            }
-          },
-          emailSubscribeCategory: {
-            type: [String]
-          }
+      emailSubscribe: {
+        type: [String]
+      },
+      smsSubscribe: {
+        type: [String]
+      },
+      phoneSubscribe: {
+        type: Boolean
+      },
+      snooze: {
+        isSnooze: {
+          type: Boolean
         },
-        smsSubscribe: {
-          snooze: {
-            isSnooze: {
-              type: Boolean
-            },
-            startDate: {
-              type: String
-            },
-            endDate: {
-              type: String
-            }
-          },
-          smsSubscribeCategory: {
-            type: [String]
-          }
+        startDate: {
+          type: String
         },
-        phoneSubscribe: {
-          snooze: {
-            isSnooze: {
-              type: Boolean
-            },
-            startDate: {
-              type: String
-            },
-            endDate: {
-              type: String
-            }
-          },
-          isSubscribe: {
-            type: Boolean
-          }
+        endDate: {
+          type: String
         }
-      }
+      } 
     }
   ]
 });

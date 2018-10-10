@@ -18,7 +18,7 @@
 <script>
     ////get value from url to find another channel
     let params = new URLSearchParams(document.location.search.substring(1));
-    let paramlink = params.get("link");
+    let paramUser = params.get("user");
     let paramdomain = params.get("domain");
 
     function getSubscribe() {
@@ -26,7 +26,7 @@
             type: 'GET',
             contentType: 'application/json',
             success: function (data) {
-                window.location.href = "http://localhost:3000/?link=" + paramlink + "&domain=" + paramdomain;
+                window.location.href = "http://localhost:3000/?user=" + paramUser + "&domain=" + paramdomain;
             }
         });
 
