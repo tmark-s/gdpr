@@ -84,7 +84,7 @@ router.get('/subscribe-sms', async (req, res) => {
   const selectedCategory = []
 
   categories.map(category => {
-    if (userCategory.indexOf(category) != -1) {
+    if (userCategory.indexOf(category) !== -1) {
       selectedCategory.push({ categoryName: category, categoryValue: category, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category, categoryValue: category, Selected: false })
@@ -136,8 +136,8 @@ router.get('/subscribe-email', async (req, res) => {
   const userCategory = userDetail.channel.emailSubscribe.emailSubscribeCategory;
   const selectedCategory = []
 
-  categories.map(category => {
-    if (userCategory.indexOf(category) != -1) {
+  await categories.map(category => {
+    if (userCategory.indexOf(category) !== -1) {
       selectedCategory.push({ categoryName: category, categoryValue: category, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category, categoryValue: category, Selected: false })
@@ -200,7 +200,8 @@ router.get('/updated-complete', async (req, res) => {
     hasSmsSubscribeCategory: hasSmsSubscribe,
     smsSubscribeCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
     hasEmailSubscribe: hasEmailSubscribe,
-    emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory
+    emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory,
+    snooze: userDetail.channel.emailSubscribe.snooze
   });
 });
 
