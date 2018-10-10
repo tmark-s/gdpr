@@ -69,7 +69,7 @@
         let params = new URLSearchParams(document.location.search.substring(1));
         let name = params.get("choosed");
         let todo = name.split(',')
-        let index = todo.indexOf("sms");
+        let index = todo.indexOf("email");
         let nexTodo = todo.splice(index, 1)
         let paramlink = params.get("link");
         let paramdomain = params.get("domain");
