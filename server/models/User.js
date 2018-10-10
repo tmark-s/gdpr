@@ -52,7 +52,20 @@ const User = mongoose.model('user', {
           }
         },
         phoneSubscribe: {
-          type: Boolean
+          snooze: {
+            isSnooze: {
+              type: Boolean
+            },
+            startDate: {
+              type: Date
+            },
+            endDate: {
+              type: Date
+            }
+          },
+          isSubscribe: {
+            type: Boolean
+          }
         }
       }
     }

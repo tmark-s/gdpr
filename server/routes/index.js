@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const moment = require('moment');
 const api = require('./api');
 const Domain = require('../models/Domain');
 const User = require('../models/User');
@@ -203,28 +204,63 @@ router.get('/updated-complete', async (req, res) => {
   });
 });
 
-// router.put('/update-unsubscribe', async (req, res) => {
-//   const user = await User.findOne({
-//     'info.link': req.body.link
-//   });
+router.put('/update-unsubscribe', async (req, res) => {
+   const user = await User.findOne({
+     'info.link': req.body.link
+   });
 
-//   await user.domain.map(async (domain) => {
-//     if (domain.domainName === req.body.domain) {
-//       domain.channel.emailSubscribe.emailSubscribeCategory = req.body.emailSubscribeCategory;
-//       return;
-//     }
-//   });
-//   await user.save();
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      domain.channel.emailSubscribe.emailSubscribeCategory = [];
+      domain.channel.smsSubscribe.smsSubscribeCategory = [];
+      return;
+    }
+  });
+  await user.save();
 
-//   res.json(user);
-// });
+  res.json(user);
+});
 
 router.get('/unsubscribe-complete', async (req, res) => {
   res.render('unsubscribe-complete');
 });
 
+router.put('/update-snooze', async (req, res) => {
+  const user = await User.findOne({
+    'info.link': req.body.link
+  });
+  
+  await user.domain.map(async (domain) => {
+    if (domain.domainName === req.body.domain) {
+      const startDate = moment().format('DD/MM/YYYY');
+      const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
+      domain.channel.emailSubscribe.snooze.isSnooze = true;
+      domain.channel.emailSubscribe.snooze.startDate = startDate;
+      domain.channel.emailSubscribe.snooze.endDate = endDate;
+      // domain.channel.smsSubscribe.snooze.isSnooze = true;
+      // domain.channel.phoneSubscribe.snooze.isSnooze = true;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+})
+
 router.get('/snooze-complete', async (req, res) => {
-  res.render('snooze-complete');
+  const user = await User.findOne({
+    'info.link': req.query.link
+  });
+
+  const userDetail = await user.domain.find((domain) => {
+    return domain.domainName = req.query.domain
+  });
+
+  res.render('snooze-complete', {
+    headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+    startDate: userDetail.channel.emailSubscribe.snooze.startDate,
+    endDate: userDetail.channel.emailSubscribe.snooze.endDate
+  });
 });
 
 module.exports = router;
