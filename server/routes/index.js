@@ -186,7 +186,7 @@ router.get('/updated-complete', async (req, res) => {
     hasSmsSubscribe = false;
   }
 
-  const emailSubscribeList = userDetail.channel.smsSubscribe.smsSubscribeCategory
+  const emailSubscribeList = userDetail.channel.emailSubscribe.emailSubscribeCategory
   let hasEmailSubscribe = false
   if (emailSubscribeList.length > 0) {
     hasEmailSubscribe = true;
