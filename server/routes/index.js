@@ -166,7 +166,6 @@ router.put('/update-subscribe-email', async (req, res) => {
   await user.save();
 
   res.json(user);
-
 });
 
 router.get('/updated-complete', async (req, res) => {
@@ -183,6 +182,30 @@ router.get('/updated-complete', async (req, res) => {
     smsSubscribeCategory: userDetail.channel.smsSubscribe.smsSubscribeCategory,
     emailSubscribeCategory: userDetail.channel.emailSubscribe.emailSubscribeCategory
   });
+});
+
+// router.put('/update-unsubscribe', async (req, res) => {
+//   const user = await User.findOne({
+//     'info.link': req.body.link
+//   });
+
+//   await user.domain.map(async (domain) => {
+//     if (domain.domainName === req.body.domain) {
+//       domain.channel.emailSubscribe.emailSubscribeCategory = req.body.emailSubscribeCategory;
+//       return;
+//     }
+//   });
+//   await user.save();
+
+//   res.json(user);
+// });
+
+router.get('/unsubscribe-complete', async (req, res) => {
+  res.render('unsubscribe-complete');
+});
+
+router.get('/snooze-complete', async (req, res) => {
+  res.render('snooze-complete');
 });
 
 module.exports = router;
