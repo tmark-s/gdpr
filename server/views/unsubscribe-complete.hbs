@@ -6,7 +6,7 @@
                 <div class="call">
                     <p class="text-center">หากท่านต้องการรับอีเมลอีกครั้ง กดปุ่มด้านล่างนี้<br />
                         หรือติดต่อ <a href="tel://1685" class="link-call">Call Centre 1685</a></p>
-                    <div class="text-center"><button type="button" class="btn-primary">รับข่าวสารอีกครั้ง</button></div>
+                    <div class="text-center"><button type="button" onclick="getSubscribe" class="btn-primary">รับข่าวสารอีกครั้ง</button></div>
                 </div>
             </div>
             <!-- /.row -->
@@ -14,3 +14,25 @@
         <!-- /.container -->
     </div>
 </div>
+
+<script>
+    ////get value from url to find another channel
+    let params = new URLSearchParams(document.location.search.substring(1));
+    let name = params.get("choosed");
+    let todo = name.split(',')
+    let index = todo.indexOf("sms");
+    let nexTodo = todo.splice(index, 1)
+    let paramlink = params.get("link");
+    let paramdomain = params.get("domain");
+
+    function getSubscribe() {
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = "http://localhost:3000/?link=mark&domain=sansiri&type=all";
+            }
+        });
+
+    }
+</script>

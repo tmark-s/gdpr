@@ -113,7 +113,7 @@
             $.ajax({
                 type: 'PUT',
                 data: JSON.stringify({ link: paramlink, domain: paramdomain }),
-                url: '/unsubscribe-complete',
+                url: '/update-unsubscribe',
                 contentType: 'application/json',
                 success: function (data) {
                     window.location.href = "http://localhost:3000/unsubscribe-complete/?link=" + paramlink + "&domain=" + paramdomain;

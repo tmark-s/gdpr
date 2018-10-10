@@ -43,9 +43,9 @@
                             <button type="submit" onclick="onSubmit()" class="btn-primary">ตกลง</button>
                         </div>
                     </div>
-                    <div class="col-xs-12 text-center">
-                        <p><a href="call-centre-2.2.html" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
-                        <p><a href="call-centre-2.3.html" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
+                    <div class="col-xs-12 col-sm-12 text-center">
+                        <p><a onclick="onSnooze()" class="textlink">หยุดรับข้อมูลข่าวสาร เป็นเวลา 90 วัน</a></p>
+                        <p><a onclick="onUnsubscribe()" class="textlink">หยุดรับข้อมูลข่าวสารทั้งหมด</a></p>
                     </div>
                     {{/ifCond}}
                 </form>
@@ -99,5 +99,29 @@
                 }
             });
         }
+    }
+
+    function onSnooze() {
+        $.ajax({
+            type: 'PUT',
+            data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+            url: '/update-snooze',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = "http://localhost:3000/snooze-complete/?link=" + paramlink + "&domain=" + paramdomain;
+            }
+        });
+    }
+
+    function onUnsubscribe() {
+        $.ajax({
+            type: 'PUT',
+            data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+            url: '/update-unsubscribe',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = "http://localhost:3000/unsubscribe-complete/?link=" + paramlink + "&domain=" + paramdomain;
+            }
+        });
     }
 </script>
