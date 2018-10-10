@@ -66,7 +66,7 @@
         let todo = name.split(',')
         let index = todo.indexOf("sms");
         let nexTodo = todo.splice(index, 1)
-        let paramlink = params.get("link");
+        let paramUser = params.get("user");
         let paramdomain = params.get("domain");
 
         ////get input from user
@@ -84,22 +84,22 @@
                 if (todo.indexOf("email") != -1) {
                     $.ajax({
                         type: 'PUT',
-                        data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                        data: JSON.stringify({ user: paramUser, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
                         url: '/update-subscribe-sms',
                         contentType: 'application/json',
                         success: function (data) {
-                            window.location.href = "http://localhost:3000/subscribe-email?link=" + paramlink + "&domain=" + paramdomain + "&choosed=" + todo;
+                            window.location.href = "http://localhost:3000/subscribe-email?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + todo;
                         }
                     });
                 }
                 else {
                     $.ajax({
                         type: 'PUT',
-                        data: JSON.stringify({ link: paramlink, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
+                        data: JSON.stringify({ user: paramUser, domain: paramdomain, smsSubscribeCategory: selectedCategories }),
                         url: '/update-subscribe-sms',
                         contentType: 'application/json',
                         success: function (data) {
-                            window.location.href = "http://localhost:3000/updated-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                            window.location.href = "http://localhost:3000/updated-complete/?user=" + paramUser + "&domain=" + paramdomain;
                         }
                     });
                 }
@@ -109,11 +109,11 @@
         function onSnooze() {
             $.ajax({
                 type: 'PUT',
-                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
                 url: '/update-snooze',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/snooze-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                    window.location.href = "http://localhost:3000/snooze-complete/?user=" + paramUser + "&domain=" + paramdomain;
                 }
             });
         }
@@ -121,11 +121,11 @@
         function onUnsubscribe() {
             $.ajax({
                 type: 'PUT',
-                data: JSON.stringify({ link: paramlink, domain: paramdomain }),
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
                 url: '/update-unsubscribe',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/unsubscribe-complete/?link=" + paramlink + "&domain=" + paramdomain;
+                    window.location.href = "http://localhost:3000/unsubscribe-complete/?user=" + paramUser + "&domain=" + paramdomain;
                 }
             });
         }
