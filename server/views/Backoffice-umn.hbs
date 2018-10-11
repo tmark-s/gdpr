@@ -10,7 +10,11 @@
                     <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
                 </div>
                 <button type="submit" class="btn btn-ligth">ค้นหา</button>
-                <button type="submit" onclick="addDomain()" class="btn btn-ligth">เพิ่ม</button>
+
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อลูกค้า">
+                </div>
+                <button type="submit" class="btn btn-ligth">ค้นหา</button>
             </form>
 
         </div>
@@ -21,24 +25,49 @@
         <div class="col-md-3 offset-md-3"></div>
 
         <div class="col-md-6 offset-md-3">
-            <table id="tableDomain" class="table table-hover">
+            <table id="tableDomain" class="table table-hover" style="font-size:15px;">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ชื่อ Domain</th>
-                        <th scope="col">actions</th>
+                        <th scope="col" style="width:5%;">#</th>
+                        <th scope="col" style="width:40%;">ชื่อลูกค้า</th>
+                        <th scope="col" style="width:20%; ">อีเมล</th>
+                        <th scope="col" style="width:20%; ">เบอร์โทรศัพท์</th>
+                        <th scope="col" style="width:10%; ">สถานะ</th>
+                        <th scope="col" style="width:5%; ">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each dataDomain}}
+                    {{#each userList}}
                     <tr>
                         <th scope="row"> {{index @index }}</th>
-                        <td contenteditable="false">{{this.name}}</td>
+                        <td contenteditable="false">{{this.info.user}}</td>
+                        {{#ifCond this.info.email '!=' ""}}
+                        <td contenteditable="false"><span class="glyphicon glyphicon-ok"></span></td>
+                        {{/ifCond}}
+                        {{#ifCond this.info.email '==' ""}}
+                        <td contenteditable="false"><span class="glyphicon glyphicon-minus"></span></td>
+                        {{/ifCond}}
+                        {{#ifCond this.info.phone '!=' ""}}
+                        <td contenteditable="false"><span class="glyphicon glyphicon-ok"></span></td>
+                        {{/ifCond}}
+                        {{#ifCond this.info.phone '==' ""}}
+                        <td contenteditable="false"><span class="glyphicon glyphicon-minus"></span></td>
+                        {{/ifCond}}
+                        {{#if this.domain.snooze.isSnooze}}
+                        <td contenteditable="false">Snooze</td>
+                        {{else}}
+                        <td contenteditable="false">Active</td>
+                        {{/if}}
+
                         <td>
-                            <a id="saveButton{{index @index }}" onclick="saveDomain(this,'{{this._id}}')" hidden>บันทึก</a>
-                            <a id="editButton{{index @index }}" onclick="editDomain(this,'{{this._id}}')">แก้ไข</a>
-                            |
-                            <a onclick="deleteDomain('{{this._id}}')">ลบ</a>
+                            <div class="dropdown">
+                                <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <a href="#">Link 1</a>
+                                    <a href="#">Link 2</a>
+                                    <a href="#">Link 3</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     {{/each}}
@@ -83,8 +112,10 @@
         var i = r.parentNode.parentNode.rowIndex;
         var editButton = "#editButton" + i;
         var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
         $(editButton).attr("hidden", false);
-        $(saveButton).attr("hidden", true)
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", false);
 
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
@@ -92,14 +123,30 @@
         alert(getCol);
     }
     function editDomain(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
+        const i = r.parentNode.parentNode.rowIndex;
+        let editButton = "#editButton" + i;
+        let saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
         $(editButton).attr("hidden", true);
         $(saveButton).attr("hidden", false);
+        $(cancelButton).attr("hidden", false);
 
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
+    }
+
+    function cancelEdit(r, name) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
+        $(editButton).attr("hidden", false);
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", true);
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
     }
     function deleteDomain(id) {
         //รอ api delete
@@ -114,5 +161,26 @@
                         }
                     });
                     */
+    }
+
+    /* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
     }
 </script>

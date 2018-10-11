@@ -24,9 +24,9 @@
             <table id="tableDomain" class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ชื่อ Domain</th>
-                        <th scope="col">actions</th>
+                        <th scope="col" style="width:18%;">#</th>
+                        <th scope="col" style="width:62%;">ชื่อ Domain</th>
+                        <th scope="col" style="width:20%; ">actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,10 +35,14 @@
                         <th scope="row"> {{index @index }}</th>
                         <td contenteditable="false">{{this.name}}</td>
                         <td>
-                            <a id="saveButton{{index @index }}" onclick="saveDomain(this,'{{this._id}}')" hidden>บันทึก</a>
-                            <a id="editButton{{index @index }}" onclick="editDomain(this,'{{this._id}}')">แก้ไข</a>
+                            <a id="saveButton{{index @index }}" style="cursor:pointer;" onclick="saveDomain(this,'{{this._id}}')"
+                                hidden><span class="glyphicon glyphicon-floppy-save"></span></a>
+                            <a id="cancelButton{{index @index }}" style="cursor:pointer;" onclick="cancelEdit(this,'{{this.name}}')"
+                                hidden> <span class="glyphicon glyphicon-remove"></span></a>
+                            <a id="editButton{{index @index }}" style="cursor:pointer;" onclick="editDomain(this,'{{this._id}}')"><span
+                                    class="glyphicon glyphicon-pencil"></span></a>
                             |
-                            <a onclick="deleteDomain('{{this._id}}')">ลบ</a>
+                            <a onclick="deleteDomain('{{this._id}}')" style="cursor:pointer;"> <span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
                     {{/each}}
@@ -56,7 +60,7 @@
         $.ajax({
             type: 'POST',
             data: JSON.stringify({
-                "name": $('#tbDomainName').val(),
+                "name": $('#tbDomainName').val().trim(),
                 "emailSubscribe": {
                     "canSubscribe": true,
                     "category": []
@@ -83,8 +87,10 @@
         var i = r.parentNode.parentNode.rowIndex;
         var editButton = "#editButton" + i;
         var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
         $(editButton).attr("hidden", false);
-        $(saveButton).attr("hidden", true)
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", false);
 
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
@@ -92,14 +98,30 @@
         alert(getCol);
     }
     function editDomain(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
+        const i = r.parentNode.parentNode.rowIndex;
+        let editButton = "#editButton" + i;
+        let saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
         $(editButton).attr("hidden", true);
         $(saveButton).attr("hidden", false);
+        $(cancelButton).attr("hidden", false);
 
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
+    }
+
+    function cancelEdit(r, name) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
+        $(editButton).attr("hidden", false);
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", true);
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
     }
     function deleteDomain(id) {
         //รอ api delete
