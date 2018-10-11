@@ -102,9 +102,8 @@ router.get('/subscribe-sms', async (req, res) => {
   const categories = domain.smsSubscribe.category;
   const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
-
   categories.map(category => {
-    if (userCategory.indexOf(category) !== -1) {
+    if (userCategory.indexOf(category.value) !== -1) {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
@@ -167,9 +166,8 @@ router.get('/subscribe-email', async (req, res) => {
   const categories = domain.emailSubscribe.category;
   const userCategory = userDetail.emailSubscribe;
   const selectedCategory = [];
-
   await categories.map(category => {
-    if (userCategory.indexOf(category) !== -1) {
+    if (userCategory.indexOf(category.value) != -1) {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
