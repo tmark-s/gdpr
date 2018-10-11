@@ -37,14 +37,5 @@ exports.create = async (req, res) => {
   else {
     res.status(500).json("Domain already exist");
   }
-
-  try {
-    const newDomain = new Domain(req.body);
-    await newDomain.save();
-    res.json(newDomain);
-  }
-  catch (error) {
-    res.status(500).json(error);
-  }
 };
 
