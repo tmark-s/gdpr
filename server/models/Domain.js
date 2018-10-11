@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const Domain = mongoose.model('domain', {
   name: {
-    type: String
+    type: String,
+    require: true
   },
   emailSubscribe: {
     canSubscribe: {
