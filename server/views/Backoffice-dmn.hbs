@@ -60,18 +60,7 @@
         $.ajax({
             type: 'POST',
             data: JSON.stringify({
-                "name": $('#tbDomainName').val().trim(),
-                "emailSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "smsSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "phoneSubscribe": {
-                    "canSubscribe": true
-                }
+                "domain": $('#tbDomainName').val()
             }),
             url: '/api/domain',
             contentType: 'application/json',
