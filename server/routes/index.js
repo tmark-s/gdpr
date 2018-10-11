@@ -357,7 +357,10 @@ router.get('/backoffice-cmn', async (req, res) => {
 });
 
 router.get('/backoffice-umn', async (req, res) => {
-  res.render('Backoffice-umn', { layout: 'staff_main.hbs' });
+  const user = await User.find({ 'domain.name': 'sansiri' });
+  console.log(user)
+  res.render('Backoffice-umn', { layout: 'staff_main.hbs', userList: user });
+
 });
 
 module.exports = router;
