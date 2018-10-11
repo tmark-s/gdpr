@@ -18,37 +18,53 @@ async function getDomainInfo(query) {
 router.get('/', async (req, res) => {
   const domain = await getDomainInfo({ 'name': req.query.domain });
 
-  const user = await getUserInfo({ 'info.user': req.query.user});
+  const user = await getUserInfo({ 'info.user': req.query.user });
 
   const userDetail = await user.domain.find((domain) => {
     return domain.name = req.query.domain
   });
 
-  var hasPhone = false;
+  let hasPhone = false;
   if (user.info.phone) {
     hasPhone = true
   } else {
     hasPhone = false
   }
 
-  var hasEmail = false;
+  let hasEmail = false;
   if (user.info.email) {
     hasEmail = true;
   } else {
     hasEmail = false;
   }
 
+  let page = 'channel';
+  let modelData = {}
+  if (userDetail.snooze.isSnooze) {
+    page = 'snooze-complete'
+    modelData = {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      startDate: userDetail.snooze.startDate,
+      endDate: userDetail.snooze.endDate
+    }
+
+  } else {
+    page = 'channel';
+    modelData = {
+      headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+      hasEmailSubscribe: domain.emailSubscribe.canSubscribe,
+      hasSmsSubscribe: domain.smsSubscribe.canSubscribe,
+      hasPhoneSubscribe: domain.phoneSubscribe.canSubscribe,
+      hasPhone: hasPhone,
+      hasEmail: hasEmail,
+      hasOne: hasEmail || hasPhone,
+      snooze: userDetail.snooze
+
+    }
+  }
+
   // data for render Selected Channel Page.
-  res.render('channel', {
-    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    hasEmailSubscribe: domain.emailSubscribe.canSubscribe,
-    hasSmsSubscribe: domain.smsSubscribe.canSubscribe,
-    hasPhoneSubscribe: domain.phoneSubscribe.canSubscribe,
-    hasPhone: hasPhone,
-    hasEmail: hasEmail,
-    hasOne: hasEmail || hasPhone,
-    snooze: userDetail.snooze
-  });
+  res.render(page, modelData);
 });
 
 router.put('/update-subscribe-phone', async (req, res) => {
@@ -86,9 +102,8 @@ router.get('/subscribe-sms', async (req, res) => {
   const categories = domain.smsSubscribe.category;
   const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
-
   categories.map(category => {
-    if (userCategory.indexOf(category) !== -1) {
+    if (userCategory.indexOf(category.value) !== -1) {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
@@ -97,12 +112,26 @@ router.get('/subscribe-sms', async (req, res) => {
 
   // render page
 
-  res.render('subscribe-sms', {
-    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    mobileNo: user.info.phone,
-    allCategory: selectedCategory,
-    snooze: userDetail.snooze
-  });
+  let page = 'subscribe-sms';
+  let modelData = {};
+  if (userDetail.snooze.isSnooze) {
+    page = 'snooze-complete'
+    modelData = {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      startDate: userDetail.snooze.startDate,
+      endDate: userDetail.snooze.endDate
+    }
+  }
+  else {
+    page = 'subscribe-sms';
+    modelData = {
+      headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+      mobileNo: user.info.phone,
+      allCategory: selectedCategory,
+      snooze: userDetail.snooze
+    }
+  }
+  res.render(page, modelData);
 });
 
 router.put('/update-subscribe-sms', async (req, res) => {
@@ -137,21 +166,33 @@ router.get('/subscribe-email', async (req, res) => {
   const categories = domain.emailSubscribe.category;
   const userCategory = userDetail.emailSubscribe;
   const selectedCategory = [];
-
   await categories.map(category => {
-    if (userCategory.indexOf(category) !== -1) {
+    if (userCategory.indexOf(category.value) != -1) {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
     }
   });
 
-  res.render('subscribe-email', {
-    headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
-    email: user.info.email,
-    allCategory: selectedCategory,
-    snooze: userDetail.snooze
-  });
+  let page = 'subscribe-email';
+  let modelData = {}
+  if (userDetail.snooze.isSnooze) {
+    page = 'snooze-complete'
+    modelData = {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      startDate: userDetail.snooze.startDate,
+      endDate: userDetail.snooze.endDate
+    }
+  } else {
+    page = 'subscribe-email'
+    modelData = {
+      headText: "อัพเดทช่องทางรับข่าวสารจากบริษัทแสนสิริที่ท่านต้องการ",
+      email: user.info.email,
+      allCategory: selectedCategory,
+      snooze: userDetail.snooze
+    }
+  }
+  res.render(page, modelData);
 });
 
 router.put('/update-subscribe-email', async (req, res) => {
@@ -195,20 +236,33 @@ router.get('/updated-complete', async (req, res) => {
     hasEmailSubscribe = false;
   }
 
-  res.render('updated-complete', {
-    headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
-    hasSmsSubscribeCategory: hasSmsSubscribe,
-    smsSubscribeCategory: userDetail.smsSubscribe,
-    hasEmailSubscribe: hasEmailSubscribe,
-    emailSubscribeCategory: userDetail.emailSubscribe,
-    snooze: userDetail.snooze
-  });
+  let page = 'updated-complete'
+  let modelData = {}
+  if (userDetail.snooze.isSnooze) {
+    page = 'snooze-complete'
+    modelData = {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      startDate: userDetail.snooze.startDate,
+      endDate: userDetail.snooze.endDate
+    }
+  } else {
+    page = 'updated-complete';
+    modelData = {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      hasSmsSubscribeCategory: hasSmsSubscribe,
+      smsSubscribeCategory: userDetail.smsSubscribe,
+      hasEmailSubscribe: hasEmailSubscribe,
+      emailSubscribeCategory: userDetail.emailSubscribe,
+      snooze: userDetail.snooze
+    }
+  }
+  res.render(page, modelData);
 });
 
 router.put('/update-unsubscribe', async (req, res) => {
-   const user = await User.findOne({
-     'info.user': req.body.user
-   });
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
 
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
@@ -234,7 +288,7 @@ router.put('/update-snooze', async (req, res) => {
   const user = await User.findOne({
     'info.user': req.body.user
   });
-  
+
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
       const startDate = moment().format('DD/MM/YYYY');
@@ -284,8 +338,29 @@ router.put('/update-unsnooze', async (req, res) => {
   res.json(user);
 });
 
+//// backoffice url
 router.get('/backoffice', async (req, res) => {
-  res.render('Backoffice-home');
+  res.render('Backoffice-home', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-dmn', async (req, res) => {
+  const domainList = await Domain.find({});
+  res.render('Backoffice-dmn', { layout: 'staff_main.hbs', dataDomain: domainList });
+});
+
+router.get('/backoffice-chmn', async (req, res) => {
+  res.render('Backoffice-chmn', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-cmn', async (req, res) => {
+  res.render('Backoffice-cmn', { layout: 'staff_main.hbs' });
+});
+
+router.get('/backoffice-umn', async (req, res) => {
+  const user = await User.find({ 'domain.name': 'sansiri' });
+  console.log(user)
+  res.render('Backoffice-umn', { layout: 'staff_main.hbs', userList: user });
+
 });
 
 module.exports = router;
