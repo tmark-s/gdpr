@@ -9,12 +9,11 @@
                 <div class="form-group mx-sm-3 mb-2">
                     <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
                 </div>
-                <button type="submit" class="btn btn-ligth">ค้นหา</button>
 
                 <div class="form-group mx-sm-3 mb-2">
                     <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อลูกค้า">
                 </div>
-                <button type="submit" class="btn btn-ligth">ค้นหา</button>
+                <button type="submit" onclick="onSearch()" class="btn btn-ligth">ค้นหา</button>
             </form>
 
         </div>
@@ -61,11 +60,11 @@
 
                         <td>
                             <div class="dropdown">
-                                <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                                <span class="dropbtn glyphicon glyphicon-menu-hamburger" onclick="myFunction()"></span>
                                 <div id="myDropdown" class="dropdown-content">
-                                    <a href="#">Link 1</a>
-                                    <a href="#">Link 2</a>
-                                    <a href="#">Link 3</a>
+                                    <a onclick="goChannelPage('sansiri','{{this.info.user}}')">Edit
+                                        Subscribe</a>
+                                    <a href="#">Copy Link</a>
                                 </div>
                             </div>
                         </td>
@@ -80,8 +79,37 @@
 </div>
 
 <script>
-    function addDomain() {
+    function goChannelPage(domain, user) {
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = "http://localhost:3000/?user=mark&domain=sansiri";
+            }
+        });
+    }
 
+    function onSearch() {
+        const inputDomainname = $('#tbDomainname').val().trim();
+        const inputName = $('#tbName').val().trim();
+
+        ////รอ api search
+        /*
+        $.ajax({
+                type: 'POST',
+                data: JSON.stringify({
+                    "domain.name": inputDomainname,
+                }),
+                url: '/api/user',
+                contentType: 'application/json',
+                success: function (data) {
+                    location.reload();
+                }
+            });
+            */
+    }
+
+    function addDomain() {
         $.ajax({
             type: 'POST',
             data: JSON.stringify({
@@ -105,9 +133,7 @@
             }
         });
     }
-    function searchDomain() {
 
-    }
     function saveDomain(r, id) {
         var i = r.parentNode.parentNode.rowIndex;
         var editButton = "#editButton" + i;
