@@ -56,18 +56,22 @@
 
 <script>
     function addDomain() {
-
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify({
-                "domain": $('#tbDomainName').val()
-            }),
-            url: '/api/domain',
-            contentType: 'application/json',
-            success: function (data) {
-                location.reload();
-            }
-        });
+        let inputDomainname = $('#tbDomainName').val().trim();
+        if (inputDomainname != null && inputDomainname != "") {
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify({
+                    "domain": inputDomainname
+                }),
+                url: '/api/domain',
+                contentType: 'application/json',
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        } else {
+            alert("กรุณาระบุชื่อ Domain เพื่อเพิ่ม")
+        }
     }
     function searchDomain() {
 
