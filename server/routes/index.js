@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const moment = require('moment');
 const api = require('./api');
 const Domain = require('../models/Domain');
 const User = require('../models/User');
@@ -118,22 +117,6 @@ router.get('/subscribe-sms', async (req, res) => {
   res.render(page, modelData);
 });
 
-router.put('/update-subscribe-sms', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.smsSubscribe = req.body.smsSubscribeCategory;
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
-});
-
 router.get('/subscribe-email', async (req, res) => {
   const user = await User.findOne({
     'info.user': req.query.user
@@ -177,22 +160,6 @@ router.get('/subscribe-email', async (req, res) => {
     }
   }
   res.render(page, modelData);
-});
-
-router.put('/update-subscribe-email', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = req.body.emailSubscribeCategory;
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
 });
 
 router.get('/updated-complete', async (req, res) => {
@@ -257,50 +224,9 @@ router.get('/updated-complete', async (req, res) => {
   res.render(page, modelData);
 });
 
-router.put('/update-unsubscribe', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = [];
-      domain.smsSubscribe = [];
-      domain.phoneSubscribe = false;
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
-});
-
 router.get('/unsubscribe-complete', async (req, res) => {
   res.render('unsubscribe-complete');
 });
-
-router.put('/update-snooze', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      const startDate = moment().format('DD/MM/YYYY');
-      const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
-      domain.snooze.isSnooze = true;
-      domain.snooze.startDate = startDate;
-      domain.snooze.endDate = endDate;
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
-})
 
 router.get('/snooze-complete', async (req, res) => {
   const user = await User.findOne({
@@ -316,24 +242,6 @@ router.get('/snooze-complete', async (req, res) => {
     startDate: userDetail.snooze.startDate,
     endDate: userDetail.snooze.endDate
   });
-});
-
-router.put('/update-unsnooze', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
 });
 
 //// backoffice url

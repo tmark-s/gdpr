@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Domain = require('../models/Domain');
 const hash = require('object-hash');
+const moment = require('moment');
 
 exports.create = async (req, res) => {
   const findUser = await User.findOne({
@@ -84,6 +85,97 @@ exports.updateSubscribePhone = async (req, res) => {
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
       domain.phoneSubscribe = true;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};
+
+exports.updateSubscribeSms = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      domain.smsSubscribe = req.body.smsSubscribeCategory;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};
+
+exports.updateSubscribeEmail = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      domain.emailSubscribe = req.body.emailSubscribeCategory;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};
+
+exports.updateUnsubscribe = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      domain.emailSubscribe = [];
+      domain.smsSubscribe = [];
+      domain.phoneSubscribe = false;
+      domain.snooze.isSnooze = false;
+      domain.snooze.startDate = "";
+      domain.snooze.endDate = "";
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};
+
+exports.updateSnooze = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      const startDate = moment().format('DD/MM/YYYY');
+      const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
+      domain.snooze.isSnooze = true;
+      domain.snooze.startDate = startDate;
+      domain.snooze.endDate = endDate;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};
+
+exports.updateUnsnooze = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      domain.snooze.isSnooze = false;
+      domain.snooze.startDate = "";
+      domain.snooze.endDate = "";
       return;
     }
   });
