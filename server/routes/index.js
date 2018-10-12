@@ -236,12 +236,17 @@ router.get('/snooze-complete', async (req, res) => {
   const userDetail = await user.domain.find((domain) => {
     return domain.name = req.query.domain
   });
-
-  res.render('snooze-complete', {
-    headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
-    startDate: userDetail.snooze.startDate,
-    endDate: userDetail.snooze.endDate
-  });
+  
+  if (userDetail.snooze.isSnooze) {
+    res.render('snooze-complete', {
+      headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
+      startDate: userDetail.snooze.startDate,
+      endDate: userDetail.snooze.endDate
+    });
+  }
+  else {
+    res.redirect('/?user=' + req.query.user + '&domain=' + req.query.domain);
+  }
 });
 
 //// backoffice url
