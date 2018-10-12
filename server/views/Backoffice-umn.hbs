@@ -1,4 +1,33 @@
 <div id="main-content">
+
+    <div class="w3-container">
+        <div id="modalLink" class="w3-modal">
+            <div class="w3-modal-content">
+                <div class="backoffice-container">
+                    <span onclick="document.getElementById('modalLink').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <div class="input-group mb-3">
+                        <label>โดเมน</label>
+                        <select style="width:60%; height: 30px" id="inputGroupSelect01">
+                            <option selected>กรุณาเลือกโดเมน</option>
+                            <option value="sansiri">Sansiri</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h4>Main Link</h4>
+                        <input type="text" class="form-control" id="mainLink" style="width: 70%" placeholder="">
+                        <button onclick="myFunction()">Copy text</button>
+                        <label>Link สำหรับเข้าหน้า Channel</label>
+                    </div>
+                    <div class="form-group">
+                        <h5>Link - Email Subscribe</h5>
+                        <input type="text" class="form-control" id="emailLink">
+                        <button onclick="myFunction()">Copy text</button>
+                        <label>Link สำหรับเข้าหน้า Email Subscribe</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3 offset-md-3"></div>
 
@@ -6,12 +35,14 @@
 
 
             <form class="form-inline">
-                <div class="form-group mx-sm-3 mb-2">
+                {{!-- <div class="form-group mx-sm-3 mb-2">
                     <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
-                </div>
-
+                </div> --}}
                 <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อลูกค้า">
+                    <input type="text" class="form-control" id="tbUserEmail" placeholder="อีเมลของลูกค้า">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="tbUserMobile" placeholder="เบอร์โทรศัพท์ของลูกค้า">
                 </div>
                 <button type="submit" onclick="onSearch()" class="btn btn-ligth">ค้นหา</button>
             </form>
@@ -28,10 +59,9 @@
                 <thead>
                     <tr>
                         <th scope="col" style="width:5%;">#</th>
-                        <th scope="col" style="width:40%;">ชื่อลูกค้า</th>
+                        {{!-- <th scope="col" style="width:40%;">ชื่อลูกค้า</th> --}}
                         <th scope="col" style="width:20%; ">อีเมล</th>
                         <th scope="col" style="width:20%; ">เบอร์โทรศัพท์</th>
-                        <th scope="col" style="width:10%; ">สถานะ</th>
                         <th scope="col" style="width:5%; ">Actions</th>
                     </tr>
                 </thead>
@@ -39,7 +69,7 @@
                     {{#each userList}}
                     <tr>
                         <th scope="row"> {{index @index }}</th>
-                        <td contenteditable="false">{{this.info.user}}</td>
+                        {{!-- <td contenteditable="false">{{this.info.user}}</td> --}}
                         {{#ifCond this.info.email '!=' ""}}
                         <td contenteditable="false"><span class="glyphicon glyphicon-ok"></span></td>
                         {{/ifCond}}
@@ -52,20 +82,16 @@
                         {{#ifCond this.info.phone '==' ""}}
                         <td contenteditable="false"><span class="glyphicon glyphicon-minus"></span></td>
                         {{/ifCond}}
-                        {{#if this.domain.snooze.isSnooze}}
-                        <td contenteditable="false">Snooze</td>
-                        {{else}}
-                        <td contenteditable="false">Active</td>
-                        {{/if}}
 
                         <td>
                             <div class="dropdown">
                                 <span class="dropbtn glyphicon glyphicon-menu-hamburger" onclick="myFunction()"></span>
                                 <div id="myDropdown" class="dropdown-content">
-                                    <a onclick="goChannelPage('sansiri','{{this.info.user}}')">Edit
-                                        Subscribe</a>
-                                    <a href="#">Copy Link</a>
+                                    <a onclick="goChannelPage('sansiri','{{this.info.user}}')">Sansiri</a>
                                 </div>
+                            </div>
+                            <div class="dropdown">
+                                <span class="dropbtn glyphicon glyphicon-link" onclick="getLink('{{this.info.user}}')"></span>
                             </div>
                         </td>
                     </tr>
@@ -87,6 +113,12 @@
                 window.location.href = "http://localhost:3000/?user=mark&domain=sansiri";
             }
         });
+    }
+
+    function getLink(user) {
+        document.getElementById('modalLink').style.display = 'block'
+        $('#nameUser').text(user);
+
     }
 
     function onSearch() {
