@@ -67,22 +67,6 @@ router.get('/', async (req, res) => {
   res.render(page, modelData);
 });
 
-router.put('/update-subscribe-phone', async (req, res) => {
-  const user = await User.findOne({
-    'info.user': req.body.user
-  });
-
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.phoneSubscribe = req.body.phoneSubscribe;
-      return;
-    }
-  });
-  await user.save();
-
-  res.json(user);
-});
-
 router.get('/subscribe-sms', async (req, res) => {
   //// get user from database
   const user = await User.findOne({

@@ -81,3 +81,12 @@ exports.addSmsCategory = async (req, res) => {
   domain.save();
   res.json(domain);
 };
+
+exports.editSubscribe = async (req, res) => {
+  const domain = await Domain.findById(req.body.id);
+  domain.phoneSubscribe.canSubscribe = req.body.phoneSubscribe;
+  domain.smsSubscribe.canSubscribe = req.body.smsSubscribe;
+  domain.emailSubscribe.canSubscribe = req.body.emailSubscribe;
+  await domain.save();
+  res.json(domain);
+};
