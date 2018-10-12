@@ -75,3 +75,19 @@ exports.find = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+exports.updateSubscribePhone = async (req, res) => {
+  const user = await User.findOne({
+    'info.user': req.body.user
+  });
+
+  await user.domain.map(async (domain) => {
+    if (domain.name === req.body.domain) {
+      domain.phoneSubscribe = true;
+      return;
+    }
+  });
+  await user.save();
+
+  res.json(user);
+};

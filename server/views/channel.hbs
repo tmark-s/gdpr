@@ -73,6 +73,15 @@
             }
         });
 
+        if (selectedChannel.indexOf("mobile") != -1) {
+            $.ajax({
+                type: 'PUT',
+                data: JSON.stringify({ user: paramUser, domain: paramdomain }),
+                url: '/api/user/update-subscribe-phone'
+                contentType: 'application/json'
+            });
+        }
+
         if (selectedChannel.indexOf("sms") != -1) {
             $.ajax({
                 type: 'GET',
@@ -90,15 +99,7 @@
                     window.location.href = "http://localhost:3000/subscribe-email/?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
                 }
             });
-        } else if (selectedChannel.indexOf("mobile") != -1) {
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (data) {
-                    window.location.href = "http://localhost:3000/updated-complete/?user=" + paramUser + "&domain=" + paramdomain;
-                }
-            });
-        }
+        } 
     }
 
     function onSnooze() {

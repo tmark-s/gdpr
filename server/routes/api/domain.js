@@ -11,4 +11,6 @@ router.put('/add-email-category', DomainController.addEmailCategory);
 
 router.put('/add-sms-category', DomainController.addSmsCategory);
 
+router.put('/edit-subscribe', DomainController.editSubscribe);
+
 module.exports = router;

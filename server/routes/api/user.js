@@ -5,4 +5,6 @@ router.get('/', UserController.find);
 
 router.post('/', UserController.create);
 
+router.put('/update-subscribe-phone', UserController.updateSubscribePhone);
+
 module.exports = router;
