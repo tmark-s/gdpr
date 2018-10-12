@@ -39,3 +39,45 @@ exports.create = async (req, res) => {
   }
 };
 
+exports.updateName = async (req, res) => {
+  const domain = await Domain.findById(req.body.id);
+  domain.name = req.body.name;
+  await domain.save();
+  res.json(domain);
+};
+
+exports.addEmailCategory = async (req, res) => {
+  const domain = await Domain.findById(req.body.id);
+  await domain.emailSubscribe.category.map((category) => {
+    if (category.name === req.body.category.name) {
+      res.status(500);
+    }
+  });
+
+  const newCategory = {
+    name: req.body.category.name,
+    value: req.body.category.value
+  }
+
+  domain.emailSubscribe.category.push(newCategory);
+  domain.save();
+  res.json(domain);
+};
+
+exports.addSmsCategory = async (req, res) => {
+  const domain = await Domain.findById(req.body.id);
+  await domain.smsSubscribe.category.map((category) => {
+    if (category.name === req.body.category.name) {
+      res.status(500);
+    }
+  });
+
+  const newCategory = {
+    name: req.body.category.name,
+    value: req.body.category.value
+  }
+
+  domain.smsSubscribe.category.push(newCategory);
+  domain.save();
+  res.json(domain);
+};

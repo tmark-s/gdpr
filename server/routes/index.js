@@ -102,7 +102,7 @@ router.get('/subscribe-sms', async (req, res) => {
   const categories = domain.smsSubscribe.category;
   const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
-  categories.map(category => {
+  await categories.map(category => {
     if (userCategory.indexOf(category.value) !== -1) {
       selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
     } else {
@@ -216,24 +216,38 @@ router.get('/updated-complete', async (req, res) => {
     'info.user': req.query.user
   });
 
+  const domain = await Domain.findOne({
+    name: req.query.domain
+  });
+
   const userDetail = await user.domain.find((domain) => {
     return domain.name = req.query.domain
   });
 
   const smsSubscribeList = userDetail.smsSubscribe;
-  let hasSmsSubscribe = false;
-  if (smsSubscribeList.length > 0) {
-    hasSmsSubscribe = true;
-  } else {
-    hasSmsSubscribe = false;
+  const hasSmsSubscribe = smsSubscribeList.length > 0 ? true : false;
+  const smsSubscribeName = [];
+
+  for (let i = 0; i < smsSubscribeList.length; i += 1) {
+    for (let j = 0; j < domain.smsSubscribe.category.length; j += 1) {
+      if (domain.smsSubscribe.category[j].value === smsSubscribeList[i]) {
+        smsSubscribeName.push(domain.smsSubscribe.category[j].name);
+        break;
+      }
+    }
   }
 
   const emailSubscribeList = userDetail.emailSubscribe;
-  let hasEmailSubscribe = false;
-  if (emailSubscribeList.length > 0) {
-    hasEmailSubscribe = true;
-  } else {
-    hasEmailSubscribe = false;
+  const hasEmailSubscribe = emailSubscribeList.length > 0 ? true : false;
+  const emailSubscribeName = [];
+
+  for (let i = 0; i < emailSubscribeList.length; i += 1) {
+    for (let j = 0; j < domain.emailSubscribe.category.length; j += 1) {
+      if (domain.emailSubscribe.category[j].value === emailSubscribeList[i]) {
+        emailSubscribeName.push(domain.emailSubscribe.category[j].name);
+        break;
+      }
+    }
   }
 
   let page = 'updated-complete'
@@ -250,9 +264,9 @@ router.get('/updated-complete', async (req, res) => {
     modelData = {
       headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
       hasSmsSubscribeCategory: hasSmsSubscribe,
-      smsSubscribeCategory: userDetail.smsSubscribe,
+      smsSubscribeCategory: smsSubscribeName,
       hasEmailSubscribe: hasEmailSubscribe,
-      emailSubscribeCategory: userDetail.emailSubscribe,
+      emailSubscribeCategory: emailSubscribeName,
       snooze: userDetail.snooze
     }
   }

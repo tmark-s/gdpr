@@ -5,4 +5,10 @@ router.get('/', DomainController.find);
 
 router.post('/', DomainController.create);
 
+router.put('/update-name', DomainController.updateName);
+
+router.put('/add-email-category', DomainController.addEmailCategory);
+
+router.put('/add-sms-category', DomainController.addSmsCategory);
+
 module.exports = router;
