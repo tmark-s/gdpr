@@ -367,7 +367,13 @@ router.get('/backoffice-chmn', async (req, res) => {
 });
 
 router.get('/backoffice-cmn', async (req, res) => {
-  res.render('Backoffice-cmn', { layout: 'staff_main.hbs' });
+  const domain = await Domain.find({
+  });
+  console.log(domain)
+  let modelData = {
+    domainName: domain
+  }
+  res.render('Backoffice-cmn', { layout: 'staff_main.hbs', domainName: domain });
 });
 
 router.get('/backoffice-umn', async (req, res) => {

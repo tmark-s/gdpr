@@ -1,130 +1,95 @@
 <div id="main-content">
-    <div class="row">
-        <div class="col-md-3 offset-md-3"></div>
 
-        <div class="col-md-6 offset-md-3" style="float:left">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Search</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                aria-selected="false">Create</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                aria-selected="false">Edit</a>
+        </li>
+    </ul>
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
+                <input type="text" class="form-control" id="tbChannelName" placeholder="ชื่อ Channel">
+                <input type="text" class="form-control" id="tbCategoryName" placeholder="ชื่อ Category">
+            </div>
+            <button type="submit" class="btn btn-ligth">ค้นหา</button>
+        </form>
 
-
-            <form class="form-inline">
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Channel">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Category">
-                </div>
-                <button type="submit" class="btn btn-ligth">ค้นหา</button>
-            </form>
+    </div>
+    {{!-- Add Category --}}
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="createName" placeholder="ชื่อ Category">
+            </div>
+        </form>
+        <form class="form-inline">
+            <label>กลุ่ม Domain</label>
+            <label class="backoffice-helptext">(เลือกได้ 1 กลุ่ม)</label>
             <br />
-            <form class="form-inline">
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Category">
+            <div class="input-group">
+                <select class="backoffice-select custom-select" onchange="findChannel()" id="sltDomain">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+        </form>
 
+        <form class="form-inline">
+            <label>กลุ่ม Channel</label>
+            <label class="backoffice-helptext">(เลือกได้อย่างน้อย 1 กลุ่ม)</label>
+            <br>
+            <select name="channelList" multiple>
+            </select>
+        </form>
 
-                </div>
-
-                <button type="submit" onclick="addDomain()" class="btn btn-ligth">เพิ่ม</button>
-            </form>
-
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Button</button>
         </div>
-        <div class="col-md-3 offset-md-3"></div>
-
     </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-3"></div>
-
-        <div class="col-md-6 offset-md-3">
-            <table id="tableDomain" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ชื่อ Domain</th>
-                        <th scope="col">actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each dataDomain}}
-                    <tr>
-                        <th scope="row"> {{index @index }}</th>
-                        <td contenteditable="false">{{this.name}}</td>
-                        <td>
-                            <a id="saveButton{{index @index }}" onclick="saveDomain(this,'{{this._id}}')" hidden>บันทึก</a>
-                            <a id="editButton{{index @index }}" onclick="editDomain(this,'{{this._id}}')">แก้ไข</a>
-                            |
-                            <a onclick="deleteDomain('{{this._id}}')">ลบ</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-3 offset-md-3"></div>
-    </div>
-    <!-- /.container -->
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
 </div>
 
+<style scoped>
+    .backoffice-helptext {
+        font-size: 15px;
+        color: gray
+    }
+</style>
+
+<!-- /.container -->
+
+
 <script>
+    $('#myTab a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
 
-    function addDomain() {
-
+    function findChannel() {
+        alert("find..")
+        let domainName = $('#sltDomain').val();
         $.ajax({
-            type: 'POST',
-            data: JSON.stringify({
-                "name": $('#tbDomainName').val(),
-                "emailSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "smsSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "phoneSubscribe": {
-                    "canSubscribe": true
-                }
-            }),
-            url: '/api/domain',
+            type: 'GET',
+            url: '/api/domain/',
             contentType: 'application/json',
-            success: function (data) {
-                location.reload();
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
             }
         });
-    }
-    function searchDomain() {
-
-    }
-    function saveDomain(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        $(editButton).attr("hidden", false);
-        $(saveButton).attr("hidden", true)
-
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
-
-        alert(getCol);
-    }
-    function editDomain(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        $(editButton).attr("hidden", true);
-        $(saveButton).attr("hidden", false);
-
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
-    }
-    function deleteDomain(id) {
-        //รอ api delete
-        /*
-                $.ajax({
-                        type: 'PUT',
-                        data: JSON.stringify({ _id:id }),
-                        url: '/delete-domain',
-                        contentType: 'application/json',
-                        success: function (data) {
-                                location.reload();
-                        }
-                    });
-                    */
     }
 </script>
