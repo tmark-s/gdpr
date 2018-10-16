@@ -20,7 +20,9 @@ router.get('/', async (req, res) => {
   const user = await getUserInfo({ 'info.user': req.query.user });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   let hasPhone = false;
@@ -78,7 +80,9 @@ router.get('/subscribe-sms', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   //  prepared data categoryList
@@ -127,7 +131,9 @@ router.get('/subscribe-email', async (req, res) => {
   });
 
   const userDetail = user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   const categories = domain.emailSubscribe.category;
@@ -172,7 +178,9 @@ router.get('/updated-complete', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   const smsSubscribeList = userDetail.smsSubscribe;
@@ -234,7 +242,9 @@ router.get('/snooze-complete', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
   
   if (userDetail.snooze.isSnooze) {
