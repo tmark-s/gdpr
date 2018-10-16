@@ -90,10 +90,12 @@ router.get('/subscribe-sms', async (req, res) => {
   const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
   await categories.map(category => {
-    if (userCategory.indexOf(category.value) !== -1) {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
-    } else {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+    if (category.canSubscribe) {
+      if (userCategory.indexOf(category.value) !== -1) {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
+      } else {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+      }
     }
   });
 
@@ -140,10 +142,12 @@ router.get('/subscribe-email', async (req, res) => {
   const userCategory = userDetail.emailSubscribe;
   const selectedCategory = [];
   await categories.map(category => {
-    if (userCategory.indexOf(category.value) != -1) {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
-    } else {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+    if (category.canSubscribe) {
+      if (userCategory.indexOf(category.value) != -1) {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
+      } else {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+      }
     }
   });
 

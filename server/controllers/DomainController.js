@@ -50,7 +50,7 @@ exports.addEmailCategory = async (req, res) => {
   const domain = await Domain.findById(req.body.id);
   await domain.emailSubscribe.category.map((category) => {
     if (category.name === req.body.category.name) {
-      res.status(500);
+      res.status(500).json("This category already exist");
     }
   });
 
@@ -68,7 +68,7 @@ exports.addSmsCategory = async (req, res) => {
   const domain = await Domain.findById(req.body.id);
   await domain.smsSubscribe.category.map((category) => {
     if (category.name === req.body.category.name) {
-      res.status(500);
+      res.status(500).json("This category already exist");
     }
   });
 
