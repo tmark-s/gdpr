@@ -195,7 +195,7 @@ exports.updateSnooze = async (req, res) => {
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
       const startDate = moment().format('DD/MM/YYYY');
-      const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
+      const endDate = moment(startDate, 'DD/MM/YYYY').add(90, 'days').format('DD/MM/YYYY');
       domain.snooze.isSnooze = true;
       domain.snooze.startDate = startDate;
       domain.snooze.endDate = endDate;
@@ -220,6 +220,7 @@ exports.updateUnsnooze = async (req, res) => {
       return;
     }
   });
+  
   await user.save();
 
   res.json(user);
