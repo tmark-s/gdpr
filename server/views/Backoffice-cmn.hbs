@@ -1,95 +1,160 @@
 <div id="main-content">
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                aria-selected="true">Search</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                aria-selected="false">Create</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                aria-selected="false">Edit</a>
-        </li>
-    </ul>
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <form class="form-inline">
-            <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
-                <input type="text" class="form-control" id="tbChannelName" placeholder="ชื่อ Channel">
-                <input type="text" class="form-control" id="tbCategoryName" placeholder="ชื่อ Category">
-            </div>
-            <button type="submit" class="btn btn-ligth">ค้นหา</button>
-        </form>
+    <div style="text-align:center;">
+        <div class="dropdown">
+            <label class="dropdown-toggle text-uppercase backoffice-header-dropdown" id="dropdownMenuLink" data-toggle="dropdown">
+                {{headText}}
+            </label>
+            <div class="dropdown-menu backoffice-header-dropdown-item scrollable-menu" aria-labelledby="dropdownMenuLink">
+                {{#each listDomain}}
+                {{#ifCond ../headText '!==' this.name}}
+                <li>
+                    <a class="dropdown-item">{{this.name}}</a>
+                </li>
+                {{/ifCond}}
+                {{/each}}
 
-    </div>
-    {{!-- Add Category --}}
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <form class="form-inline">
-            <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" id="createName" placeholder="ชื่อ Category">
             </div>
-        </form>
-        <form class="form-inline">
-            <label>กลุ่ม Domain</label>
-            <label class="backoffice-helptext">(เลือกได้ 1 กลุ่ม)</label>
-            <br />
-            <div class="input-group">
-                <select class="backoffice-select custom-select" onchange="findChannel()" id="sltDomain">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-        </form>
-
-        <form class="form-inline">
-            <label>กลุ่ม Channel</label>
-            <label class="backoffice-helptext">(เลือกได้อย่างน้อย 1 กลุ่ม)</label>
-            <br>
-            <select name="channelList" multiple>
-            </select>
-        </form>
-
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
         </div>
     </div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+
+    <div class="accordion" id="accordionExample" style="padding: 0px 10%; margin: 50px 0px 50px 0px;">
+        {{#ifCond dataDomain.smsSubscribe.category.length '>' 0}}
+        <div class="card">
+            <div class="card-header collaspe-header" id="headingSMS">
+                <label class="container">SMS
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+                <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
+                    data-toggle="collapse" data-target="#collapseSMS" aria-expanded="true" aria-controls="collapseSMS"></span>
+            </div>
+
+            <div id="collapseSMS" class="collapse" style="padding: 0px 10%;" aria-labelledby="headingSMS">
+                <div class="card-body">
+                    {{#each dataDomain.smsSubscribe.category}}
+                    <label class="container">{{this.name}}
+                        <input type="checkbox" value="{{this.value}}" checked="checked">
+                        <span class="checkmark"></span>
+                    </label><br>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/ifCond}}
+        {{#ifCond dataDomain.emailSubscribe.category.length '>' 0}}
+        <div class="card">
+            <div class="card-header  collaspe-header" id="headingEmail">
+                <label class="container">Email
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+                <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
+                    data-toggle="collapse" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail"></span>
+            </div>
+
+            <div id="collapseEmail" class="collapse" style="padding: 0px 10%;" aria-labelledby="headingEmail">
+                <div class="card-body">
+                    {{#each dataDomain.emailSubscribe.category}}
+                    <label class="container">{{this.name}}
+                        <input type="checkbox" value="{{this.value}}" checked="checked">
+                        <span class="checkmark"></span>
+                    </label><br>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/ifCond}}
+        <div class="card">
+            <div class="card-header collaspe-header" id="headingEmail">
+                <label class="container">Mobile
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center">
+        <button class="btn btn-default" style="margin-right: 50px;">บันทึก</button>
+        <button class="btn btn-default">ยกเลิก</button>
+    </div>
 </div>
 
 <style scoped>
-    .backoffice-helptext {
-        font-size: 15px;
-        color: gray
+    .container {
+        width: fit-content;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #535354;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
     }
 </style>
-
-<!-- /.container -->
-
+</style>
 
 <script>
-    $('#myTab a').on('click', function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    })
+    $('.dropdown-toggle').dropdown()
+    $('.collapse').collapse()
 
-    function findChannel() {
-        alert("find..")
-        let domainName = $('#sltDomain').val();
-        $.ajax({
-            type: 'GET',
-            url: '/api/domain/',
-            contentType: 'application/json',
-            success: function (data, textStatus, xhr) {
-                console.log(data);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log('Error in Operation');
-            }
-        });
+    function onSubmit() {
+
     }
 </script>
