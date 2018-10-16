@@ -236,7 +236,7 @@ router.get('/snooze-complete', async (req, res) => {
   const userDetail = await user.domain.find((domain) => {
     return domain.name = req.query.domain
   });
-  
+
   if (userDetail.snooze.isSnooze) {
     res.render('snooze-complete', {
       headText: "ขอบคุณสำหรับการอัพเดทข้อมูลของท่าน",
@@ -264,14 +264,20 @@ router.get('/backoffice-chmn', async (req, res) => {
 });
 
 router.get('/backoffice-cmn', async (req, res) => {
-  const domainList = await Domain.find({});
-  const domain = await Domain.findOne({ name: req.query.domain })
-  res.render('Backoffice-cmn', {
-    layout: 'staff_main.hbs',
-    listDomain: domainList,
-    headText: req.query.domain,
-    dataDomain: domain
+  const domain = await Domain.find({
   });
+  console.log(domain)
+  let modelData = {
+    domainName: domain
+  }
+  res.render('Backoffice-cmn', { layout: 'staff_main.hbs', domainName: domain });
+});
+
+
+router.get('/cmn-create', async (req, res) => {
+  const domain = await Domain.find({
+  });
+  res.render('CMN-Create', { layout: 'staff_main.hbs', domainName: domain });
 });
 
 
@@ -284,5 +290,16 @@ router.get('/backoffice-umn', async (req, res) => {
   });
 
 });
+
+router.get('/dmn-setting', async (req, res) => {
+  const domainList = await Domain.find({});
+  const domain = await Domain.findOne({ name: req.query.domain })
+  res.render('DMN-Setting', {
+    layout: 'staff_main.hbs',
+    listDomain: domainList,
+    headText: req.query.domain,
+    dataDomain: domain
+  });
+})
 
 module.exports = router;
