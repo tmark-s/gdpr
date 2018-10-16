@@ -3,7 +3,7 @@ const UserController = require('../../controllers/UserController');
 
 router.get('/', UserController.find);
 
-router.post('/', UserController.create);
+router.post('/subscribe', UserController.subscribe);
 
 router.put('/update-subscribe-phone', UserController.updateSubscribePhone);
 

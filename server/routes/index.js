@@ -20,7 +20,9 @@ router.get('/', async (req, res) => {
   const user = await getUserInfo({ 'info.user': req.query.user });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   let hasPhone = false;
@@ -78,7 +80,9 @@ router.get('/subscribe-sms', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   //  prepared data categoryList
@@ -86,10 +90,12 @@ router.get('/subscribe-sms', async (req, res) => {
   const userCategory = userDetail.smsSubscribe;
   const selectedCategory = []
   await categories.map(category => {
-    if (userCategory.indexOf(category.value) !== -1) {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
-    } else {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+    if (category.canSubscribe) {
+      if (userCategory.indexOf(category.value) !== -1) {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
+      } else {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+      }
     }
   });
 
@@ -127,17 +133,21 @@ router.get('/subscribe-email', async (req, res) => {
   });
 
   const userDetail = user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   const categories = domain.emailSubscribe.category;
   const userCategory = userDetail.emailSubscribe;
   const selectedCategory = [];
   await categories.map(category => {
-    if (userCategory.indexOf(category.value) != -1) {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
-    } else {
-      selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+    if (category.canSubscribe) {
+      if (userCategory.indexOf(category.value) != -1) {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: true })
+      } else {
+        selectedCategory.push({ categoryName: category.name, categoryValue: category.value, Selected: false })
+      }
     }
   });
 
@@ -172,7 +182,9 @@ router.get('/updated-complete', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   const smsSubscribeList = userDetail.smsSubscribe;
@@ -234,7 +246,9 @@ router.get('/snooze-complete', async (req, res) => {
   });
 
   const userDetail = await user.domain.find((domain) => {
-    return domain.name = req.query.domain
+    if (domain.name === req.query.domain) {
+      return domain;
+    }
   });
 
   if (userDetail.snooze.isSnooze) {

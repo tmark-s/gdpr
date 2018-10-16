@@ -3,7 +3,7 @@ const Domain = require('../models/Domain');
 const hash = require('object-hash');
 const moment = require('moment');
 
-exports.create = async (req, res) => {
+exports.subscribe = async (req, res) => {
   const findUser = await User.findOne({
     'info.email': req.body.email
   });
@@ -58,7 +58,48 @@ exports.create = async (req, res) => {
     res.json(newUser);
   }
   else {
-    res.status(500);
+    const findDomain = await findUser.domain.find((domain) => {
+      if (domain.name === req.body.domain) {
+        return domain;
+      }
+    });
+
+    if (!findDomain) {
+      const domain = await Domain.findOne({
+        name: req.body.domain
+      });
+    
+      const emailSubscribe = [];
+      await domain.emailSubscribe.category.map((category) => {
+        emailSubscribe.push(category.value);
+      });
+      
+      const smsSubscribe = [];
+      await domain.smsSubscribe.category.map((category) => {
+        smsSubscribe.push(category.value);
+      });
+    
+      const snooze = {
+        isSnooze: false,
+        startDate: "",
+        endDate: ""
+      };
+    
+      const addDomain = {};
+      addDomain.name = req.body.domain;
+      addDomain.emailSubscribe = emailSubscribe;
+      addDomain.smsSubscribe = smsSubscribe;
+      addDomain.phoneSubscribe = false
+      addDomain.snooze = snooze;
+
+      findUser.domain.push(addDomain);
+      await findUser.save();
+
+      res.json(findUser);
+    }
+    else {
+      res.status(500).json("You're already subscribe this domain");
+    }
   }
 };
 
@@ -154,7 +195,7 @@ exports.updateSnooze = async (req, res) => {
   await user.domain.map(async (domain) => {
     if (domain.name === req.body.domain) {
       const startDate = moment().format('DD/MM/YYYY');
-      const endDate = moment(startDate).add('days', 90).format('DD/MM/YYYY');
+      const endDate = moment(startDate, 'DD/MM/YYYY').add(90, 'days').format('DD/MM/YYYY');
       domain.snooze.isSnooze = true;
       domain.snooze.startDate = startDate;
       domain.snooze.endDate = endDate;
@@ -179,6 +220,7 @@ exports.updateUnsnooze = async (req, res) => {
       return;
     }
   });
+  
   await user.save();
 
   res.json(user);
