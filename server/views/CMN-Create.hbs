@@ -1,0 +1,41 @@
+<div class="main-content">
+    <form class="form-inline">
+        <label>ชื่อ Category</label>
+        <label class="backoffice-helptext">*</label>
+        <br />
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" id="createName" placeholder="ชื่อ Category">
+        </div>
+    </form>
+    <form class="form-inline">
+        <label>กลุ่ม Domain</label>
+        <label class="backoffice-helptext">(เลือกได้ 1 กลุ่ม)</label>
+        <br />
+        <div class="input-group">
+            <select class="backoffice-select custom-select" onchange="findChannel()" id="sltDomain">
+                <option selected>Choose...</option>
+                {{#each domainName}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </form>
+
+    <form class="form-inline">
+        <label>กลุ่ม Channel</label>
+        <label class="backoffice-helptext">(เลือกได้อย่างน้อย 1 กลุ่ม)</label>
+        <br>
+        <select name="channelList" multiple>
+            <option value="sms">SMS</option>
+            <option value="email">Email</option>
+        </select>
+    </form>
+
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Button</button>
+    </div>
+</div>
+
+<style scoped>
+
+</style>
