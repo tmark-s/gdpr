@@ -27,7 +27,7 @@
             $.ajax({
                 type: 'PUT',
                 data: JSON.stringify({ user: paramUser, domain: paramdomain }),
-                url: '/update-unsnooze',
+                url: '/api/user/update-unsnooze',
                 contentType: 'application/json',
                 success: function (data) {
                     window.location.href = "http://localhost:3000/?user=" + paramUser + "&domain=" + paramdomain;
