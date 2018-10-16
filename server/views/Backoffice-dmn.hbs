@@ -89,17 +89,17 @@
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
 
         $.ajax({
-                type: 'PUT',
-                data: JSON.stringify({
-                    "name":  $('#tableDomain').find("tr").eq(i).find("td").eq(0).html(),
-                    "id": id
-                }),
-                url: '/api/domain/update-name',
-                contentType: 'application/json',
-                success: function (data) {
-                    location.reload();
-                }
-            });
+            type: 'PUT',
+            data: JSON.stringify({
+                "name": $('#tableDomain').find("tr").eq(i).find("td").eq(0).html(),
+                "id": id
+            }),
+            url: '/api/domain/update-name',
+            contentType: 'application/json',
+            success: function (data) {
+                location.reload();
+            }
+        });
     }
     function editDomain(r, id) {
         const i = r.parentNode.parentNode.rowIndex;

@@ -278,19 +278,24 @@ router.get('/backoffice-chmn', async (req, res) => {
 });
 
 router.get('/backoffice-cmn', async (req, res) => {
-  const domain = await Domain.find({
+  const domainList = await Domain.find({});
+  const domain = await Domain.findOne({ name: req.query.domain })
+  res.render('Backoffice-cmn', {
+    layout: 'staff_main.hbs',
+    listDomain: domainList,
+    headText: req.query.domain,
+    dataDomain: domain
   });
-  console.log(domain)
-  let modelData = {
-    domainName: domain
-  }
-  res.render('Backoffice-cmn', { layout: 'staff_main.hbs', domainName: domain });
 });
+
 
 router.get('/backoffice-umn', async (req, res) => {
   const user = await User.find({ 'domain.name': 'sansiri' });
-  console.log(user)
-  res.render('Backoffice-umn', { layout: 'staff_main.hbs', userList: user });
+  res.render('Backoffice-umn', {
+    layout: 'staff_main.hbs',
+    userList: user,
+
+  });
 
 });
 
