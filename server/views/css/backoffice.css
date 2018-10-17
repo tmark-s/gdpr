@@ -144,11 +144,12 @@ button.backoffice:hover {
 }
 
 .DomainHeader {
+    padding: 10px 3% 10px 3%;
     background-color: #cee8fe;
 }
 
 .ChannelHeader {
-    padding: 0px 3% 0px 7%;
+    padding: 10px 3% 10px 7%;
     background-color: aliceblue
 }
 
@@ -167,3 +168,15 @@ button.backoffice:hover {
 .collaspeHeader {}
 
 .collaspeBody {}
+
+.inputEditCategory {
+    position: relative;
+    margin: 0px;
+    padding-left: 35px;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 85%;
+}
