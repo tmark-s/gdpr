@@ -92,6 +92,19 @@ exports.addCategory = async (req, res) => {
   }
 };
 
+exports.editCategory = async (req, res) => {
+  if (req.body.channel === 'email') {
+    const domain = await Domain.find({
+      'emailSubscribe.category._id': req.body.id
+    });
+  } 
+  else if (req.body.channel === 'sms') {
+    const domain = await Domain.find({
+      'smsSubscribe.category._id': req.body.id
+    });
+  }
+};
+
 exports.editSubscribe = async (req, res) => {
   const domain = await Domain.findById(req.body.id);
   domain.phoneSubscribe = req.body.phoneSubscribe;
