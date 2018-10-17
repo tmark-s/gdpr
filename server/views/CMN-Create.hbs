@@ -54,7 +54,29 @@
         let categoryValue = $('#createValue').val().trim();
         let channelList = $('#channelList').val();
         let id = $('#sltDomain').val();
-        if (channelList.indexOf("email") != -1) {
+
+        const smsChannel = channelList.indexOf("sms") != -1 ? true : false;
+        const emailChannel = channelList.indexOf("email") != -1 ? true : false;
+        $.ajax({
+            type: 'PUT',
+            data: JSON.stringify({
+                "id": id,
+                "category": {
+                    "name": categoryName,
+                    "value": categoryValue,
+                    "canSubscribe": true
+                },
+                "smsChannel": smsChannel,
+                "emailChannel": emailChannel
+            }),
+            url: '/api/domain/add-category',
+            contentType: 'application/json',
+            success: function (data) {
+                location.reload();
+            }
+        });
+        
+        {{!-- if (channelList.indexOf("email") != -1) {
 
             $.ajax({
                 type: 'PUT',
@@ -94,6 +116,6 @@
                     location.reload();
                 }
             });
-        }
+        } --}}
     }
 </script>
