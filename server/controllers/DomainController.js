@@ -97,12 +97,31 @@ exports.editCategory = async (req, res) => {
     const domain = await Domain.find({
       'emailSubscribe.category._id': req.body.id
     });
+
+    await domain.emailSubscribe.category.map((category) => {
+      if (category._id.toString() === req.body.id.toString()) {
+        category.name = req.body.name;
+        return;
+      }
+    });
+
+    domain.save();
+    res.json(domain);
   } 
   else if (req.body.channel === 'sms') {
-    const domain = await Domain.find({
+    const domain = await Domain.findOne({
       'smsSubscribe.category._id': req.body.id
     });
-    console.log(domain);
+    
+    await domain.smsSubscribe.category.map((category) => {
+      if (category._id.toString() === req.body.id.toString()) {
+        category.name = req.body.name;
+        return;
+      }
+    });
+
+    domain.save();
+    res.json(domain);
   }
 };
 

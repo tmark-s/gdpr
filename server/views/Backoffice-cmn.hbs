@@ -168,7 +168,6 @@
 
         let label = "#label" + id;
         let newName = $(label).val();
-        alert(id)
 
         $(editButton).attr("hidden", false);
         $(saveButton).attr("hidden", true);
@@ -180,7 +179,8 @@
             type: 'PUT',
             data: JSON.stringify({
                 "channel": channel,
-                "id": id
+                "id": id,
+                "name": newName
             }),
             url: '/api/domain/edit-category',
             contentType: 'application/json',
