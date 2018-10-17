@@ -94,12 +94,13 @@ exports.addCategory = async (req, res) => {
 
 exports.editCategory = async (req, res) => {
   if (req.body.channel === 'email') {
-    const domain = await Domain.find({
+    const domain = await Domain.findOne({
       'emailSubscribe.category._id': req.body.id
     });
 
     await domain.emailSubscribe.category.map((category) => {
       if (category._id.toString() === req.body.id.toString()) {
+        console.log('aaaa')
         category.name = req.body.name;
         return;
       }
