@@ -45,10 +45,14 @@
                             <div class="card-body">
                                 {{#each this.smsSubscribe.category}}
                                 <label class="container">{{this.name}}</label>
-                                <span class="glyphicon glyphicon-floppy-save" style="float:right; margin:12px 0px; cursor:pointer;"></span>
-                                <span class="glyphicon glyphicon-remove" style="float:right; margin:12px 0px; cursor:pointer;"></span>
-                                <span class="glyphicon glyphicon-pencil" style="float:right; margin:12px 0px; cursor:pointer;"></span>
-                                <span class="glyphicon glyphicon-trash" style="float:right; margin:12px 0px; cursor:pointer;"></span><br>
+                                <span class="glyphicon glyphicon-floppy-save" style="float:right; margin:12px 0px; cursor:pointer;"
+                                    id="smsSaveButton{{index @index}}" hidden></span>
+                                <span class="glyphicon glyphicon-remove" style="float:right; margin:12px 0px; cursor:pointer;"
+                                    id="smsCancelButton{{index @index}}" hidden></span>
+                                <span class="glyphicon glyphicon-pencil" style="float:right; margin:12px 0px; cursor:pointer;"
+                                    id="smsEditButton{{index @index}}"></span>
+                                <span class="glyphicon glyphicon-trash" style="float:right; margin:12px 0px; cursor:pointer;"
+                                    id="smsDeleteButton{{index @index}}"></span><br>
                                 {{/each}}
                             </div>
                         </div>
@@ -143,13 +147,76 @@
         transform: rotate(45deg);
     }
 </style>
-</style>
 
 <script>
     $('.dropdown-toggle').dropdown()
     $('.collapse').collapse()
 
-    function onSubmit() {
+    function saveEdit(r, id) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
+        $(editButton).attr("hidden", false);
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", false);
 
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+
+        $.ajax({
+            type: 'PUT',
+            data: JSON.stringify({
+                "name": $('#tableDomain').find("tr").eq(i).find("td").eq(0).html(),
+                "id": id
+            }),
+            url: '/api/domain/update-name',
+            contentType: 'application/json',
+            success: function (data) {
+                location.reload();
+            }
+        });
     }
+    function edit(r, id) {
+        const i = r.parentNode.parentNode.rowIndex;
+        let editButton = "#editButton" + i;
+        let saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
+        $(editButton).attr("hidden", true);
+        $(saveButton).attr("hidden", false);
+        $(cancelButton).attr("hidden", false);
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
+    }
+
+    function cancelEdit(r, name) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var editButton = "#editButton" + i;
+        var saveButton = "#saveButton" + i;
+        let cancelButton = "#cancelButton" + i;
+        $(editButton).attr("hidden", false);
+        $(saveButton).attr("hidden", true);
+        $(cancelButton).attr("hidden", true);
+
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+        $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
+    }
+    function delete (id) {
+        //รอ api delete
+        /*
+                $.ajax({
+                        type: 'PUT',
+                        data: JSON.stringify({ _id:id }),
+                        url: '/delete-domain',
+                        contentType: 'application/json',
+                        success: function (data) {
+                                location.reload();
+                        }
+                    });
+                    */
+    }
+
+
 </script>
