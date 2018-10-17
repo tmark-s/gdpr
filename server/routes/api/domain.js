@@ -11,6 +11,8 @@ router.put('/edit-subscribe', DomainController.editSubscribe);
 
 router.put('/add-category', DomainController.addCategory);
 
+router.put('/edit-category', DomainController.editCategory);
+
 router.delete('/', DomainController.delete);
 
 module.exports = router;

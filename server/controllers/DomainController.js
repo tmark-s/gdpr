@@ -102,6 +102,7 @@ exports.editCategory = async (req, res) => {
     const domain = await Domain.find({
       'smsSubscribe.category._id': req.body.id
     });
+    console.log(domain);
   }
 };
 

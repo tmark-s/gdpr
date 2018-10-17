@@ -54,7 +54,7 @@
                                     hidden>
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
-                                <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}')"
+                                <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}', 'sms')"
                                     hidden>
                                     <span class="glyphicon glyphicon-floppy-save"></span>
                                 </a>
@@ -161,14 +161,14 @@
     $('.dropdown-toggle').dropdown()
     $('.collapse').collapse()
 
-    function saveEdit(id) {
+    function saveEdit(id, channel) {
         var editButton = "#editButton" + id;
         var saveButton = "#saveButton" + id;
         let cancelButton = "#cancelButton" + id;
 
         let label = "#label" + id;
         let newName = $(label).val();
-        alert(newName)
+        alert(id)
 
         $(editButton).attr("hidden", false);
         $(saveButton).attr("hidden", true);
@@ -179,10 +179,10 @@
         $.ajax({
             type: 'PUT',
             data: JSON.stringify({
-                "name": "qq",
+                "channel": channel,
                 "id": id
             }),
-            url: '/api/domain/update-name',
+            url: '/api/domain/edit-category',
             contentType: 'application/json',
             success: function (data) {
                 location.reload();
