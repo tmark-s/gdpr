@@ -61,7 +61,7 @@
             $.ajax({
                 type: 'POST',
                 data: JSON.stringify({
-                    "domain": inputDomainname
+                    domain: inputDomainname
                 }),
                 url: '/api/domain',
                 contentType: 'application/json',
@@ -128,17 +128,13 @@
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
     }
     function deleteDomain(id) {
-        //รอ api delete
-        /*
-                $.ajax({
-                        type: 'PUT',
-                        data: JSON.stringify({ _id:id }),
-                        url: '/delete-domain',
-                        contentType: 'application/json',
-                        success: function (data) {
-                                location.reload();
-                        }
-                    });
-                    */
+        $.ajax({
+            type: 'DELETE',
+            data: JSON.stringify({ id: id }),
+            url: '/api/domain',
+            success: function (data) {
+                location.reload();
+            }
+        });
     }
 </script>
