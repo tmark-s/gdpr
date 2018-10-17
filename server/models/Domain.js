@@ -11,12 +11,10 @@ const Domain = mongoose.model('domain', {
     category: [
       {
         name: {
-          type: String,
-          unique: true
+          type: String
         },
         value: {
-          type: String,
-          unique: true
+          type: String
         },
         canSubscribe: {
           type: Boolean
@@ -31,12 +29,10 @@ const Domain = mongoose.model('domain', {
     category: [
       {
         name: {
-          type: String,
-          unique: true
+          type: String
         },
         value: {
-          type: String,
-          unique: true
+          type: String
         },
         canSubscribe: {
           type: Boolean

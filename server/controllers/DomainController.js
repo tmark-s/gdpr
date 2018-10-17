@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
   });
 
   if (!findDomain) {
-    const newDomain = new Domain();
+    const newDomain = new Domain;
     newDomain.name = req.body.domain;
     newDomain.emailSubscribe = {
       canSubscribe: false,
@@ -89,4 +89,10 @@ exports.editSubscribe = async (req, res) => {
   domain.emailSubscribe = req.body.emailSubscribe;
   await domain.save();
   res.json(domain);
+};
+
+exports.delete = async (req, res) => {
+  const domain = await Domain.findById(req.body.id);
+  await Domain.deleteOne(domain);
+  res.json('Delete domain complete')
 };
