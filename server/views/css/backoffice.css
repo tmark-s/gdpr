@@ -96,6 +96,16 @@ button.backoffice:hover {
     height: 30px
 }
 
+.backoffice-header {
+    min-width: 160px;
+    text-align: center;
+    border-bottom-color: #333;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-left-radius: 1pc;
+    border-bottom-right-radius: 1pc;
+}
+
 .backoffice-header-dropdown {
     min-width: 160px;
     text-align: center;
@@ -130,5 +140,30 @@ button.backoffice:hover {
 
 .collaspe-header {
     padding: 0% 3%;
-    border: 1px solid rgb(223, 223, 223);
+    /* border: 1px solid rgb(223, 223, 223); */
 }
+
+.DomainHeader {
+    background-color: #cee8fe;
+}
+
+.ChannelHeader {
+    padding: 0px 3% 0px 7%;
+    background-color: aliceblue
+}
+
+.ChannelHeader span {
+    color: #a2a6b0;
+}
+
+.CategoryHeader {
+    padding: 0px 3% 0px 10%;
+}
+
+.CategoryHeader label {
+    font-size: 16px;
+}
+
+.collaspeHeader {}
+
+.collaspeBody {}
