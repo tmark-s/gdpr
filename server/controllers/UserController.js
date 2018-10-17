@@ -30,7 +30,7 @@ exports.subscribe = async (req, res) => {
     };
   
     const addDomain = {};
-    addDomain.name = req.body.domain;
+    addDomain.domainId = domain._id;
     addDomain.emailSubscribe = emailSubscribe;
     addDomain.smsSubscribe = smsSubscribe;
     addDomain.phoneSubscribe = false
@@ -123,9 +123,13 @@ exports.updateSubscribePhone = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.phoneSubscribe = true;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.phoneSubscribe = true;
       return;
     }
   });
@@ -139,9 +143,13 @@ exports.updateSubscribeSms = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.smsSubscribe = req.body.smsSubscribeCategory;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.smsSubscribe = req.body.smsSubscribeCategory;
       return;
     }
   });
@@ -155,9 +163,13 @@ exports.updateSubscribeEmail = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = req.body.emailSubscribeCategory;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.emailSubscribe = req.body.emailSubscribeCategory;
       return;
     }
   });
@@ -171,14 +183,18 @@ exports.updateUnsubscribe = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = [];
-      domain.smsSubscribe = [];
-      domain.phoneSubscribe = false;
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.emailSubscribe = [];
+      x.smsSubscribe = [];
+      x.phoneSubscribe = false;
+      x.snooze.isSnooze = false;
+      x.snooze.startDate = "";
+      x.snooze.endDate = "";
       return;
     }
   });
@@ -192,13 +208,17 @@ exports.updateSnooze = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
       const startDate = moment().format('DD/MM/YYYY');
       const endDate = moment(startDate, 'DD/MM/YYYY').add(90, 'days').format('DD/MM/YYYY');
-      domain.snooze.isSnooze = true;
-      domain.snooze.startDate = startDate;
-      domain.snooze.endDate = endDate;
+      x.snooze.isSnooze = true;
+      x.snooze.startDate = startDate;
+      x.snooze.endDate = endDate;
       return;
     }
   });
@@ -212,11 +232,15 @@ exports.updateUnsnooze = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  })
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.snooze.isSnooze = false;
+      x.snooze.startDate = "";
+      x.snooze.endDate = "";
       return;
     }
   });

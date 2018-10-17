@@ -5,23 +5,18 @@ const User = require('../models/User');
 
 router.use('/api', api);
 
-async function getUserInfo(query) {
-  return await User.findOne(query);
-
-}
-
-async function getDomainInfo(query) {
-  return await Domain.findOne(query);
-}
-
 router.get('/', async (req, res) => {
-  const domain = await getDomainInfo({ 'name': req.query.domain });
+  const domain = await Domain.findOne({
+    name: req.query.domain
+  });
 
-  const user = await getUserInfo({ 'info.user': req.query.user });
+  const user = await User.findOne({
+    'info.user': req.query.user
+  });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -79,9 +74,9 @@ router.get('/subscribe-sms', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -132,9 +127,9 @@ router.get('/subscribe-email', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -181,9 +176,9 @@ router.get('/updated-complete', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -245,9 +240,13 @@ router.get('/snooze-complete', async (req, res) => {
     'info.user': req.query.user
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const domain = await Domain.findOne({
+    name: req.query.domain
+  });
+
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
