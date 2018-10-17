@@ -11,8 +11,8 @@
         <div class="card">
             <div class="card-header  collaspe-header text-uppercase DomainHeader" id="heading{{this.name}}">
                 <label class="container">{{this.name}}</label>
-                <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
-                    data-toggle="collapse" data-target="#collapse{{this.name}}" aria-expanded="true" aria-controls="collapse{{this.name}}"></span>
+                <span class="glyphicon glyphicon-plus-sign" style="float:right; cursor:pointer;" data-toggle="collapse"
+                    data-target="#collapse{{this.name}}" aria-expanded="true" aria-controls="collapse{{this.name}}"></span>
             </div>
 
             <div id="collapse{{this.name}}" class="collapse" aria-labelledby="heading{{this.name}}">
@@ -20,15 +20,35 @@
                     <div class="card">
                         <div class="card-header  collaspe-header ChannelHeader" id="heading{{this.name}}ChannelEmail">
                             <label class="container">Email</label>
-                            <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
+                            <span class="glyphicon glyphicon-plus-sign" style="float:right; cursor:pointer;"
                                 data-toggle="collapse" data-target="#{{this.name}}CategoryEmail" aria-expanded="true"
                                 aria-controls="{{this.name}}CategoryEmail"></span>
                         </div>
 
-                        <div id="{{this.name}}CategoryEmail" class="collapse CategoryHeader" aria-labelledby="heading{{this.name}}CategoryEmail">
+                        <div id="{{this.name}}CategoryEmail" class="collapse" aria-labelledby="heading{{this.name}}CategoryEmail">
                             <div class="card-body">
                                 {{#each this.emailSubscribe.category}}
-                                <label class="container">{{this.name}}</label><br>
+                                <div class="CategoryHeader">
+                                    <input class="inputEditCategory" id="label{{this._id}}" type="text" minlength="2"
+                                        maxlength="100" value="{{this.name}}" readonly>
+                                    <a style="float:right; cursor:pointer;" id="deleteButton{{this._id}}" onclick="delete('{{this._id}}')">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;">|</a>
+                                    <a style="float:right; cursor:pointer;" id="cancelButton{{this._id}}" onclick="cancelEdit('{{this._id}}','{{this.name}}')"
+                                        hidden>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}')"
+                                        hidden>
+                                        <span class="glyphicon glyphicon-floppy-save"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;" id="editButton{{this._id}}" onclick="edit('{{this._id}}')">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                </div>
+
+
                                 {{/each}}
                             </div>
                         </div>
@@ -36,33 +56,33 @@
                     <div class="card">
                         <div class="card-header  collaspe-header ChannelHeader" id="heading{{this.name}}ChannelSMS">
                             <label class="container">SMS</label>
-                            <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
+                            <span class="glyphicon glyphicon-plus-sign" style="float:right; cursor:pointer;"
                                 data-toggle="collapse" data-target="#{{this.name}}CategorySMS" aria-expanded="true"
                                 aria-controls="{{this.name}}CategorySMS"></span>
                         </div>
 
-                        <div id="{{this.name}}CategorySMS" class="collapse CategoryHeader" aria-labelledby="heading{{this.name}}CategorySMS">
+                        <div id="{{this.name}}CategorySMS" class="collapse" aria-labelledby="heading{{this.name}}CategorySMS">
                             <div class="card-body">
                                 {{#each this.smsSubscribe.category}}
-                                <input class="container" id="label{{this._id}}" type="text" maxlength="10" value="{{this.name}}"
-                                    readonly>
-                                <a style="float:right; cursor:pointer;" id="smsDeleteButton{{this._id}}" onclick="delete('{{this._id}}')">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                                <a style="float:right; cursor:pointer;">|</a>
-                                <a style="float:right; cursor:pointer;" id="cancelButton{{this._id}}" onclick="cancelEdit('{{this._id}}','{{this.name}}')"
-                                    hidden>
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </a>
-                                <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}')"
-                                    hidden>
-                                    <span class="glyphicon glyphicon-floppy-save"></span>
-                                </a>
-                                <a style="float:right; cursor:pointer;" id="editButton{{this._id}}" onclick="edit('{{this._id}}')">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-
-                                <br>
+                                <div class="CategoryHeader">
+                                    <input class="inputEditCategory" id="label{{this._id}}" type="text" maxlength="100"
+                                        minlength="2" value="{{this.name}}" readonly>
+                                    <a style="float:right; cursor:pointer;" id="deleteButton{{this._id}}" onclick="delete('{{this._id}}')">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;">|</a>
+                                    <a style="float:right; cursor:pointer;" id="cancelButton{{this._id}}" onclick="cancelEdit('{{this._id}}','{{this.name}}')"
+                                        hidden>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}')"
+                                        hidden>
+                                        <span class="glyphicon glyphicon-floppy-save"></span>
+                                    </a>
+                                    <a style="float:right; cursor:pointer;" id="editButton{{this._id}}" onclick="edit('{{this._id}}')">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                </div>
                                 {{/each}}
                             </div>
                         </div>
@@ -70,18 +90,19 @@
                     <div class="card">
                         <div class="card-header  collaspe-header ChannelHeader" id="heading{{this.name}}ChannelMobile">
                             <label class="container">Mobile</label>
-                            <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
+
+                            {{!-- <span class="glyphicon glyphicon-plus-sign" style="float:right; cursor:pointer;"
                                 data-toggle="collapse" data-target="#{{this.name}}CategoryMobile" aria-expanded="true"
-                                aria-controls="{{this.name}}CategoryMobile"></span>
+                                aria-controls="{{this.name}}CategoryMobile"></span> --}}
                         </div>
 
-                        <div id="{{this.name}}CategoryMobile" class="collapse CategoryHeader" aria-labelledby="heading{{this.name}}CategoryMobile">
+                        {{!-- <div id="{{this.name}}CategoryMobile" class="collapse CategoryHeader" aria-labelledby="heading{{this.name}}CategoryMobile">
                             <div class="card-body">
                                 {{#each this.mobileSubscribe.category}}
                                 <label class="container">{{this.name}}</label><br>
                                 {{/each}}
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -94,6 +115,7 @@
     .container {
         width: fit-content;
         position: relative;
+        margin: 0px;
         padding-left: 35px;
         font-size: 22px;
         -webkit-user-select: none;
