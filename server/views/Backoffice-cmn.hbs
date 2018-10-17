@@ -44,15 +44,25 @@
                         <div id="{{this.name}}CategorySMS" class="collapse CategoryHeader" aria-labelledby="heading{{this.name}}CategorySMS">
                             <div class="card-body">
                                 {{#each this.smsSubscribe.category}}
-                                <label class="container">{{this.name}}</label>
-                                <span class="glyphicon glyphicon-floppy-save" style="float:right; margin:12px 0px; cursor:pointer;"
-                                    id="smsSaveButton{{index @index}}" hidden></span>
-                                <span class="glyphicon glyphicon-remove" style="float:right; margin:12px 0px; cursor:pointer;"
-                                    id="smsCancelButton{{index @index}}" hidden></span>
-                                <span class="glyphicon glyphicon-pencil" style="float:right; margin:12px 0px; cursor:pointer;"
-                                    id="smsEditButton{{index @index}}"></span>
-                                <span class="glyphicon glyphicon-trash" style="float:right; margin:12px 0px; cursor:pointer;"
-                                    id="smsDeleteButton{{index @index}}"></span><br>
+                                <input class="container" id="label{{this._id}}" type="text" maxlength="10" value="{{this.name}}"
+                                    readonly>
+                                <a style="float:right; cursor:pointer;" id="smsDeleteButton{{this._id}}" onclick="delete('{{this._id}}')">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                                <a style="float:right; cursor:pointer;">|</a>
+                                <a style="float:right; cursor:pointer;" id="cancelButton{{this._id}}" onclick="cancelEdit('{{this._id}}','{{this.name}}')"
+                                    hidden>
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                                <a style="float:right; cursor:pointer;" id="saveButton{{this._id}}" onclick="saveEdit('{{this._id}}')"
+                                    hidden>
+                                    <span class="glyphicon glyphicon-floppy-save"></span>
+                                </a>
+                                <a style="float:right; cursor:pointer;" id="editButton{{this._id}}" onclick="edit('{{this._id}}')">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+
+                                <br>
                                 {{/each}}
                             </div>
                         </div>
@@ -85,7 +95,6 @@
         width: fit-content;
         position: relative;
         padding-left: 35px;
-        margin-bottom: 12px;
         font-size: 22px;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -152,22 +161,25 @@
     $('.dropdown-toggle').dropdown()
     $('.collapse').collapse()
 
-    function saveEdit(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
+    function saveEdit(id) {
+        var editButton = "#editButton" + id;
+        var saveButton = "#saveButton" + id;
+        let cancelButton = "#cancelButton" + id;
+
+        let label = "#label" + id;
+        let newName = $(label).val();
+        alert(newName)
+
         $(editButton).attr("hidden", false);
         $(saveButton).attr("hidden", true);
         $(cancelButton).attr("hidden", false);
 
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
+        $(label).attr("readonly", true);
 
         $.ajax({
             type: 'PUT',
             data: JSON.stringify({
-                "name": $('#tableDomain').find("tr").eq(i).find("td").eq(0).html(),
+                "name": "qq",
                 "id": id
             }),
             url: '/api/domain/update-name',
@@ -177,45 +189,30 @@
             }
         });
     }
-    function edit(r, id) {
-        const i = r.parentNode.parentNode.rowIndex;
-        let editButton = "#editButton" + i;
-        let saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
+    function edit(id) {
+        let editButton = "#editButton" + id;
+        let saveButton = "#saveButton" + id;
+        let cancelButton = "#cancelButton" + id;
+        let label = "#label" + id;
         $(editButton).attr("hidden", true);
         $(saveButton).attr("hidden", false);
         $(cancelButton).attr("hidden", false);
 
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
+        $(label).attr("readonly", false);
     }
 
-    function cancelEdit(r, name) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
+    function cancelEdit(id, name) {
+        var editButton = "#editButton" + id;
+        var saveButton = "#saveButton" + id;
+        let cancelButton = "#cancelButton" + id;
+        let label = "#label" + id;
+
         $(editButton).attr("hidden", false);
         $(saveButton).attr("hidden", true);
         $(cancelButton).attr("hidden", true);
 
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
-    }
-    function delete (id) {
-        //รอ api delete
-        /*
-                $.ajax({
-                        type: 'PUT',
-                        data: JSON.stringify({ _id:id }),
-                        url: '/delete-domain',
-                        contentType: 'application/json',
-                        success: function (data) {
-                                location.reload();
-                        }
-                    });
-                    */
+        $(label).attr("readonly", true);
+        $(label).val(name);
     }
 
 
