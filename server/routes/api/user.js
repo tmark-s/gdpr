@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const UserController = require('../../controllers/UserController');
 
-router.get('/', UserController.find);
+router.post('/info', UserController.find);
 
 router.post('/subscribe', UserController.subscribe);
 

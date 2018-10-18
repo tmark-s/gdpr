@@ -34,30 +34,29 @@
             <label>เบอร์โทรศัพท์</label>
             <br />
             <div class="form-group mx-sm-3 mb-2">
-                <input type="tel" class="form-control" id="createValue" placeholder="099-XXX-XXXX">
+                <input type="tel" class="form-control" id="txtPhone" placeholder="099-XXX-XXXX">
             </div>
         </form>
 
         <div class="input-group-append" style="text-align:center;">
-            <button class="btn btn-outline-secondary" onclick="createCategory()" type="button">ตกลง</button>
+            <button class="btn btn-outline-secondary" onclick="findUser()" type="button">ตกลง</button>
         </div>
-        <div style=" margin: 50px 0px 50px 0px;">
+        <div id="contentInformation" style=" margin: 50px 0px 50px 0px;" hidden>
             <div style="text-align:center;">
                 <label>
                     INFORMATION
                 </label>
             </div>
+
             <form class="form-content">
                 <div class="form-group">
                     <div class="col-xs-6 col-sm-6 col-md-6 box" style="text-align:center; padding:3%">
                         <label>อีเมล</label><br>
-                        <span class=" glyphicon glyphicon-ok"></span>
-                        <span class="glyphicon glyphicon-minus"></span>
+                        <span id="statusEmail" class="glyphicon glyphicon-minus"></span>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 box" style="text-align:center; padding:3%">
                         <label>เบอร์โทรศัพท์</label><br>
-                        <span class=" glyphicon glyphicon-ok"></span>
-                        <span class="glyphicon glyphicon-minus"></span>
+                        <span id="statusPhone" class="glyphicon glyphicon-minus"></span>
                     </div>
                 </div>
 
@@ -87,7 +86,6 @@
         </div>
 
 
-
     </div>
 
 </div>
@@ -115,4 +113,40 @@
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     $('#menuUser').attr("class", "nav-link active");
 
+    function findUser() {
+        let email = $('#txtEmail').val().trim();
+        let phone = $('#txtPhone').val().trim();
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify({
+                "email": email,
+                "phone": phone
+            }),
+            url: 'api/user/info',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data)
+                if (data) {
+                    $('#contentInformation').attr("hidden", false)
+
+                    if (data.info.email) {
+                        $('#statusEmail').attr('class', 'glyphicon glyphicon-ok')
+                    } else {
+                        $('#statusEmail').attr('class', 'glyphicon glyphicon-minus')
+                    }
+
+                    if (data.info.phone) {
+                        $('#statusPhone').attr('class', 'glyphicon glyphicon-ok')
+                    } else {
+                        $('#statusPhone').attr('class', 'glyphicon glyphicon-minus')
+                    }
+
+                } else {
+                    $('#contentInformation').attr("hidden", true)
+                }
+            }
+        });
+
+    }
 </script>

@@ -302,7 +302,8 @@ router.get('/umn-filefilter', async (req, res) => {
   const domain = await Domain.find({
   });
   res.render('UMN-FileFilter', {
-    layout: 'staff_main.hbs', domainList: domain
+    layout: 'staff_main.hbs',
+    domainList: domain
   });
 });
 
