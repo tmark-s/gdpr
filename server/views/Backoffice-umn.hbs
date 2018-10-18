@@ -1,244 +1,118 @@
 <div id="main-content">
 
-    <div class="w3-container">
-        <div id="modalLink" class="w3-modal">
-            <div class="w3-modal-content">
-                <div class="backoffice-container">
-                    <span onclick="document.getElementById('modalLink').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-                    <div class="input-group mb-3">
-                        <label>โดเมน</label>
-                        <select class="backoffice-select" id="inputGroupSelect01">
-                            <option selected>กรุณาเลือกโดเมน</option>
-                            <option value="sansiri">Sansiri</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <h4>Main Link</h4>
-                        <input type="text" class="form-control" id="mainLink" style="width: 70%" placeholder="">
-                        <button onclick="myFunction()">Copy text</button>
-                        <label>Link สำหรับเข้าหน้า Channel</label>
-                    </div>
-                    <div class="form-group">
-                        <h5>Link - Email Subscribe</h5>
-                        <input type="text" class="form-control" id="emailLink">
-                        <button onclick="myFunction()">Copy text</button>
-                        <label>Link สำหรับเข้าหน้า Email Subscribe</label>
-                    </div>
-                </div>
+    <ul class="nav flex-column" style="max-width:300px; left:0px; position:fixed; z-index:2">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home">
+            <a class="nav-link" id="menuHome" href="http://localhost:3000/backoffice"><span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Domain">
+            <a class="nav-link" id="menuDomain" href="http://localhost:3000/backoffice-dmn"><span class=" glyphicon glyphicon-king"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuCategory" href="http://localhost:3000/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuUser" href="http://localhost:3000/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="File Filter">
+            <a class="nav-link" id="menuFileFilter" href="http://localhost:3000/umn-filefilter"><span class="glyphicon glyphicon-download"></span></a>
+        </li>
+    </ul>
+    <div style="text-align:center;">
+        <label class="dropdown-toggle text-uppercase backoffice-header" id="dropdownMenuLink" data-toggle="dropdown">
+            User Management
+        </label>
+    </div>
+    <div class="row" style=" margin: 50px 0px 50px 0px;">
+        <form class="form-content">
+            <label>ที่อยู่อีเมล</label>
+            <br />
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="email" class="form-control" id="txtEmail" placeholder="example@email.com">
             </div>
+        </form>
+        <form class="form-content">
+            <label>เบอร์โทรศัพท์</label>
+            <br />
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="tel" class="form-control" id="createValue" placeholder="099-XXX-XXXX">
+            </div>
+        </form>
+
+        <div class="input-group-append" style="text-align:center;">
+            <button class="btn btn-outline-secondary" onclick="createCategory()" type="button">ตกลง</button>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-3"></div>
-
-        <div class="col-md-6 offset-md-3" style="float:left">
-
-
-            <form class="form-inline">
-                {{!-- <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbDomainName" placeholder="ชื่อ Domain">
-                </div> --}}
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbUserEmail" placeholder="อีเมลของลูกค้า">
+        <div style=" margin: 50px 0px 50px 0px;">
+            <div style="text-align:center;">
+                <label>
+                    INFORMATION
+                </label>
+            </div>
+            <form class="form-content">
+                <div class="form-group">
+                    <div class="col-xs-6 col-sm-6 col-md-6 box" style="text-align:center; padding:3%">
+                        <label>อีเมล</label><br>
+                        <span class=" glyphicon glyphicon-ok"></span>
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 box" style="text-align:center; padding:3%">
+                        <label>เบอร์โทรศัพท์</label><br>
+                        <span class=" glyphicon glyphicon-ok"></span>
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </div>
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control" id="tbUserMobile" placeholder="เบอร์โทรศัพท์ของลูกค้า">
+
+                <div style="text-align:center;">
+                    <label>
+                        USER LINK
+                    </label>
                 </div>
-                <button type="submit" onclick="onSearch()" class="btn btn-ligth">ค้นหา</button>
+                <div class="form-group">
+                    <label>Main Link</label><br>
+                    <div>
+                        <input type="text" class="form-control textLink" id="staticEmail" placeholder="email@example.com">
+                        <span class="glyphicon glyphicon-link coppyLink"></span>
+                        <span class="glyphicon glyphicon-log-in coppyLink"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Link Email</label><br>
+                    <div>
+                        <input type="text" class="form-control textLink" id="staticEmail" placeholder="email@example.com">
+                        <span class="glyphicon glyphicon-link coppyLink"></span>
+                        <span class="glyphicon glyphicon-log-in coppyLink"></span>
+                    </div>
+                </div>
             </form>
-
         </div>
-        <div class="col-md-3 offset-md-3"></div>
+
+
 
     </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-3"></div>
 
-        <div class="col-md-6 offset-md-3">
-            <table id="tableDomain" class="table table-hover" style="font-size:15px;">
-                <thead>
-                    <tr>
-                        <th scope="col" style="width:5%;">#</th>
-                        {{!-- <th scope="col" style="width:40%;">ชื่อลูกค้า</th> --}}
-                        <th scope="col" style="width:20%; ">อีเมล</th>
-                        <th scope="col" style="width:20%; ">เบอร์โทรศัพท์</th>
-                        <th scope="col" style="width:5%; ">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each userList}}
-                    <tr>
-                        <th scope="row"> {{index @index }}</th>
-                        {{!-- <td contenteditable="false">{{this.info.user}}</td> --}}
-                        {{#ifCond this.info.email '!=' ""}}
-                        <td contenteditable="false"><span class="glyphicon glyphicon-ok"></span></td>
-                        {{/ifCond}}
-                        {{#ifCond this.info.email '==' ""}}
-                        <td contenteditable="false"><span class="glyphicon glyphicon-minus"></span></td>
-                        {{/ifCond}}
-                        {{#ifCond this.info.phone '!=' ""}}
-                        <td contenteditable="false"><span class="glyphicon glyphicon-ok"></span></td>
-                        {{/ifCond}}
-                        {{#ifCond this.info.phone '==' ""}}
-                        <td contenteditable="false"><span class="glyphicon glyphicon-minus"></span></td>
-                        {{/ifCond}}
-
-                        <td>
-                            <div class="dropdown">
-                                <span class="dropbtn glyphicon glyphicon-menu-hamburger" onclick="myFunction()"></span>
-                                <div id="myDropdown" class="dropdown-content">
-                                    <a onclick="goChannelPage('sansiri','{{this.info.user}}')">Sansiri</a>
-                                </div>
-                            </div>
-                            <div class="dropdown">
-                                <span class="dropbtn glyphicon glyphicon-link" onclick="getLink('{{this.info.user}}')"></span>
-                            </div>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-3 offset-md-3"></div>
-    </div>
-    <!-- /.container -->
 </div>
+<style scoped>
+    .coppyLink {
+        cursor: pointer;
+        height: 40px;
+        padding: 6px 12px;
+    }
+
+    .textLink {
+        float: left;
+        width: 85%;
+        height: 40px;
+    }
+
+    .box {
+        flex: 1 1 auto;
+        width: 50%;
+        display: table-cell;
+    }
+</style>
 
 <script>
-    function goChannelPage(domain, user) {
-        $.ajax({
-            type: 'GET',
-            contentType: 'application/json',
-            success: function (data) {
-                window.location.href = "http://localhost:3000/?user=mark&domain=sansiri";
-            }
-        });
-    }
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    $('#menuUser').attr("class", "nav-link active");
 
-    function getLink(user) {
-        document.getElementById('modalLink').style.display = 'block'
-        $('#nameUser').text(user);
-
-    }
-
-    function onSearch() {
-        const inputDomainname = $('#tbDomainname').val().trim();
-        const inputName = $('#tbName').val().trim();
-
-        ////รอ api search
-        /*
-        $.ajax({
-                type: 'POST',
-                data: JSON.stringify({
-                    "domain.name": inputDomainname,
-                }),
-                url: '/api/user',
-                contentType: 'application/json',
-                success: function (data) {
-                    location.reload();
-                }
-            });
-            */
-    }
-
-    function addDomain() {
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify({
-                "name": $('#tbDomainName').val(),
-                "emailSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "smsSubscribe": {
-                    "canSubscribe": true,
-                    "category": []
-                },
-                "phoneSubscribe": {
-                    "canSubscribe": true
-                }
-            }),
-            url: '/api/domain',
-            contentType: 'application/json',
-            success: function (data) {
-                location.reload();
-            }
-        });
-    }
-
-    function saveDomain(r, id) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
-        $(editButton).attr("hidden", false);
-        $(saveButton).attr("hidden", true);
-        $(cancelButton).attr("hidden", false);
-
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
-
-        alert(getCol);
-    }
-    function editDomain(r, id) {
-        const i = r.parentNode.parentNode.rowIndex;
-        let editButton = "#editButton" + i;
-        let saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
-        $(editButton).attr("hidden", true);
-        $(saveButton).attr("hidden", false);
-        $(cancelButton).attr("hidden", false);
-
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", true);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("class", "onEdit")
-    }
-
-    function cancelEdit(r, name) {
-        var i = r.parentNode.parentNode.rowIndex;
-        var editButton = "#editButton" + i;
-        var saveButton = "#saveButton" + i;
-        let cancelButton = "#cancelButton" + i;
-        $(editButton).attr("hidden", false);
-        $(saveButton).attr("hidden", true);
-        $(cancelButton).attr("hidden", true);
-
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).attr("contenteditable", false);
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
-        $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
-    }
-    function deleteDomain(id) {
-        //รอ api delete
-        /*
-                $.ajax({
-                        type: 'PUT',
-                        data: JSON.stringify({ _id:id }),
-                        url: '/delete-domain',
-                        contentType: 'application/json',
-                        success: function (data) {
-                                location.reload();
-                        }
-                    });
-                    */
-    }
-
-    /* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown menu if the user clicks outside of it
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
 </script>
