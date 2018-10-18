@@ -298,6 +298,14 @@ router.get('/backoffice-umn', async (req, res) => {
   });
 });
 
+router.get('/umn-filefilter', async (req, res) => {
+  const domain = await Domain.find({
+  });
+  res.render('UMN-FileFilter', {
+    layout: 'staff_main.hbs', domainList: domain
+  });
+});
+
 router.get('/dmn-setting', async (req, res) => {
   const domainList = await Domain.find({});
   const domain = await Domain.findOne({ name: req.query.domain })

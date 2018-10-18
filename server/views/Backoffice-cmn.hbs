@@ -1,4 +1,19 @@
 <div id="main-content">
+    <ul class="nav flex-column" style="max-width:300px; left:0px; position:fixed; z-index:2">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home">
+            <a class="nav-link" id="menuHome" href="http://localhost:3000/backoffice"><span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Domain">
+            <a class="nav-link" id="menuDomain" href="http://localhost:3000/backoffice-dmn"><span class="
+glyphicon glyphicon-king"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuCategory" href="http://localhost:3000/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Category">
+            <a class="nav-link submenu" id="menuAddCategory" href="http://localhost:3000/cmn-create"><span class="glyphicon glyphicon-plus-sign"></span></a>
+        </li>
+    </ul>
 
     <div style="text-align:center;">
         <label class="dropdown-toggle text-uppercase backoffice-header" id="dropdownMenuLink" data-toggle="dropdown">
@@ -180,6 +195,8 @@
 </style>
 
 <script>
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    $('#menuCategory').attr("class", "nav-link active");
     $('.dropdown-toggle').dropdown()
     $('.collapse').collapse()
 
