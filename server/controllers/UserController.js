@@ -3,6 +3,43 @@ const Domain = require('../models/Domain');
 const hash = require('object-hash');
 const moment = require('moment');
 
+exports.createUser = async (req, res) => {
+  let dataBody = {}
+  if (req.body.email) {
+    dataBody.info = { email: req.body.email };
+  }
+
+  if (req.body.phone) {
+    dataBody.info = { phone: req.body.phone };
+  }
+
+  if (req.body.email || req.body.phone) {
+    const findUser = await User.findOne(dataBody);
+    if (!findUser) {
+      const newUser = new User;
+      newUser.info.email = req.body.email;
+      newUser.info.phone = req.body.phone
+      await newUser.save();
+
+      const user = hash(newUser._id.toString());
+      newUser.info = {
+        email: req.body.email,
+        phone: req.body.phone,
+        user: user
+      }
+
+      console.log(newUser)
+
+      await newUser.save()
+
+      res.json(newUser);
+    } else {
+      res.status(400).json("Domain already exist");
+    }
+  }
+
+}
+
 exports.subscribe = async (req, res) => {
   const findUser = await User.findOne({
     'info.email': req.body.email
@@ -12,49 +49,49 @@ exports.subscribe = async (req, res) => {
     const domain = await Domain.findOne({
       name: req.body.domain
     });
-  
+
     const emailSubscribe = [];
     await domain.emailSubscribe.category.map((category) => {
       emailSubscribe.push(category.value);
     });
-    
+
     const smsSubscribe = [];
     await domain.smsSubscribe.category.map((category) => {
       smsSubscribe.push(category.value);
     });
-  
+
     const snooze = {
       isSnooze: false,
       startDate: "",
       endDate: ""
     };
-  
+
     const addDomain = {};
-    addDomain.name = req.body.domain;
+    addDomain.domainId = domain._id;
     addDomain.emailSubscribe = emailSubscribe;
     addDomain.smsSubscribe = smsSubscribe;
     addDomain.phoneSubscribe = false
     addDomain.snooze = snooze;
-  
+
     const userDetail = [];
     userDetail.push(addDomain);
-  
+
     const newUser = new User();
     newUser.domain = userDetail;
-  
+
     await newUser.save();
-  
+
     const user = hash(newUser._id.toString());
-  
+
     const info = {
       email: req.body.email,
       user: user
     };
-  
+
     newUser.info = info;
-  
+
     await newUser.save();
-  
+
     res.json(newUser);
   }
   else {
@@ -68,23 +105,23 @@ exports.subscribe = async (req, res) => {
       const domain = await Domain.findOne({
         name: req.body.domain
       });
-    
+
       const emailSubscribe = [];
       await domain.emailSubscribe.category.map((category) => {
         emailSubscribe.push(category.value);
       });
-      
+
       const smsSubscribe = [];
       await domain.smsSubscribe.category.map((category) => {
         smsSubscribe.push(category.value);
       });
-    
+
       const snooze = {
         isSnooze: false,
         startDate: "",
         endDate: ""
       };
-    
+
       const addDomain = {};
       addDomain.name = req.body.domain;
       addDomain.emailSubscribe = emailSubscribe;
@@ -105,12 +142,10 @@ exports.subscribe = async (req, res) => {
 
 exports.find = async (req, res) => {
   try {
-    const user = await User.find({
-      info: {
-        link: req.query.link
-      }
-    });
-   
+    const user = await User.findOne(
+      { "info.email": req.body.email, "info.phone": req.body.phone }
+    );
+    console.log(user)
     res.json(user)
   }
   catch (error) {
@@ -123,9 +158,13 @@ exports.updateSubscribePhone = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.phoneSubscribe = true;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.phoneSubscribe = true;
       return;
     }
   });
@@ -139,9 +178,13 @@ exports.updateSubscribeSms = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.smsSubscribe = req.body.smsSubscribeCategory;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.smsSubscribe = req.body.smsSubscribeCategory;
       return;
     }
   });
@@ -155,9 +198,13 @@ exports.updateSubscribeEmail = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = req.body.emailSubscribeCategory;
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.emailSubscribe = req.body.emailSubscribeCategory;
       return;
     }
   });
@@ -171,14 +218,18 @@ exports.updateUnsubscribe = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.emailSubscribe = [];
-      domain.smsSubscribe = [];
-      domain.phoneSubscribe = false;
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.emailSubscribe = [];
+      x.smsSubscribe = [];
+      x.phoneSubscribe = false;
+      x.snooze.isSnooze = false;
+      x.snooze.startDate = "";
+      x.snooze.endDate = "";
       return;
     }
   });
@@ -192,13 +243,17 @@ exports.updateSnooze = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  });
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
       const startDate = moment().format('DD/MM/YYYY');
       const endDate = moment(startDate, 'DD/MM/YYYY').add(90, 'days').format('DD/MM/YYYY');
-      domain.snooze.isSnooze = true;
-      domain.snooze.startDate = startDate;
-      domain.snooze.endDate = endDate;
+      x.snooze.isSnooze = true;
+      x.snooze.startDate = startDate;
+      x.snooze.endDate = endDate;
       return;
     }
   });
@@ -212,15 +267,19 @@ exports.updateUnsnooze = async (req, res) => {
     'info.user': req.body.user
   });
 
-  await user.domain.map(async (domain) => {
-    if (domain.name === req.body.domain) {
-      domain.snooze.isSnooze = false;
-      domain.snooze.startDate = "";
-      domain.snooze.endDate = "";
+  const domain = await Domain.findOne({
+    name: req.body.domain
+  })
+
+  await user.domain.map(async (x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      x.snooze.isSnooze = false;
+      x.snooze.startDate = "";
+      x.snooze.endDate = "";
       return;
     }
   });
-  
+
   await user.save();
 
   res.json(user);
