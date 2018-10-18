@@ -20,7 +20,7 @@
         </label>
     </div>
     <div class="row" style=" margin: 50px 0px 50px 0px;">
-        <form class="form-content">
+        <form class="form-content" id="fileForm">
             <label>ไฟล์ CSV</label>
             <br />
             <div class="form-group mx-sm-3 mb-2">
@@ -57,17 +57,25 @@
 <script>
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     $('#menuUser').attr("class", "nav-link active");
-
+    
     function genFile() {
-        var file = new FormData($('#importFile'))
+        var formData = new FormData()
+        let importFile = document.getElementById('importFile').files[0];
+        formData.append("domainId", $('#sltDomain').val());
+        formData.append("csvFile", importFile);
+        console.log(formData)
+
         $.ajax({
             type: "POST",
             url: "/api/file/filter",
-            data: file,
-            async: true,
-            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (data) {
+            },
+            error: function(){
+                console.log('error')
             }
-
-        }
+        })
+    }
 </script>

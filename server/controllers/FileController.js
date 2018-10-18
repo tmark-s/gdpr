@@ -1,5 +1,5 @@
 const csv = require('csvtojson');
-const Domain = require('../models/Domain');
+const User = require('../models/User');
 
 exports.filter = async (req, res) => {
   const dataArray = await csv().fromString(req.file.buffer.toString('utf8'));
@@ -12,27 +12,35 @@ exports.filter = async (req, res) => {
         'info.email': data.email
       });
 
-      await user.domain.map((x) => {
-        if (x.domainId.toString() === req.body.domainId.toString()) {
-          resultArray.push(data);
-          return;
-        }
-      });
+      if (user) {
+        await user.domain.map((x) => {
+          if (x.domainId.toString() === req.body.domainId.toString()) {
+            resultArray.push(data);
+            return;
+          }
+        });
+      }
     }
-    else if (data.phone) {
-      const user = await User.findOne({ 
-        'info.phone': data.phone
-      });
+    // else if (data.phone) {
+    //   const user = await User.findOne({ 
+    //     'info.phone': data.phone
+    //   });
 
-      await user.domain.map((x) => {
-        if (x.domainId.toString() === req.body.domainId.toString()) {
-          resultArray.push(data);
-          return;
-        }
-      });
-    }
+    //   if (user) {
+    //     await user.domain.map((x) => {
+    //       if (x.domainId.toString() === req.body.domainId.toString()) {
+    //         resultArray.push(data);
+    //         return;
+    //       }
+    //     });
+    //   }
+    // }
   });
 
-  res.json(dataArray);
+  setTimeout(() => {
+    console.log(resultArray);
+    res.json(resultArray);
+  }, 2500);
+
 };
 
