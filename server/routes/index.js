@@ -5,39 +5,26 @@ const User = require('../models/User');
 
 router.use('/api', api);
 
-async function getUserInfo(query) {
-  return await User.findOne(query);
-
-}
-
-async function getDomainInfo(query) {
-  return await Domain.findOne(query);
-}
-
 router.get('/', async (req, res) => {
-  const domain = await getDomainInfo({ 'name': req.query.domain });
+  const domain = await Domain.findOne({
+    name: req.query.domain
+  });
 
-  const user = await getUserInfo({ 'info.user': req.query.user });
+  const user = await User.findOne({
+    'info.user': req.query.user
+  });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  console.log(user)
+
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
-  let hasPhone = false;
-  if (user.info.phone) {
-    hasPhone = true
-  } else {
-    hasPhone = false
-  }
+  let hasPhone = user.info.phone ? true : false;
 
-  let hasEmail = false;
-  if (user.info.email) {
-    hasEmail = true;
-  } else {
-    hasEmail = false;
-  }
+  let hasEmail = user.info.email ? true : false;
 
   let page = 'channel';
   let modelData = {}
@@ -59,8 +46,6 @@ router.get('/', async (req, res) => {
       hasPhone: hasPhone,
       hasEmail: hasEmail,
       hasOne: hasEmail || hasPhone,
-      snooze: userDetail.snooze
-
     }
   }
 
@@ -79,9 +64,9 @@ router.get('/subscribe-sms', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -132,9 +117,9 @@ router.get('/subscribe-email', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -181,9 +166,9 @@ router.get('/updated-complete', async (req, res) => {
     name: req.query.domain
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -245,9 +230,13 @@ router.get('/snooze-complete', async (req, res) => {
     'info.user': req.query.user
   });
 
-  const userDetail = await user.domain.find((domain) => {
-    if (domain.name === req.query.domain) {
-      return domain;
+  const domain = await Domain.findOne({
+    name: req.query.domain
+  });
+
+  const userDetail = await user.domain.find((x) => {
+    if (x.domainId.toString() === domain._id.toString()) {
+      return x;
     }
   });
 
@@ -292,10 +281,19 @@ router.get('/cmn-create', async (req, res) => {
 
 
 router.get('/backoffice-umn', async (req, res) => {
-  const user = await User.find({ 'domain.name': 'sansiri' });
+  const domainList = await Domain.find({});
   res.render('Backoffice-umn', {
     layout: 'staff_main.hbs',
-    userList: user,
+    domainList: domainList
+  });
+});
+
+router.get('/umn-filefilter', async (req, res) => {
+  const domain = await Domain.find({
+  });
+  res.render('UMN-FileFilter', {
+    layout: 'staff_main.hbs',
+    domainList: domain
   });
 });
 
