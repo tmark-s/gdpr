@@ -6,7 +6,7 @@ exports.filter = async (req, res) => {
 
   const resultArray = [];
 
-  await dataArray.map((data) => {
+  await dataArray.map(async (data) => {
     if (data.email) {
       const user = await User.findOne({ 
         'info.email': data.email
