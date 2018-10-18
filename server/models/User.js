@@ -14,9 +14,9 @@ const User = mongoose.model('user', {
   },
   domain: [
     {
-      name: {
-        type: String,
-        require: true
+      domainId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Domain'
       },
       emailSubscribe: {
         type: [String]
