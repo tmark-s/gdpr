@@ -2,14 +2,14 @@
 
     <div style="text-align:center;">
         <div class="dropdown">
-            <label class="dropdown-toggle text-uppercase backoffice-header-dropdown" data-toggle="dropdown">
+            <label id="domainName" class="dropdown-toggle text-uppercase backoffice-header-dropdown" data-toggle="dropdown">
                 {{headText}}
             </label>
             <div class="dropdown-menu backoffice-header-dropdown-item scrollable-menu" aria-labelledby="dropdownMenuLink">
                 {{#each listDomain}}
                 {{#ifCond ../headText '!==' this.name}}
                 <li>
-                    <a class="dropdown-item">{{this.name}}</a>
+                    <a class="dropdown-item" onclick="changeDomain('{{this.name}}')">{{this.name}}</a>
                 </li>
                 {{/ifCond}}
                 {{/each}}
@@ -23,14 +23,14 @@
         <div class="card">
             <div class="card-header collaspe-header" id="headingSMS">
                 <label class="container">SMS
-                {{#if dataDomain.smsSubscribe.canSubscribe}}
+                    {{#if dataDomain.smsSubscribe.canSubscribe}}
                     <input type="checkbox" name="smsCanSubscribe" value="sms" checked="checked">
-                {{else}}
+                    {{else}}
                     <input type="checkbox" name="smsCanSubscribe" value="sms">
-                {{/if}}
+                    {{/if}}
                     <span class="checkmark"></span>
                 </label>
-                
+
                 <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
                     data-toggle="collapse" data-target="#collapseSMS" aria-expanded="true" aria-controls="collapseSMS"></span>
             </div>
@@ -39,11 +39,11 @@
                 <div class="card-body">
                     {{#each dataDomain.smsSubscribe.category}}
                     <label class="container">{{this.name}}
-                    {{#if this.canSubscribe}}
+                        {{#if this.canSubscribe}}
                         <input type="checkbox" name="smsCategory[]" value={{this.value}} id={{this.name}} checked="checked">
-                    {{else}}
+                        {{else}}
                         <input type="checkbox" name="smsCategory[]" value={{this.value}} id={{this.name}}>
-                    {{/if}}
+                        {{/if}}
                         <span class="checkmark"></span>
                     </label><br>
                     {{/each}}
@@ -53,13 +53,13 @@
         {{/ifCond}}
         {{#ifCond dataDomain.emailSubscribe.category.length '>' 0}}
         <div class="card">
-            <div class="card-header  collaspe-header DomainHeader" id="headingEmail">
+            <div class="card-header  collaspe-header" id="headingEmail">
                 <label class="container">Email
-                {{#if dataDomain.emailSubscribe.canSubscribe}}
+                    {{#if dataDomain.emailSubscribe.canSubscribe}}
                     <input type="checkbox" name="emailCanSubscribe" value="email" checked="checked">
-                {{else}}
+                    {{else}}
                     <input type="checkbox" name="emailCanSubscribe" value="email">
-                {{/if}}
+                    {{/if}}
                     <span class="checkmark"></span>
                 </label>
                 <span class="glyphicon glyphicon-plus-sign" style="float:right; margin:12px 0px; cursor:pointer;"
@@ -70,11 +70,11 @@
                 <div class="card-body">
                     {{#each dataDomain.emailSubscribe.category}}
                     <label class="container">{{this.name}}
-                    {{#if this.canSubscribe}}
+                        {{#if this.canSubscribe}}
                         <input type="checkbox" name="emailCategory[]" value="{{this.value}}" id="{{this.name}}" checked="checked">
-                    {{else}}
+                        {{else}}
                         <input type="checkbox" name="emailCategory[]" value="{{this.value}}" id="{{this.name}}">
-                    {{/if}}
+                        {{/if}}
                         <span class="checkmark"></span>
                     </label><br>
                     {{/each}}
@@ -85,11 +85,11 @@
         <div class="card">
             <div class="card-header collaspe-header" id="headingEmail">
                 <label class="container">Mobile
-                {{#if dataDomain.phoneSubscribe.canSubscribe}}
+                    {{#if dataDomain.phoneSubscribe.canSubscribe}}
                     <input type="checkbox" name="phoneCanSubscribe" value="phone" checked="checked">
-                {{else}}
+                    {{else}}
                     <input type="checkbox" name="phoneCanSubscribe" value="phone">
-                {{/if}}
+                    {{/if}}
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -97,7 +97,7 @@
     </div>
     <div style="text-align:center">
         <button class="btn btn-default" style="margin-right: 50px;" onclick="onSubmit('{{dataDomain._id}}')">บันทึก</button>
-        <button class="btn btn-default">ยกเลิก</button>
+        <button class="btn btn-default" onclick="goDomain()">ยกเลิก</button>
     </div>
 </div>
 
@@ -177,6 +177,16 @@
     let params = new URLSearchParams(document.location.search.substring(1));
     let paramdomain = params.get("domain");
 
+    function goDomain() {
+        window.location.href = "http://localhost:3000/backoffice-dmn";
+    }
+
+    function changeDomain(name) {
+
+        window.location.href = "http://localhost:3000/dmn-setting/?domain=" + name;
+
+    }
+
     function onSubmit(id) {
         const smsCategory = [];
         const smsCanSubscribe = $('[name=smsCanSubscribe]').prop('checked') === true ? true : false;
@@ -192,11 +202,11 @@
                 });
             }
             else {
-               smsCategory.push({
+                smsCategory.push({
                     name: this.id,
                     value: this.value,
                     canSubscribe: false
-                }); 
+                });
             }
         });
 
@@ -213,20 +223,23 @@
                     name: this.id,
                     value: this.value,
                     canSubscribe: false
-                }); 
+                });
             }
         });
 
         $.ajax({
             type: 'PUT',
-            data: JSON.stringify({ 
-                id: id, 
+            data: JSON.stringify({
+                id: id,
                 smsSubscribe: { canSubscribe: smsCanSubscribe, category: smsCategory },
                 emailSubscribe: { canSubscribe: emailCanSubscribe, category: emailCategory },
                 phoneSubscribe: { canSubscribe: phoneCanSubscribe },
             }),
             url: '/api/domain/edit-subscribe',
-            contentType: 'application/json'
+            contentType: 'application/json',
+            success: function () {
+                location.reload();
+            }
         })
     }
 </script>

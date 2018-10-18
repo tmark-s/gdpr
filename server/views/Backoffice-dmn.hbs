@@ -57,6 +57,8 @@ glyphicon glyphicon-king"></span></a>
                                 hidden> <span class="glyphicon glyphicon-remove"></span></a>
                             <a id="editButton{{index @index }}" style="cursor:pointer;" onclick="editDomain(this,'{{this._id}}')"><span
                                     class="glyphicon glyphicon-pencil"></span></a>
+                            <a id="editButton{{index @index }}" style="cursor:pointer;" onclick="goSetting('{{this.name}}')"><span
+                                    class="glyphicon glyphicon-cog"></span></a>
                             |
                             <a onclick="deleteDomain('{{this._id}}')" style="cursor:pointer;"> <span class="glyphicon glyphicon-trash"></span></a>
                         </td>
@@ -158,5 +160,9 @@ glyphicon glyphicon-king"></span></a>
                 location.reload();
             }
         });
+    }
+
+    function goSetting(domain) {
+        window.location.href = "http://localhost:3000/dmn-setting/?domain=" + domain;
     }
 </script>
