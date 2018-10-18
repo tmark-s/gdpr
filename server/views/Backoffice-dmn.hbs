@@ -127,11 +127,13 @@
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).removeAttr("class")
         $('#tableDomain').find("tr").eq(i).find("td").eq(0).text(name);
     }
+
+
     function deleteDomain(id) {
+        debugger
         $.ajax({
             type: 'DELETE',
-            data: JSON.stringify({ id: id }),
-            url: '/api/domain',
+            url: '/api/domain/?' + "id=" + id,
             success: function (data) {
                 location.reload();
             }
