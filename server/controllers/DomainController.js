@@ -77,7 +77,8 @@ exports.addCategory = async (req, res) => {
   
     const newCategory = {
       name: req.body.category.name,
-      value: req.body.category.value
+      value: req.body.category.value,
+      canSubscribe: true
     }
   
     domain.smsSubscribe.category.push(newCategory);
@@ -100,7 +101,6 @@ exports.editCategory = async (req, res) => {
 
     await domain.emailSubscribe.category.map((category) => {
       if (category._id.toString() === req.body.id.toString()) {
-        console.log('aaaa')
         category.name = req.body.name;
         return;
       }
