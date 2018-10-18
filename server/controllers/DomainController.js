@@ -106,7 +106,7 @@ exports.editCategory = async (req, res) => {
       }
     });
 
-    domain.save();
+    await domain.save();
     res.json(domain);
   }
   else if (req.body.channel === 'sms') {
@@ -121,7 +121,7 @@ exports.editCategory = async (req, res) => {
       }
     });
 
-    domain.save();
+    await domain.save();
     res.json(domain);
   }
 };
