@@ -1,99 +1,106 @@
-<div class="main-content">
-    <form class="form-inline">
-        <label>ชื่อ Category</label>
-        <label class="backoffice-helptext">*</label>
-        <br />
-        <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" id="createName" placeholder="ชื่อ Category">
-        </div>
-    </form>
-    <form class="form-inline">
-        <label>ชื่อ Category</label>
-        <label class="backoffice-helptext">*</label>
-        <br />
-        <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" id="createValue" placeholder="รหัส Category">
-        </div>
-    </form>
-    <form class="form-inline">
-        <label>กลุ่ม Domain</label>
-        <label class="backoffice-helptext">(เลือกได้ 1 กลุ่ม)</label>
-        <br />
-        <div class="input-group">
-            <select class="backoffice-select custom-select" id="sltDomain">
+<div id="main-content">
+
+    <ul class="nav flex-column" style="max-width:300px; left:0px; position:fixed; z-index:2">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home">
+            <a class="nav-link" id="menuHome" href="http://localhost:3000/backoffice"><span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Domain">
+            <a class="nav-link" id="menuDomain" href="http://localhost:3000/backoffice-dmn"><span class="
+glyphicon glyphicon-king"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuCategory" href="http://localhost:3000/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Category">
+            <a class="nav-link" id="menuAddCategory" href="http://localhost:3000/cmn-create"><span class="glyphicon glyphicon-plus-sign"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuUser" href="http://localhost:3000/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
+        </li>
+    </ul>
+    <div style="text-align:center;">
+        <label class="dropdown-toggle text-uppercase backoffice-header" id="dropdownMenuLink" data-toggle="dropdown">
+            Create Category
+        </label>
+    </div>
+    <div class="row" style=" margin: 50px 0px 50px 0px;">
+        <form class="form-content">
+            <label>ชื่อ Category</label>
+            <label>*</label>
+            <br />
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="createName" placeholder="ชื่อ Category">
+            </div>
+        </form>
+        <form class="form-content">
+            <label>รหัส Category</label>
+            <label>*</label>
+            <br />
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="createValue" placeholder="รหัส Category">
+            </div>
+        </form>
+        <form class="form-content">
+            <label>กลุ่ม Domain</label>
+            <label class="">(เลือกได้ 1 กลุ่ม)</label>
+            <br />
+            <select class="backoffice-select form-group mx-sm-3 mb-2" style="width: 100%; min-width: 300px;" id="sltDomain">
                 <option selected>Choose...</option>
                 {{#each domainName}}
                 <option value="{{this._id}}">{{this.name}}</option>
                 {{/each}}
             </select>
+
+        </form>
+        <form class="form-content">
+            <label>กลุ่ม Channel</label>
+            <label class="">(เลือกได้อย่างน้อย 1 กลุ่ม)</label>
+            <br>
+            <select id="channelList" class="form-group mx-sm-3 mb-2" style="width: 100%; min-width: 300px;" multiple>
+                <option value="sms">SMS</option>
+                <option value="email">Email</option>
+            </select>
+        </form>
+
+        <div class="input-group-append" style="text-align:center;">
+            <button class="btn btn-outline-secondary" onclick="createCategory()" type="button">Create</button>
         </div>
-    </form>
 
-    <form class="form-inline">
-        <label>กลุ่ม Channel</label>
-        <label class="backoffice-helptext">(เลือกได้อย่างน้อย 1 กลุ่ม)</label>
-        <br>
-        <select id="channelList" multiple>
-            <option value="sms">SMS</option>
-            <option value="email">Email</option>
-        </select>
-    </form>
-
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" onclick="createCategory()" type="button">Create</button>
     </div>
-</div>
 
+</div>
 <style scoped>
 
 </style>
 
 <script>
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    $('#menuCategory').attr("class", "nav-link active");
+    $('#menuAddCategory').attr("class", "submenu active");
     function createCategory() {
         let categoryName = $('#createName').val().trim();
         let categoryValue = $('#createValue').val().trim();
         let channelList = $('#channelList').val();
         let id = $('#sltDomain').val();
-        if (channelList.indexOf("email") != -1) {
 
-            $.ajax({
-                type: 'PUT',
-                data: JSON.stringify({
-                    "id": id,
-                    "category": {
-                        "name": categoryName,
-                        "value": categoryValue,
-                        "canSubscribe": true
-
-                    }
-                }),
-                url: 'api/domain/add-email-category',
-                contentType: 'application/json',
-                success: function (data) {
-                    location.reload();
-                }
-            });
-        }
-
-        if (channelList.indexOf("sms") != -1) {
-
-            $.ajax({
-                type: 'PUT',
-                data: JSON.stringify({
-                    "id": id,
-                    "category": {
-                        "name": categoryName,
-                        "value": categoryValue,
-                        "canSubscribe": true
-
-                    }
-                }),
-                url: 'api/domain/add-sms-category',
-                contentType: 'application/json',
-                success: function (data) {
-                    location.reload();
-                }
-            });
-        }
+        const smsChannel = channelList.indexOf("sms") != -1 ? true : false;
+        const emailChannel = channelList.indexOf("email") != -1 ? true : false;
+        $.ajax({
+            type: 'PUT',
+            data: JSON.stringify({
+                "id": id,
+                "category": {
+                    "name": categoryName,
+                    "value": categoryValue
+                },
+                "smsChannel": smsChannel,
+                "emailChannel": emailChannel
+            }),
+            url: '/api/domain/add-category',
+            contentType: 'application/json',
+            success: function (data) {
+                location.reload();
+            }
+        });
     }
 </script>

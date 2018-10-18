@@ -1,0 +1,86 @@
+<div id="main-content">
+
+    <ul class="nav flex-column" style="max-width:300px; left:0px; position:fixed; z-index:2">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home">
+            <a class="nav-link" id="menuHome" href="http://localhost:3000/backoffice"><span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Domain">
+            <a class="nav-link" id="menuDomain" href="http://localhost:3000/backoffice-dmn"><span class=" glyphicon glyphicon-king"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuCategory" href="http://localhost:3000/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
+            <a class="nav-link" id="menuUser" href="http://localhost:3000/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
+        </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="File Filter">
+            <a class="nav-link submenu" id="menuFileFilter" href="http://localhost:3000/umn-filefilter"><span class="glyphicon glyphicon-download"></span></a>
+        </li>
+    </ul>
+    <div style="text-align:center;">
+        <label class="dropdown-toggle text-uppercase backoffice-header" id="dropdownMenuLink" data-toggle="dropdown">
+            File Filter
+        </label>
+    </div>
+    <div class="row" style=" margin: 50px 0px 50px 0px;">
+        <form class="form-content" id="fileForm">
+            <label>ไฟล์ CSV</label>
+            <br />
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="file" class="form-control-file" id="importFile">
+            </div>
+        </form>
+        <form class="form-content">
+            <label>กลุ่ม Domain</label>
+            <label class="">(เลือกได้ 1 กลุ่ม)</label>
+            <br />
+            <select class="backoffice-select form-group mx-sm-3 mb-2" style="width: 100%; min-width: 300px;" id="sltDomain">
+                <option selected>Choose...</option>
+                {{#each domainList}}
+                <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+
+        </form>
+        <div class="input-group-append" style="text-align:center;">
+            <button class="btn btn-outline-secondary" onclick="genFile()" type="button">Gen File</button>
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+<style scoped>
+
+</style>
+
+<script>
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    $('#menuUser').attr("class", "nav-link active");
+    $('#menuFileFilter').attr("class", "submenu active");
+
+    function genFile() {
+        var formData = new FormData()
+        let importFile = document.getElementById('importFile').files[0];
+        formData.append("domainId", $('#sltDomain').val());
+        formData.append("csvFile", importFile);
+        console.log(formData)
+
+        $.ajax({
+            type: "POST",
+            url: "/api/file/filter",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+</script>
