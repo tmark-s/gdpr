@@ -87,7 +87,7 @@
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/subscribe-sms/?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
+                    window.location.href = "/subscribe-sms/?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
                 }
             });
             // value to next page
@@ -96,7 +96,7 @@
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (data) {
-                    window.location.href = "http://localhost:3000/subscribe-email/?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
+                    window.location.href = "/subscribe-email/?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + selectedChannel;
                 }
             });
         }
@@ -109,7 +109,7 @@
             url: '/api/user/update-snooze',
             contentType: 'application/json',
             success: function (data) {
-                window.location.href = "http://localhost:3000/snooze-complete/?user=" + paramUser + "&domain=" + paramdomain;
+                window.location.href = "/snooze-complete/?user=" + paramUser + "&domain=" + paramdomain;
             }
         });
     }
@@ -121,7 +121,7 @@
             url: 'api/user/update-unsubscribe',
             contentType: 'application/json',
             success: function (data) {
-                window.location.href = "http://localhost:3000/unsubscribe-complete/?user=" + paramUser + "&domain=" + paramdomain;
+                window.location.href = "/unsubscribe-complete/?user=" + paramUser + "&domain=" + paramdomain;
             }
         });
     }

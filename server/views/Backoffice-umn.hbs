@@ -2,19 +2,19 @@
 
     <ul class="nav flex-column" style="max-width:300px; left:0px; position:fixed; z-index:2">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Home">
-            <a class="nav-link" id="menuHome" href="http://localhost:3000/backoffice"><span class="glyphicon glyphicon-home"></span></a>
+            <a class="nav-link" id="menuHome" href="/backoffice"><span class="glyphicon glyphicon-home"></span></a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Domain">
-            <a class="nav-link" id="menuDomain" href="http://localhost:3000/backoffice-dmn"><span class=" glyphicon glyphicon-king"></span></a>
+            <a class="nav-link" id="menuDomain" href="/backoffice-dmn"><span class=" glyphicon glyphicon-king"></span></a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
-            <a class="nav-link" id="menuCategory" href="http://localhost:3000/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
+            <a class="nav-link" id="menuCategory" href="/backoffice-cmn"><span class="glyphicon glyphicon-bishop"></span></a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
-            <a class="nav-link" id="menuUser" href="http://localhost:3000/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
+            <a class="nav-link" id="menuUser" href="/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="File Filter">
-            <a class="nav-link submenu" id="menuFileFilter" href="http://localhost:3000/umn-filefilter"><span class="glyphicon glyphicon-download"></span></a>
+            <a class="nav-link submenu" id="menuFileFilter" href="/umn-filefilter"><span class="glyphicon glyphicon-download"></span></a>
         </li>
     </ul>
     <div style="text-align:center;">
@@ -133,11 +133,11 @@
                 if (data) {
                     user = data.info.user;
                     $('#contentInformation').attr("hidden", false)
-                    $('#mainLink').val("http://localhost:3000/?user=" + user + "&domain=" + domain)
+                    $('#mainLink').val("/?user=" + user + "&domain=" + domain)
                     if (data.info.email) {
                         hasEmail = true;
                         $('#statusEmail').attr('class', 'glyphicon glyphicon-ok');
-                        $('#emailLink').val("http://localhost:3000/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
+                        $('#emailLink').val("/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
                     } else {
                         $('#statusEmail').attr('class', 'glyphicon glyphicon-minus');
                         $('#emailLink').attr('hidden', true)
@@ -171,9 +171,9 @@
     function genLink() {
         let domain = $('#sltDomain').val();
         if (domain != "") {
-            $('#mainLink').val("http://localhost:3000/?user=" + user + "&domain=" + domain)
+            $('#mainLink').val("/?user=" + user + "&domain=" + domain)
             if (hasEmail) {
-                $('#emailLink').val("http://localhost:3000/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
+                $('#emailLink').val("/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
             }
         }
     }

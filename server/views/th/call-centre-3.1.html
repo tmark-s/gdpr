@@ -249,10 +249,10 @@ style="display:none;visibility:hidden"></iframe>
             $.ajax({
                 type: 'POST',
                 contentType: 'application/json',
-                url: 'http://localhost:3000/subscribe-sms/',
+                url: '/subscribe-sms/',
                 success: function (data) {
                     alert('success call subscribe sms page');
-                    window.location.href = "http://localhost:3000/subscribe-sms/?choosed=" + selectedChannel;
+                    window.location.href = "/subscribe-sms/?choosed=" + selectedChannel;
                 }
             });
         }
