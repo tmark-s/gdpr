@@ -101,10 +101,16 @@ exports.subscribe = async (req, res) => {
 
 exports.find = async (req, res) => {
   try {
+    let userInfo = {}
+    if (req.body.email !== "") {
+      userInfo['info.email'] = req.body.email;
+    }
+    if (req.body.phone !== "") {
+      userInfo["info.phone"] = req.body.phone;
+    }
     const user = await User.findOne(
-      { "info.email": req.body.email, "info.phone": req.body.phone }
+      userInfo
     );
-    console.log(user)
     res.json(user)
   }
   catch (error) {
