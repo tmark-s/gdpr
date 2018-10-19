@@ -1,4 +1,5 @@
 const csv = require('csvtojson');
+const fs = require('fs');
 const User = require('../models/User');
 
 exports.filter = async (req, res) => {
@@ -38,9 +39,15 @@ exports.filter = async (req, res) => {
   });
 
   setTimeout(() => {
-    console.log(resultArray);
-    res.json(resultArray);
+    const file = fs.createWriteStream('test.csv');
+    file.once('open', async () => {
+      await resultArray.forEach((user) => {
+        file.write(user.email + ", " + user.phone + "\n");
+      });
+    });
+    // res.setHeader("Content-Type", "application/csv");
+    // res.setHeader( "Content-Disposition", "attachment; filename=" + file.path);
+    res.pipe(file);
   }, 2500);
-
 };
 
