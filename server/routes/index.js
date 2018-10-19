@@ -14,8 +14,6 @@ router.get('/', async (req, res) => {
     'info.user': req.query.user
   });
 
-  console.log(user)
-
   const userDetail = await user.domain.find((x) => {
     if (x.domainId.toString() === domain._id.toString()) {
       return x;
@@ -285,6 +283,15 @@ router.get('/backoffice-umn', async (req, res) => {
   res.render('Backoffice-umn', {
     layout: 'staff_main.hbs',
     domainList: domainList
+  });
+});
+
+router.get('/umn-filefilter', async (req, res) => {
+  const domain = await Domain.find({
+  });
+  res.render('UMN-FileFilter', {
+    layout: 'staff_main.hbs',
+    domainList: domain
   });
 });
 

@@ -60,12 +60,23 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
+                <div style="text-align:center;">
+=======
                 <div style="text-align:center; padding:3%">
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
                     <label>
                         USER LINK
                     </label>
                 </div>
                 <div class="form-group">
+<<<<<<< HEAD
+                    <label>Main Link</label><br>
+                    <div>
+                        <input type="text" class="form-control textLink" id="staticEmail" placeholder="email@example.com">
+                        <span class="glyphicon glyphicon-link coppyLink"></span>
+                        <span class="glyphicon glyphicon-log-in coppyLink"></span>
+=======
                     <label>Domain Name</label><br>
                     <select class="backoffice-select form-control mx-sm-3 mb-2" style="width: 100%; height:40px; min-width: 300px;"
                         onchange="genLink()" id="sltDomain">
@@ -80,15 +91,22 @@
                         <input type="text" class="form-control textLink" id="mainLink" placeholder="email@example.com">
                         <span class="glyphicon glyphicon-link coppyLink" onclick="coppyLink('mainLink')"></span>
                         <span class="glyphicon glyphicon-log-in coppyLink" onclick="goPage('#mainLink')"></span>
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Link Email</label><br>
                     <div>
+<<<<<<< HEAD
+                        <input type="text" class="form-control textLink" id="staticEmail" placeholder="email@example.com">
+                        <span class="glyphicon glyphicon-link coppyLink"></span>
+                        <span class="glyphicon glyphicon-log-in coppyLink"></span>
+=======
                         <input type="text" class="form-control textLink" id="emailLink" placeholder="email@example.com">
                         <span class="glyphicon glyphicon-link coppyLink" onclick="coppyLink('emailLink')"></span>
                         <span class="glyphicon glyphicon-log-in coppyLink" onclick="goPage('#emailLink')"></span>
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
                     </div>
                 </div>
             </form>
@@ -109,8 +127,25 @@
         float: left;
         width: 85%;
         height: 40px;
+<<<<<<< HEAD
     }
 
+    .box {
+        flex: 1 1 auto;
+        width: 50%;
+        display: table-cell;
+=======
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
+    }
+</style>
+
+<<<<<<< HEAD
+<script>
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    $('#menuUser').attr("class", "nav-link active");
+
+    function findUser() {
+=======
     .box {
         flex: 1 1 auto;
         width: 50%;
@@ -125,6 +160,7 @@
     let hasEmail = false;
     function findUser() {
         let domain = $('#sltDomain').val();
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
         let email = $('#txtEmail').val().trim();
         let phone = $('#txtPhone').val().trim();
 
@@ -139,6 +175,14 @@
             success: function (data) {
                 console.log(data)
                 if (data) {
+<<<<<<< HEAD
+                    $('#contentInformation').attr("hidden", false)
+
+                    if (data.info.email) {
+                        $('#statusEmail').attr('class', 'glyphicon glyphicon-ok')
+                    } else {
+                        $('#statusEmail').attr('class', 'glyphicon glyphicon-minus')
+=======
                     user = data.info.user;
                     $('#contentInformation').attr("hidden", false)
                     $('#mainLink').val("http://localhost:3000/?user=" + user + "&domain=" + domain)
@@ -149,6 +193,7 @@
                     } else {
                         $('#statusEmail').attr('class', 'glyphicon glyphicon-minus');
                         $('#emailLink').attr('hidden', true)
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
                     }
 
                     if (data.info.phone) {
@@ -163,6 +208,8 @@
             }
         });
 
+<<<<<<< HEAD
+=======
     }
 
     function coppyLink(name) {
@@ -184,6 +231,7 @@
                 $('#emailLink').val("http://localhost:3000/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
             }
         }
+>>>>>>> 7dbe68bd0a7a354548e4c18c253b6968487591e8
     }
 
 </script>
