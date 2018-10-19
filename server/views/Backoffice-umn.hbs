@@ -67,15 +67,19 @@
                 </div>
                 <div class="form-group">
                     <label>Domain Name</label><br>
-                    <select class="backoffice-select form-control mx-sm-3 mb-2" style="width: 100%; height:40px; min-width: 300px;"
-                        onchange="genLink()" id="sltDomain">
-                        {{#each domainList}}
-                        <option value="{{this.hash}}">{{this.name}}</option>
-                        {{/each}}
-                    </select>
+                    <div class=" col-xs-10 col-sm-8 col-md-10 ">
+                        <select class="backoffice-select form-control" style="width:100%; height:40px; min-width: 300px;"
+                            onchange="genLink()" id="sltDomain">
+                            {{#each domainList}}
+                            <option value="{{this._id}},{{this.hash}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <span class="glyphicon glyphicon-plus coppyLink" onclick="addUserDomain()"></span>
                 </div>
                 <div class="form-group">
-                    <label>Main Link</label><br>
+                    <label>Normal Link</label><br>
                     <div>
                         <input type="text" class="form-control textLink" id="mainLink" placeholder="email@example.com">
                         <span class="glyphicon glyphicon-link coppyLink" onclick="coppyLink('mainLink')"></span>
@@ -84,7 +88,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Link Email</label><br>
+                    <label>Email Link</label><br>
                     <div>
                         <input type="text" class="form-control textLink" id="emailLink" placeholder="email@example.com">
                         <span class="glyphicon glyphicon-link coppyLink" onclick="coppyLink('emailLink')"></span>
@@ -116,6 +120,25 @@
     $('#menuUser').attr("class", "nav-link active");
     let user = "";
     let hasEmail = false;
+    let userDomain = [];
+
+    function checkUserDomainList(domainUser) {
+        $("#sltDomain option").each(function () {
+            let optionValue = $(this).val();
+            let valueArray = optionValue.split(",");
+            let optionId = valueArray[0];
+            let optionHash = valueArray[1];
+
+            domainUser.map((domain, index) => {
+                let name = "#sltDomain option[value=\"" + optionValue + "\"]"
+                if (optionId !== domain.domainId) {
+                    $(name).hide();
+                } else {
+                    $(name).show();
+                }
+            })
+        });
+    }
     function findUser() {
         let domain = $('#sltDomain').val();
         let email = $('#txtEmail').val().trim();
@@ -132,12 +155,21 @@
             success: function (data) {
                 if (data) {
                     user = data.info.user;
+
+                    /* Gen Domain Option*/
+                    checkUserDomainList(data.domain)
+                    let optionValue = $('#sltDomain').val();
+                    let valueArray = optionValue.split(",");
+                    let optionId = valueArray[0];
+                    let optionHash = valueArray[1];
+
+                    /* Show or hide Information and Generate link*/
                     $('#contentInformation').attr("hidden", false)
-                    $('#mainLink').val("http://localhost:3000/?user=" + user + "&domain=" + domain)
+                    $('#mainLink').val("http://localhost:3000/?user=" + user + "&domain=" + optionHash)
                     if (data.info.email) {
                         hasEmail = true;
                         $('#statusEmail').attr('class', 'glyphicon glyphicon-ok');
-                        $('#emailLink').val("http://localhost:3000/subscribe-email/?user=" + user + "&domain=" + domain + "&choosed=email")
+                        $('#emailLink').val("http://localhost:3000/subscribe-email/?user=" + user + "&domain=" + optionHash + "&choosed=email")
                     } else {
                         $('#statusEmail').attr('class', 'glyphicon glyphicon-minus');
                         $('#emailLink').attr('hidden', true)
