@@ -7,7 +7,7 @@ router.use('/api', api);
 
 router.get('/', async (req, res) => {
   const domain = await Domain.findOne({
-    name: req.query.domain
+    hash: req.query.domain
   });
 
   const user = await User.findOne({
@@ -59,7 +59,7 @@ router.get('/subscribe-sms', async (req, res) => {
 
   //// get domain from database
   const domain = await Domain.findOne({
-    name: req.query.domain
+    hash: req.query.domain
   });
 
   const userDetail = await user.domain.find((x) => {
@@ -112,7 +112,7 @@ router.get('/subscribe-email', async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.query.domain
+    hash: req.query.domain
   });
 
   const userDetail = await user.domain.find((x) => {
@@ -161,7 +161,7 @@ router.get('/updated-complete', async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.query.domain
+    hash: req.query.domain
   });
 
   const userDetail = await user.domain.find((x) => {
@@ -229,7 +229,7 @@ router.get('/snooze-complete', async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.query.domain
+    hash: req.query.domain
   });
 
   const userDetail = await user.domain.find((x) => {
@@ -306,7 +306,7 @@ router.get('/umn-filefilter', async (req, res) => {
 
 router.get('/dmn-setting', async (req, res) => {
   const domainList = await Domain.find({});
-  const domain = await Domain.findOne({ name: req.query.domain })
+  const domain = await Domain.findOne({ hash: req.query.domain })
   res.render('DMN-Setting', {
     layout: 'staff_main.hbs',
     listDomain: domainList,
