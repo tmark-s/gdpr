@@ -20,19 +20,9 @@ router.get('/', async (req, res) => {
     }
   });
 
-  let hasPhone = false;
-  if (user.info.phone) {
-    hasPhone = true
-  } else {
-    hasPhone = false
-  }
+  let hasPhone = user.info.phone ? true : false;
 
-  let hasEmail = false;
-  if (user.info.email) {
-    hasEmail = true;
-  } else {
-    hasEmail = false;
-  }
+  let hasEmail = user.info.email ? true : false;
 
   let page = 'channel';
   let modelData = {}
@@ -54,8 +44,6 @@ router.get('/', async (req, res) => {
       hasPhone: hasPhone,
       hasEmail: hasEmail,
       hasOne: hasEmail || hasPhone,
-      snooze: userDetail.snooze
-
     }
   }
 
@@ -291,10 +279,19 @@ router.get('/cmn-create', async (req, res) => {
 
 
 router.get('/backoffice-umn', async (req, res) => {
-  const user = await User.find({ 'domain.name': 'sansiri' });
+  const domainList = await Domain.find({});
   res.render('Backoffice-umn', {
     layout: 'staff_main.hbs',
-    userList: user,
+    domainList: domainList
+  });
+});
+
+router.get('/umn-filefilter', async (req, res) => {
+  const domain = await Domain.find({
+  });
+  res.render('UMN-FileFilter', {
+    layout: 'staff_main.hbs',
+    domainList: domain
   });
 });
 

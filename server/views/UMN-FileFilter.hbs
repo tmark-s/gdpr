@@ -13,6 +13,10 @@
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Category">
             <a class="nav-link" id="menuUser" href="http://localhost:3000/backoffice-umn"><span class="glyphicon glyphicon-user"></span></a>
         </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="File Filter">
+            <a class="nav-link submenu" id="menuFileFilter" href="http://localhost:3000/umn-filefilter"><span class="glyphicon glyphicon-download"></span></a>
+        </li>
     </ul>
     <div style="text-align:center;">
         <label class="dropdown-toggle text-uppercase backoffice-header" id="dropdownMenuLink" data-toggle="dropdown">
@@ -57,7 +61,8 @@
 <script>
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     $('#menuUser').attr("class", "nav-link active");
-    
+    $('#menuFileFilter').attr("class", "submenu active");
+
     function genFile() {
         var formData = new FormData()
         let importFile = document.getElementById('importFile').files[0];
@@ -73,7 +78,7 @@
             contentType: false,
             success: function (data) {
             },
-            error: function(){
+            error: function () {
                 console.log('error')
             }
         })

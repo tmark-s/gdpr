@@ -3,6 +3,43 @@ const Domain = require('../models/Domain');
 const hash = require('object-hash');
 const moment = require('moment');
 
+exports.createUser = async (req, res) => {
+  let dataBody = {}
+  if (req.body.email) {
+    dataBody.info = { email: req.body.email };
+  }
+
+  if (req.body.phone) {
+    dataBody.info = { phone: req.body.phone };
+  }
+
+  if (req.body.email || req.body.phone) {
+    const findUser = await User.findOne(dataBody);
+    if (!findUser) {
+      const newUser = new User;
+      newUser.info.email = req.body.email;
+      newUser.info.phone = req.body.phone
+      await newUser.save();
+
+      const user = hash(newUser._id.toString());
+      newUser.info = {
+        email: req.body.email,
+        phone: req.body.phone,
+        user: user
+      }
+
+      console.log(newUser)
+
+      await newUser.save()
+
+      res.json(newUser);
+    } else {
+      res.status(400).json("Domain already exist");
+    }
+  }
+
+}
+
 exports.subscribe = async (req, res) => {
   const findUser = await User.findOne({
     'info.email': req.body.email
