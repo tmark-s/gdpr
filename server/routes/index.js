@@ -310,7 +310,7 @@ router.get('/dmn-setting', async (req, res) => {
   res.render('DMN-Setting', {
     layout: 'staff_main.hbs',
     listDomain: domainList,
-    headText: req.query.domain,
+    headText: domain.name,
     dataDomain: domain
   });
 })

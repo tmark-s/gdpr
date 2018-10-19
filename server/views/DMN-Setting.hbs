@@ -9,7 +9,7 @@
                 {{#each listDomain}}
                 {{#ifCond ../headText '!==' this.name}}
                 <li>
-                    <a class="dropdown-item" onclick="changeDomain('{{this.name}}')">{{this.name}}</a>
+                    <a class="dropdown-item" onclick="changeDomain('{{this.hash}}')">{{this.name}}</a>
                 </li>
                 {{/ifCond}}
                 {{/each}}
