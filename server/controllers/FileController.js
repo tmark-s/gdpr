@@ -21,20 +21,20 @@ exports.filter = async (req, res) => {
         });
       }
     }
-    // else if (data.phone) {
-    //   const user = await User.findOne({ 
-    //     'info.phone': data.phone
-    //   });
+    else if (data.phone) {
+      const user = await User.findOne({ 
+        'info.phone': data.phone
+      });
 
-    //   if (user) {
-    //     await user.domain.map((x) => {
-    //       if (x.domainId.toString() === req.body.domainId.toString()) {
-    //         resultArray.push(data);
-    //         return;
-    //       }
-    //     });
-    //   }
-    // }
+      if (user) {
+        await user.domain.map((x) => {
+          if (x.domainId.toString() === req.body.domainId.toString()) {
+            resultArray.push(data);
+            return;
+          }
+        });
+      }
+    }
   });
 
   setTimeout(() => {

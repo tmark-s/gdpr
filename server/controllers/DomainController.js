@@ -1,3 +1,4 @@
+const hash = require('object-hash');
 const Domain = require('../models/Domain');
 
 exports.find = async (req, res) => {
@@ -32,6 +33,11 @@ exports.create = async (req, res) => {
       canSubscribe: false
     };
     await newDomain.save();
+
+    const domainHash = hash(newDomain._id.toString());
+    newDomain.hash = domainHash;
+    await newDomain.save();
+    
     res.json(newDomain);
   }
   else {

@@ -8,11 +8,11 @@ exports.subscribe = async (req, res) => {
     'info.email': req.body.email
   });
 
-  if (!findUser) {
-    const domain = await Domain.findOne({
-      name: req.body.domain
-    });
+  const domain = await Domain.findOne({
+    hash: req.body.domain
+  });
 
+  if (!findUser) {
     const emailSubscribe = [];
     await domain.emailSubscribe.category.map((category) => {
       emailSubscribe.push(category.value);
@@ -58,17 +58,13 @@ exports.subscribe = async (req, res) => {
     res.json(newUser);
   }
   else {
-    const findDomain = await findUser.domain.find((domain) => {
-      if (domain.name === req.body.domain) {
-        return domain;
+    const findDomain = await findUser.domain.find((x) => {
+      if (x.domainId.toString() === domain._id.toString()) {
+        return x;
       }
     });
 
     if (!findDomain) {
-      const domain = await Domain.findOne({
-        name: req.body.domain
-      });
-
       const emailSubscribe = [];
       await domain.emailSubscribe.category.map((category) => {
         emailSubscribe.push(category.value);
@@ -122,7 +118,7 @@ exports.updateSubscribePhone = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   await user.domain.map(async (x) => {
@@ -142,7 +138,7 @@ exports.updateSubscribeSms = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   await user.domain.map(async (x) => {
@@ -162,7 +158,7 @@ exports.updateSubscribeEmail = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   await user.domain.map(async (x) => {
@@ -182,7 +178,7 @@ exports.updateUnsubscribe = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   await user.domain.map(async (x) => {
@@ -207,7 +203,7 @@ exports.updateSnooze = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   await user.domain.map(async (x) => {
@@ -231,7 +227,7 @@ exports.updateUnsnooze = async (req, res) => {
   });
 
   const domain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   })
 
   await user.domain.map(async (x) => {
