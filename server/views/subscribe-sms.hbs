@@ -84,7 +84,7 @@
                         url: '/api/user/update-subscribe-sms',
                         contentType: 'application/json',
                         success: function (data) {
-                            window.location.href = "http://localhost:3000/subscribe-email?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + todo;
+                            window.location.href = "/subscribe-email?user=" + paramUser + "&domain=" + paramdomain + "&choosed=" + todo;
                         }
                     });
                 }
@@ -95,7 +95,7 @@
                         url: '/api/user/update-subscribe-sms',
                         contentType: 'application/json',
                         success: function (data) {
-                            window.location.href = "http://localhost:3000/updated-complete/?user=" + paramUser + "&domain=" + paramdomain;
+                            window.location.href = "/updated-complete/?user=" + paramUser + "&domain=" + paramdomain;
                         }
                     });
                 }

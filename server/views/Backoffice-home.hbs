@@ -11,10 +11,10 @@
     function onClick(page) {
         let urlPage = "";
         switch (page) {
-            case "dmn": urlPage = "http://localhost:3000/backoffice-dmn"; break;
-            case "chmn": urlPage = "http://localhost:3000/backoffice-chmn"; break;
-            case "cmn": urlPage = "http://localhost:3000/backoffice-cmn"; break;
-            case "umn": urlPage = "http://localhost:3000/backoffice-umn"; break;
+            case "dmn": urlPage = "/backoffice-dmn"; break;
+            case "chmn": urlPage = "/backoffice-chmn"; break;
+            case "cmn": urlPage = "/backoffice-cmn"; break;
+            case "umn": urlPage = "/backoffice-umn"; break;
         }
         $.ajax({
             type: 'GET',

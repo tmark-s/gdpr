@@ -4,7 +4,7 @@ const Domain = require('../models/Domain');
 exports.find = async (req, res) => {
   try {
     const domain = await Domain.findOne({
-      domainName: req.query.domain
+      hash: req.query.domain
     });
     res.json(domain);
   }
@@ -15,7 +15,7 @@ exports.find = async (req, res) => {
 
 exports.create = async (req, res) => {
   const findDomain = await Domain.findOne({
-    name: req.body.domain
+    hash: req.body.domain
   });
 
   if (!findDomain) {
