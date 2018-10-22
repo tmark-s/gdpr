@@ -76,7 +76,7 @@
                         </select>
                     </div>
 
-                    <span class="glyphicon glyphicon-plus coppyLink" onclick="addUserDomain()"></span>
+                    <span class="glyphicon glyphicon-plus coppyLink" id="addDomain"></span>
                 </div>
                 <div class="form-group">
                     <label>Normal Link</label><br>
@@ -139,6 +139,11 @@
             })
         });
     }
+
+    function addUserDomain() {
+        let url =
+            window.location.href = url;
+    }
     function findUser() {
         let domain = $('#sltDomain').val();
         let email = $('#txtEmail').val().trim();
@@ -155,6 +160,7 @@
             success: function (data) {
                 if (data) {
                     user = data.info.user;
+                    $('#addDomain').attr("onclick", "addUserDomain('" + user + "')");
 
                     /* Gen Domain Option*/
                     checkUserDomainList(data.domain)
